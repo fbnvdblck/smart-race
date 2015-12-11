@@ -1,0 +1,17 @@
+# Gradle files and directories to exclude
+.gradle
+build/
+
+# Intellij (JetBrains IDE) files and directories to exclude
+*.iml
+.idea/
+*.ipr
+*.iws
+/out/
+.idea-modules/
+
+# Mac OS X Desktop Services Store
+.DS_Store
+
+# Smart Race files and directories to exclude
+*.log

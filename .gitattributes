@@ -1,0 +1,12 @@
+# Line ending control
+* text eol=lf
+*.java text
+*.properties text
+*.txt text
+*.xml text
+*.fxml text
+*.md text
+*.bat text eol=crlf
+*.ico binary
+*.png binary
+
