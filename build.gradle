@@ -6,6 +6,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 sourceCompatibility = 1.8
+mainClassName = 'be.bulck.smartrace.SmartRace'
 
 repositories {
     mavenCentral()
@@ -13,4 +14,15 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.13'
+    compile group: 'org.springframework', name: 'spring-core', version: '4.2.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version: '4.2.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-beans', version: '4.2.3.RELEASE'
+    compile group: 'de.jensd', name: 'fontawesomefx', version: '8.7'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.11.2'
+}
+
+run {
+    if (System.getProperty("exec.args") != null)
+        args System.getProperty("exec.args").split()
 }
