@@ -20,6 +20,7 @@ package be.bulck.smartrace.service;
 
 import be.bulck.smartrace.dao.exception.DataHandlerException;
 import be.bulck.smartrace.dao.exception.DataProviderException;
+import be.bulck.smartrace.model.Race;
 
 /**
  * An interface representing a service to handle races.
@@ -36,8 +37,28 @@ public interface RaceService {
      * @param location the location of the race
      * @param description the description of the race
      *
+     * @return the race created
+     *
      * @throws DataHandlerException
      * @throws DataProviderException
      */
-    public void createRace(String filePath, String name, String location, String description) throws DataHandlerException, DataProviderException;
+    public Race createRace(String filePath, String name, String location, String description) throws DataHandlerException, DataProviderException;
+
+    /**
+     * Gets the current race.
+     *
+     * @return the current race
+     *
+     * @throws DataProviderException
+     */
+    public Race getRace() throws DataProviderException;
+
+    /**
+     * Saves the current race.
+     *
+     * @param race the race to save
+     *
+     * @throws DataHandlerException
+     */
+    public void save(Race race) throws DataHandlerException;
 }

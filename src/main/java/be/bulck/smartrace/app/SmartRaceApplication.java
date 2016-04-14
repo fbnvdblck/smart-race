@@ -18,8 +18,10 @@
 
 package be.bulck.smartrace.app;
 
+import be.bulck.smartrace.model.Race;
 import be.bulck.smartrace.splash.SplashStage;
 import be.bulck.smartrace.view.stage.RaceSetupStage;
+import be.bulck.smartrace.view.stage.RaceStage;
 import be.bulck.smartrace.view.stage.WelcomeStage;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -44,6 +46,9 @@ public class SmartRaceApplication extends Application {
 
     /** The race setup stage. */
     private RaceSetupStage raceSetupStage;
+
+    /** The race stage. */
+    private RaceStage raceStage;
 
 
     @Override
@@ -97,6 +102,28 @@ public class SmartRaceApplication extends Application {
             raceSetupStage.close();
             raceSetupStage = null;
             log.info("Race setup stage closed");
+        }
+    }
+
+    /**
+     * Opens the race stage.
+     *
+     * @param race the race to handle
+     */
+    public void openRaceStage(Race race) {
+        raceStage = new RaceStage(this, race);
+        raceStage.show();
+        log.info("Race stage shown");
+    }
+
+    /**
+     * Closes the race stage.
+     */
+    public void closeRaceStage() {
+        if (raceStage != null && raceStage.isShowing()) {
+            raceStage.close();
+            raceStage = null;
+            log.info("Race stage closed");
         }
     }
 }

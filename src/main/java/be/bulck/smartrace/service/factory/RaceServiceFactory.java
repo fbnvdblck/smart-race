@@ -42,5 +42,5 @@ public abstract class RaceServiceFactory {
      */
     public static RaceServiceFactory getInstance() {
         return (RaceServiceFactory) ServiceManager.getServiceByName("raceServiceFactory");
-    }
+}
 }

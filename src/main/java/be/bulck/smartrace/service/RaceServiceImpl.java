@@ -48,7 +48,7 @@ public class RaceServiceImpl implements RaceService {
     private RaceProvider raceProvider;
 
     @Override
-    public void createRace(String filePath, String name, String location, String description) throws DataHandlerException, DataProviderException {
+    public Race createRace(String filePath, String name, String location, String description) throws DataHandlerException, DataProviderException {
         log.info("Creating race '" + name + " @ " + location + "' ...");
         Race race = new Race(name, location);
         race.setState(RaceState.SETTING_UP);
@@ -60,5 +60,17 @@ public class RaceServiceImpl implements RaceService {
         dataHandler.save();
 
         log.info("Race '" + name + " @ " + location + "' created");
+        return race;
+    }
+
+    @Override
+    public Race getRace() throws DataProviderException {
+        log.info("Retrieving current race...");
+        return raceProvider.find();
+    }
+
+    @Override
+    public void save(Race race) throws DataHandlerException {
+        dataHandler.save();
     }
 }

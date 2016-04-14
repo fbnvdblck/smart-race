@@ -21,6 +21,7 @@ package be.bulck.smartrace.view.controller;
 import be.bulck.smartrace.dao.exception.DataHandlerException;
 import be.bulck.smartrace.dao.exception.DataProviderException;
 import be.bulck.smartrace.lang.LanguageSupport;
+import be.bulck.smartrace.model.Race;
 import be.bulck.smartrace.service.RaceService;
 import be.bulck.smartrace.service.factory.RaceServiceFactory;
 import be.bulck.smartrace.view.stage.RaceSetupStage;
@@ -86,7 +87,7 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
     @FXML
     private Button createButton;
 
-    /** The race setup controller. */
+    /** The race service. */
     private RaceService raceService;
 
     /** The logger. */
@@ -181,8 +182,9 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
     private void handleCreateRace() {
         if (formIsValid()) {
             try {
-                raceService.createRace(fileTextField.getText(), nameTextField.getText(), locationTextField.getText(), descriptionTextArea.getText());
-                System.exit(0);
+                Race race = raceService.createRace(fileTextField.getText(), nameTextField.getText(), locationTextField.getText(), descriptionTextArea.getText());
+                app.closeRaceSetupStage();
+                app.openRaceStage(race);
             } catch (DataHandlerException | DataProviderException ex) {
                 log.error(ex.getMessage(), ex);
             }
