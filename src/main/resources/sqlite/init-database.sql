@@ -4,10 +4,13 @@
 
 -- Table representing a race
 CREATE TABLE race (
-  name TEXT NOT NULL PRIMARY KEY,
+  race_uuid TEXT NOT NULL PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE,
   location TEXT NOT NULL,
   description TEXT,
   state INTEGER NOT NULL DEFAULT 0,
+  distance_unit INTEGER NOT NULL DEFAULT 0,
+  elevation_unit INTEGER NOT NULL DEFAULT 0,
   creation_date INTEGER NOT NULL DEFAULT 0,
   last_opening_date INTEGER NOT NULL DEFAULT 0,
   last_update_date INTEGER NOT NULL DEFAULT 0,

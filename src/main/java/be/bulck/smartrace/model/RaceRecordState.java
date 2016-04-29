@@ -46,6 +46,6 @@ public enum RaceRecordState {
                 return state;
         }
 
-        return RaceRecordState.UNDETERMINED;
+        return UNDETERMINED;
     }
 }

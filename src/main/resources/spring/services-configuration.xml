@@ -23,7 +23,9 @@
 
     <!-- Service factories -->
     <bean id="raceServiceFactory" class="be.bulck.smartrace.service.factory.RaceServiceFactoryImpl" />
+    <bean id="raceTrackServiceFactory" class="be.bulck.smartrace.service.factory.RaceTrackServiceFactoryImpl" />
 
     <!-- Services -->
     <bean class="be.bulck.smartrace.service.RaceServiceImpl" />
+    <bean class="be.bulck.smartrace.service.RaceTrackServiceImpl" />
 </beans>

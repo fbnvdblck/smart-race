@@ -58,7 +58,6 @@ public class RaceTrack implements Comparable<RaceTrack> {
     private ObjectProperty<Instant> endTime;
 
 
-
     /**
      * Constructs an instance of race track.
      */
@@ -69,7 +68,7 @@ public class RaceTrack implements Comparable<RaceTrack> {
         elevation = new SimpleFloatProperty();
         description = new SimpleStringProperty();
         teamSizeLimit = new SimpleIntegerProperty(1);
-        state = new SimpleObjectProperty<>();
+        state = new SimpleObjectProperty<>(RaceTrackState.UNDETERMINED);
         startTime = new SimpleObjectProperty<>();
         endTime = new SimpleObjectProperty<>();
     }

@@ -31,4 +31,5 @@
 
     <!-- The data providers -->
     <bean class="be.bulck.smartrace.dao.provider.sqlite.RaceSQLiteProvider" />
+    <bean class="be.bulck.smartrace.dao.provider.sqlite.RaceTrackSQLiteProvider" />
 </beans>

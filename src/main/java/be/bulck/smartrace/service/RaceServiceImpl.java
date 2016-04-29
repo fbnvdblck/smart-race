@@ -36,9 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class RaceServiceImpl implements RaceService {
 
-    /** The logger. */
-    private static final Logger log = LoggerFactory.getLogger(RaceServiceImpl.class);
-
     /** The data handler. */
     @Autowired
     private DataHandler dataHandler;
@@ -47,9 +44,19 @@ public class RaceServiceImpl implements RaceService {
     @Autowired
     private RaceProvider raceProvider;
 
+    /** The logger. */
+    private static final Logger log = LoggerFactory.getLogger(RaceServiceImpl.class);
+
+
     @Override
-    public Race createRace(String filePath, String name, String location, String description) throws DataHandlerException, DataProviderException {
-        log.info("Creating race '" + name + " @ " + location + "' ...");
+    public Race getRace() throws DataProviderException {
+        log.debug("Finding current race...");
+        return raceProvider.find();
+    }
+
+    @Override
+    public Race create(String filePath, String name, String location, String description) throws DataHandlerException, DataProviderException {
+        log.debug("Creating race '" + name + " @ " + location + "' ...");
         Race race = new Race(name, location);
         race.setState(RaceState.SETTING_UP);
         race.setDescription(description);
@@ -59,18 +66,12 @@ public class RaceServiceImpl implements RaceService {
         raceProvider.create(race);
         dataHandler.save();
 
-        log.info("Race '" + name + " @ " + location + "' created");
+        log.info("Race '" + name + " @ " + location + "' (" + race.getUuid() + ") created");
         return race;
     }
 
     @Override
-    public Race getRace() throws DataProviderException {
-        log.info("Retrieving current race...");
-        return raceProvider.find();
-    }
-
-    @Override
-    public void save(Race race) throws DataHandlerException {
+    public void update(Race race) throws DataHandlerException {
         dataHandler.save();
     }
 }

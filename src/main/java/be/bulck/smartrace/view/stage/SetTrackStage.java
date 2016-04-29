@@ -21,11 +21,15 @@ package be.bulck.smartrace.view.stage;
 import be.bulck.smartrace.SmartRace;
 import be.bulck.smartrace.app.SmartRaceApplication;
 import be.bulck.smartrace.lang.LanguageSupport;
-import be.bulck.smartrace.view.controller.RaceSetupStageController;
+import be.bulck.smartrace.model.RaceTrack;
+import be.bulck.smartrace.view.controller.SetTrackStageController;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,44 +37,62 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * The race setup stage to create a new race.
+ * The set track stage to create or edit a race track.
  *
  * @author Fabien Vanden Bulck
  */
-public class RaceSetupStage extends Stage {
+public class SetTrackStage extends Stage {
 
-    /** The title of the race setup stage. */
-    private static final String STAGE_TITLE = SmartRace.NAME + " " + SmartRace.VERSION;
+    /** The creation title of the set track stage. */
+    private static final String STAGE_TITLE_CREATE = LanguageSupport.getText("stage.set-track.title.create");
 
-    /** The icon of the race setup stage. */
+    /** The edition title of the set track stage. */
+    private static final String STAGE_TITLE_EDIT = LanguageSupport.getText("stage.set-track.title.edit");
+
+    /** The icon of the set track stage. */
     private static final String STAGE_ICON = SmartRace.ICON;
 
-    /** The width of the race setup stage. */
+    /** The width of the set track stage. */
     private static final int STAGE_WIDTH = 600;
 
-    /** The height of the race setup stage. */
-    private static final int STAGE_HEIGHT = 300;
+    /** The height of the set track stage. */
+    private static final int STAGE_HEIGHT = 335;
 
     /** The root layout. */
     private VBox rootLayout;
 
+    /** The parent of the stage. */
+    private TrackManagerStage parentStage;
+
     /** The smart race JavaFX application. */
     private final SmartRaceApplication app;
 
+    /** The race tracks. */
+    private ObservableList<RaceTrack> raceTracks;
+
+    /** The race track to edit. */
+    private RaceTrack existingRaceTrack;
+
     /** The logger. */
-    private static final Logger log = LoggerFactory.getLogger(RaceSetupStage.class);
+    private static final Logger log = LoggerFactory.getLogger(SetTrackStage.class);
 
 
     /**
-     * Constructs an instance of race setup stage.
+     * Constructs an instance of set track stage.
      *
      * @param app the smart race JavaFX application
+     * @param parentStage the parent of the stage
+     * @param raceTracks the race tracks
+     * @param existingRaceTrack the race track to edit (or null to create one)
      */
-    public RaceSetupStage(SmartRaceApplication app) {
+    public SetTrackStage(SmartRaceApplication app, TrackManagerStage parentStage, ObservableList<RaceTrack> raceTracks, RaceTrack existingRaceTrack) {
         super();
         this.app = app;
+        this.parentStage = parentStage;
+        this.raceTracks = raceTracks;
+        this.existingRaceTrack = existingRaceTrack;
 
-        setTitle(STAGE_TITLE + " - " + LanguageSupport.getText("stage.race-setup.title"));
+        setTitle((existingRaceTrack != null ? STAGE_TITLE_EDIT : STAGE_TITLE_CREATE) + " - " + SmartRace.NAME);
         getIcons().add(new Image(STAGE_ICON));
         setWidth(STAGE_WIDTH);
         setMinWidth(STAGE_WIDTH);
@@ -86,14 +108,15 @@ public class RaceSetupStage extends Stage {
      */
     private void initLayout() {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/raceSetupStage.fxml"));
-            loader.setResources(LanguageSupport.getResourceBundle());
-            rootLayout = loader.load();
-
-            RaceSetupStageController controller = loader.getController();
+            SetTrackStageController controller = new SetTrackStageController(raceTracks, existingRaceTrack);
             controller.setApp(app);
             controller.setStage(this);
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SmartRace.class.getResource("/fxml/setTrackStage.fxml"));
+            loader.setResources(LanguageSupport.getResourceBundle());
+            loader.setController(controller);
+            rootLayout = loader.load();
 
             Scene scene = new Scene(rootLayout);
             scene.getStylesheets().add(SmartRace.class.getResource("/css/forms.css").toExternalForm());
@@ -101,5 +124,14 @@ public class RaceSetupStage extends Stage {
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);
         }
+    }
+
+    /**
+     * Gets the parent of the stage.
+     *
+     * @return the parent of the stage
+     */
+    public TrackManagerStage getParentStage() {
+        return parentStage;
     }
 }

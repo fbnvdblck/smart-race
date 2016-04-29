@@ -24,6 +24,7 @@ import be.bulck.smartrace.lang.LanguageSupport;
 import be.bulck.smartrace.model.Race;
 import be.bulck.smartrace.service.RaceService;
 import be.bulck.smartrace.service.factory.RaceServiceFactory;
+import be.bulck.smartrace.util.form.ValidatorAlert;
 import be.bulck.smartrace.view.stage.RaceSetupStage;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -182,7 +183,7 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
     private void handleCreateRace() {
         if (formIsValid()) {
             try {
-                Race race = raceService.createRace(fileTextField.getText(), nameTextField.getText(), locationTextField.getText(), descriptionTextArea.getText());
+                Race race = raceService.create(fileTextField.getText(), nameTextField.getText(), locationTextField.getText(), descriptionTextArea.getText());
                 app.closeRaceSetupStage();
                 app.openRaceStage(race);
             } catch (DataHandlerException | DataProviderException ex) {
@@ -193,6 +194,8 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
 
     /**
      * Checks if the form is valid.
+     *
+     * @return true if the form is valid
      */
     private boolean formIsValid() {
         final String errorClass = "field-error";
@@ -201,17 +204,17 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
         nameTextField.getStyleClass().removeAll(errorClass);
         locationTextField.getStyleClass().removeAll(errorClass);
 
-        if (fileTextField == null || fileTextField.getText().isEmpty()) {
+        if (fileTextField.getText() == null || fileTextField.getText().isEmpty()) {
             errors.add(LanguageSupport.getText("stage.race-setup.field.file.validator.empty"));
             fileTextField.getStyleClass().add(errorClass);
         }
 
-        if (nameTextField == null || nameTextField.getText().isEmpty()) {
+        if (nameTextField.getText() == null || nameTextField.getText().isEmpty()) {
             errors.add(LanguageSupport.getText("stage.race-setup.field.name.validator.empty"));
             nameTextField.getStyleClass().add(errorClass);
         }
 
-        if (locationTextField == null || locationTextField.getText().isEmpty()) {
+        if (locationTextField.getText() == null || locationTextField.getText().isEmpty()) {
             errors.add(LanguageSupport.getText("stage.race-setup.field.location.validator.empty"));
             locationTextField.getStyleClass().add(errorClass);
         }
@@ -221,14 +224,7 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
         }
 
         else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle(LanguageSupport.getText("stage.race-setup.dialog.validator.title"));
-            alert.setHeaderText(LanguageSupport.getText("stage.race-setup.dialog.validator.header"));
-
-            StringBuilder stringBuilder = new StringBuilder();
-            for (String error : errors)
-                stringBuilder.append("- ").append(error).append(".\n");
-            alert.setContentText(stringBuilder.toString());
+            Alert alert = new ValidatorAlert(Alert.AlertType.ERROR, LanguageSupport.getText("stage.race-setup.dialog.validator.title"), LanguageSupport.getText("stage.race-setup.dialog.validator.header"), errors.toArray(new String[errors.size()]));
 
             alert.showAndWait();
             return false;

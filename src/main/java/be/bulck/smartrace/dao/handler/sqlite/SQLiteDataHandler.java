@@ -87,7 +87,7 @@ public class SQLiteDataHandler implements DataHandler {
 
     @Override
     public void create(String filePath) throws DataHandlerException {
-        log.info("SQLite database initialization...");
+        log.debug("SQLite database initialization...");
         SQLiteDatabaseFactory.loadNewDatabase(filePath);
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
 

@@ -25,11 +25,11 @@ import be.bulck.smartrace.model.Race;
 import be.bulck.smartrace.service.RaceService;
 import be.bulck.smartrace.service.factory.RaceServiceFactory;
 import be.bulck.smartrace.view.stage.RaceStage;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.Cursor;
+import javafx.scene.control.*;
 import javafx.stage.WindowEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +42,50 @@ import java.util.Optional;
  * @author Fabien Vanden Bulck
  */
 public class RaceStageController extends StageController<RaceStage> {
+
+    /** The menu item to open a race. */
+    @FXML
+    private MenuItem openMenuItem;
+
+    /** The menu item to update the race. */
+    @FXML
+    private MenuItem saveMenuItem;
+
+    /** The menu item to close the race. */
+    @FXML
+    private MenuItem closeMenuItem;
+
+    /** The menu item to quit the application. */
+    @FXML
+    private MenuItem quitMenuItem;
+
+    /** The menu item for tracks. */
+    @FXML
+    private MenuItem tracksMenuItem;
+
+    /** The menu item for categories. */
+    @FXML
+    private MenuItem categoriesMenuItem;
+
+    /** The menu item for racers. */
+    @FXML
+    private MenuItem racersMenuItem;
+
+    /** The menu item for information about the application. */
+    @FXML
+    private MenuItem aboutMenuItem;
+
+    /** The button for tracks. */
+    @FXML
+    private Button tracksButton;
+
+    /** The button for categories. */
+    @FXML
+    private Button categoriesButton;
+
+    /** The button for racers. */
+    @FXML
+    private Button racersButton;
 
     /** The label for the info name. */
     @FXML
@@ -59,6 +103,10 @@ public class RaceStageController extends StageController<RaceStage> {
     @FXML
     private Label infoStateLabel;
 
+    /** The titled pane for the timer(s). */
+    @FXML
+    private TitledPane timerTitledPane;
+
     /** The race service. */
     private RaceService raceService;
 
@@ -71,6 +119,8 @@ public class RaceStageController extends StageController<RaceStage> {
 
     /**
      * Constructs an instance of the race stage controller.
+     *
+     * @throws DataProviderException
      */
     public RaceStageController() throws DataProviderException {
         raceService = RaceServiceFactory.getInstance().getRaceService();
@@ -82,7 +132,51 @@ public class RaceStageController extends StageController<RaceStage> {
      */
     @FXML
     private void initialize() {
-        // Loads the information about the race
+        initMenuBar();
+        initToolBar();
+        initInformationPane();
+    }
+
+    /**
+     * Initializes the menu bar.
+     */
+    private void initMenuBar() {
+        openMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FOLDER));
+        saveMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SAVE));
+        closeMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.TIMES));
+        quitMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.POWER_OFF));
+        tracksMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.ROAD));
+        categoriesMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FLAG));
+        racersMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.USERS));
+        aboutMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.INFO_CIRCLE));
+    }
+
+    /**
+     * Initializes the tool bar.
+     */
+    private void initToolBar() {
+        FontAwesomeIconView tracksIconView = new FontAwesomeIconView(FontAwesomeIcon.ROAD);
+        tracksIconView.setSize("2em");
+        FontAwesomeIconView categoriesIconView = new FontAwesomeIconView(FontAwesomeIcon.FLAG);
+        categoriesIconView.setSize("2em");
+        FontAwesomeIconView racersIconView = new FontAwesomeIconView(FontAwesomeIcon.USERS);
+        racersIconView.setSize("2em");
+
+        tracksButton.setCursor(Cursor.HAND);
+        tracksButton.setStyle("-fx-background-color: transparent");
+        tracksButton.setGraphic(tracksIconView);
+        categoriesButton.setCursor(Cursor.HAND);
+        categoriesButton.setStyle("-fx-background-color: transparent");
+        categoriesButton.setGraphic(categoriesIconView);
+        racersButton.setCursor(Cursor.HAND);
+        racersButton.setStyle("-fx-background-color: transparent");
+        racersButton.setGraphic(racersIconView);
+    }
+
+    /**
+     * Initializes the information pane.
+     */
+    private void initInformationPane() {
         infoNameLabel.setText(race.getName());
         infoLocationLabel.setText(race.getLocation());
         infoStateLabel.setText(LanguageSupport.getText("model.race.state." + race.getState().getValue()));
@@ -91,28 +185,33 @@ public class RaceStageController extends StageController<RaceStage> {
             infoDescriptionLabel.setText(race.getDescription());
         else
             infoDescriptionLabel.setText(LanguageSupport.getText("stage.race.view.info.value.none"));
+
+        // Disable the timer titled pane as default
+        timerTitledPane.setExpanded(false);
+        timerTitledPane.setDisable(true);
     }
 
     /**
      * Quits the race process.
      */
+    @FXML
     private void handleQuit() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(LanguageSupport.getText("stage.race.dialog.quit.title"));
         alert.setHeaderText(LanguageSupport.getText("stage.race.dialog.quit.header"));
         alert.setContentText(LanguageSupport.getText("stage.race.dialog.quit.text"));
 
-        ButtonType buttonExit = new ButtonType(LanguageSupport.getText("stage.race.dialog.quit.button.exit"));
+        ButtonType buttonCancel = new ButtonType(LanguageSupport.getText("stage.race.dialog.quit.button.cancel"));
         ButtonType buttonClose = new ButtonType(LanguageSupport.getText("stage.race.dialog.quit.button.close"));
-        ButtonType buttonCancel = new ButtonType(LanguageSupport.getText("stage.race.dialog.quit.button.cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(buttonExit, buttonClose, buttonCancel);
+        ButtonType buttonExit = new ButtonType(LanguageSupport.getText("stage.race.dialog.quit.button.exit"));
+        alert.getButtonTypes().setAll(buttonCancel, buttonClose, buttonExit);
 
         Optional<ButtonType> choice = alert.showAndWait();
         if (choice.get() == buttonExit) {
             app.closeRaceStage();
 
             try {
-                raceService.save(race);
+                raceService.update(race);
             } catch (DataHandlerException ex) {
                 log.error(ex.getMessage(), ex);
             }
@@ -124,13 +223,21 @@ public class RaceStageController extends StageController<RaceStage> {
             app.closeRaceStage();
 
             try {
-                raceService.save(race);
+                raceService.update(race);
             } catch (DataHandlerException ex) {
                 log.error(ex.getMessage(), ex);
             }
 
             app.openWelcomeStage();
         }
+    }
+
+    /**
+     * Opens the track manager.
+     */
+    @FXML
+    private void handleOpenTrackManager() {
+        app.openTrackManagerStage();
     }
 
     @Override

@@ -16,35 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package be.bulck.smartrace.model;
+package be.bulck.smartrace.util.form;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * A model enum representing a race track state.
+ * The class containing type matcher.
  *
  * @author Fabien Vanden Bulck
  */
-public enum RaceTrackState {
-    UNDETERMINED(-1),
-    READY(0),
-    RUNNING(1),
-    FINISHED(2);
+public class TypeMatcher {
 
-    private int value;
+    // The patterns
+    private static final Pattern PATTERN_NUMBER = Pattern.compile("^(([1-9][0-9]*([,.][0-9]+)?)|(0([,.][0-9]+)?))$");
 
-    RaceTrackState(int value) {
-        this.value = value;
-    }
+    /**
+     * Checks if the string provided is an integer or a decimal number.
+     *
+     * @param string the string to check
+     *
+     * @return true if the string provided is an integer or a decimal number
+     */
+    public static boolean isNumber(String string) {
+        Matcher matcher = PATTERN_NUMBER.matcher(string);
 
-    public int getValue() {
-        return value;
-    }
-
-    public static RaceTrackState parse(int value) {
-        for (RaceTrackState state : RaceTrackState.values()) {
-            if (state.getValue() == value)
-                return state;
-        }
-
-        return UNDETERMINED;
+        return matcher.matches();
     }
 }

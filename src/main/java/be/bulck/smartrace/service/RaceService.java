@@ -30,6 +30,15 @@ import be.bulck.smartrace.model.Race;
 public interface RaceService {
 
     /**
+     * Gets the current race.
+     *
+     * @return the current race
+     *
+     * @throws DataProviderException
+     */
+    public Race getRace() throws DataProviderException;
+
+    /**
      * Creates the race.
      *
      * @param filePath the file path of the race
@@ -42,23 +51,14 @@ public interface RaceService {
      * @throws DataHandlerException
      * @throws DataProviderException
      */
-    public Race createRace(String filePath, String name, String location, String description) throws DataHandlerException, DataProviderException;
+    public Race create(String filePath, String name, String location, String description) throws DataHandlerException, DataProviderException;
 
     /**
-     * Gets the current race.
+     * Updates the current race.
      *
-     * @return the current race
-     *
-     * @throws DataProviderException
-     */
-    public Race getRace() throws DataProviderException;
-
-    /**
-     * Saves the current race.
-     *
-     * @param race the race to save
+     * @param race the race to update
      *
      * @throws DataHandlerException
      */
-    public void save(Race race) throws DataHandlerException;
+    public void update(Race race) throws DataHandlerException;
 }

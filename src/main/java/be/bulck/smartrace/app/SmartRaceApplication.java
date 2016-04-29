@@ -19,11 +19,11 @@
 package be.bulck.smartrace.app;
 
 import be.bulck.smartrace.model.Race;
+import be.bulck.smartrace.model.RaceTrack;
 import be.bulck.smartrace.splash.SplashStage;
-import be.bulck.smartrace.view.stage.RaceSetupStage;
-import be.bulck.smartrace.view.stage.RaceStage;
-import be.bulck.smartrace.view.stage.WelcomeStage;
+import be.bulck.smartrace.view.stage.*;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +49,9 @@ public class SmartRaceApplication extends Application {
 
     /** The race stage. */
     private RaceStage raceStage;
+
+    /** The track manager stage. */
+    private TrackManagerStage trackManagerStage;
 
 
     @Override
@@ -111,9 +114,13 @@ public class SmartRaceApplication extends Application {
      * @param race the race to handle
      */
     public void openRaceStage(Race race) {
-        raceStage = new RaceStage(this, race);
-        raceStage.show();
-        log.info("Race stage shown");
+        if (raceStage == null)
+            raceStage = new RaceStage(this, race);
+
+        if (!raceStage.isShowing()) {
+            raceStage.show();
+            log.info("Race stage shown");
+        }
     }
 
     /**
@@ -124,6 +131,30 @@ public class SmartRaceApplication extends Application {
             raceStage.close();
             raceStage = null;
             log.info("Race stage closed");
+        }
+    }
+
+    /**
+     * Opens the track manager stage.
+     */
+    public void openTrackManagerStage() {
+        if (trackManagerStage == null)
+            trackManagerStage = new TrackManagerStage(this);
+
+        if (!trackManagerStage.isShowing()) {
+            trackManagerStage.show();
+            log.info("Track manager stage shown");
+        }
+    }
+
+    /**
+     * Closes the track manager stage.
+     */
+    public void closeTrackManagerStage() {
+        if (trackManagerStage != null && trackManagerStage.isShowing()) {
+            trackManagerStage.close();
+            trackManagerStage = null;
+            log.info("Track manager stage closed");
         }
     }
 }

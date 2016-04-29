@@ -16,35 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package be.bulck.smartrace.model;
+package be.bulck.smartrace.service.factory;
+
+import be.bulck.smartrace.service.RaceTrackService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * A model enum representing a race track state.
+ * A class representing an implementation of a factory to retrieve the race track service.
  *
  * @author Fabien Vanden Bulck
  */
-public enum RaceTrackState {
-    UNDETERMINED(-1),
-    READY(0),
-    RUNNING(1),
-    FINISHED(2);
+public class RaceTrackServiceFactoryImpl extends RaceTrackServiceFactory {
 
-    private int value;
+    /** The race track service. */
+    @Autowired
+    private RaceTrackService raceTrackService;
 
-    RaceTrackState(int value) {
-        this.value = value;
-    }
 
-    public int getValue() {
-        return value;
-    }
-
-    public static RaceTrackState parse(int value) {
-        for (RaceTrackState state : RaceTrackState.values()) {
-            if (state.getValue() == value)
-                return state;
-        }
-
-        return UNDETERMINED;
+    @Override
+    public RaceTrackService getRaceTrackService() {
+        return raceTrackService;
     }
 }

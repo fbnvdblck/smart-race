@@ -23,12 +23,15 @@ import be.bulck.smartrace.dao.provider.RaceProvider;
 import be.bulck.smartrace.io.sqlite.SQLiteDatabase;
 import be.bulck.smartrace.io.sqlite.SQLiteDatabaseFactory;
 import be.bulck.smartrace.model.Race;
+import be.bulck.smartrace.model.RaceDistanceUnit;
+import be.bulck.smartrace.model.RaceElevationUnit;
 import be.bulck.smartrace.model.RaceState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * A class representing the SQLite race data provider.
@@ -52,9 +55,13 @@ public class RaceSQLiteProvider implements RaceProvider {
             ResultSet races = findStatement.executeQuery(findQuery);
 
             if (races.next()) {
-                Race race = new Race(races.getString("name"), races.getString("location"));
+                Race race = new Race(UUID.fromString(races.getString("race_uuid")));
+                race.setName(races.getString("name"));
+                race.setLocation(races.getString("location"));
                 race.setDescription(races.getString("description"));
                 race.setState(RaceState.parse(races.getInt("state")));
+                race.setDistanceUnit(RaceDistanceUnit.parse(races.getInt("distance_unit")));
+                race.setElevationUnit(RaceElevationUnit.parse(races.getInt("elevation_unit")));
                 race.setCreationDate(new Timestamp(races.getLong("creation_date")).toLocalDateTime());
                 race.setLastOpeningDate(new Timestamp(races.getLong("last_opening_date")).toLocalDateTime());
                 race.setLastUpdateDate(new Timestamp(races.getLong("last_update_date")).toLocalDateTime());
@@ -73,7 +80,7 @@ public class RaceSQLiteProvider implements RaceProvider {
 
     @Override
     public void create(Race race) throws DataProviderException {
-        final String insertQuery = "INSERT INTO race (name, location, description, state, creation_date, last_opening_date, last_update_date, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        final String insertQuery = "INSERT INTO race (race_uuid, name, location, description, state, distance_unit, elevation_unit, creation_date, last_opening_date, last_update_date, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
         PreparedStatement insertStatement;
 
@@ -81,14 +88,17 @@ public class RaceSQLiteProvider implements RaceProvider {
             try {
                 LocalDateTime now = LocalDateTime.now();
                 insertStatement = database.createPreparedStatement(insertQuery);
-                insertStatement.setString(1, race.getName());
-                insertStatement.setString(2, race.getLocation());
-                insertStatement.setString(3, race.getDescription());
-                insertStatement.setInt(4, race.getState().getValue());
-                insertStatement.setLong(5, Timestamp.valueOf(now).getTime());
-                insertStatement.setLong(6, Timestamp.valueOf(now).getTime());
-                insertStatement.setLong(7, Timestamp.valueOf(now).getTime());
-                insertStatement.setString(8, race.getVersion());
+                insertStatement.setString(1, race.getUuid().toString());
+                insertStatement.setString(2, race.getName());
+                insertStatement.setString(3, race.getLocation());
+                insertStatement.setString(4, race.getDescription());
+                insertStatement.setInt(5, race.getState().getValue());
+                insertStatement.setInt(6, race.getDistanceUnit().getValue());
+                insertStatement.setInt(7, race.getElevationUnit().getValue());
+                insertStatement.setLong(8, Timestamp.valueOf(now).getTime());
+                insertStatement.setLong(9, Timestamp.valueOf(now).getTime());
+                insertStatement.setLong(10, Timestamp.valueOf(now).getTime());
+                insertStatement.setString(11, race.getVersion());
 
                 insertStatement.executeUpdate();
             } catch (SQLException ex) {
@@ -98,12 +108,12 @@ public class RaceSQLiteProvider implements RaceProvider {
         }
 
         else
-            throw new DataProviderException("The race instance is null");
+            throw new IllegalArgumentException("The race instance is null");
     }
 
     @Override
     public void update(Race race) throws DataProviderException {
-        final String updateQuery = "UPDATE race SET name = ?, location = ?, description = ?, state = ?";
+        final String updateQuery = "UPDATE race SET name = ?, location = ?, description = ?, state = ?, distance_unit = ?, elevation_unit = ?";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
         PreparedStatement updateStatement;
 
@@ -114,6 +124,8 @@ public class RaceSQLiteProvider implements RaceProvider {
                 updateStatement.setString(2, race.getLocation());
                 updateStatement.setString(3, race.getDescription());
                 updateStatement.setInt(4, race.getState().getValue());
+                updateStatement.setInt(5, race.getDistanceUnit().getValue());
+                updateStatement.setInt(6, race.getElevationUnit().getValue());
 
                 updateStatement.executeUpdate();
             } catch (SQLException ex) {

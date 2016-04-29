@@ -24,6 +24,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * A model class representing a race.
@@ -31,6 +32,9 @@ import java.time.LocalDateTime;
  * @author Fabien Vanden Bulck
  */
 public class Race {
+
+    /** The identifier (UUID) of the race. */
+    private ObjectProperty<UUID> uuid;
 
     /** The name of the race. */
     private StringProperty name;
@@ -43,6 +47,12 @@ public class Race {
 
     /** The state of the race. */
     private ObjectProperty<RaceState> state;
+
+    /** The measure unit for distance. */
+    private ObjectProperty<RaceDistanceUnit> distanceUnit;
+
+    /** The measure unit for elevation. */
+    private ObjectProperty<RaceElevationUnit> elevationUnit;
 
     /** The creation date of the race. */
     private ObjectProperty<LocalDateTime> creationDate;
@@ -59,13 +69,62 @@ public class Race {
 
     /**
      * Constructs an instance of race.
+     */
+    public Race() {
+        uuid = new SimpleObjectProperty<>(UUID.randomUUID());
+        this.name = new SimpleStringProperty();
+        this.location = new SimpleStringProperty();
+        this.distanceUnit = new SimpleObjectProperty<>(RaceDistanceUnit.KM);
+        this.elevationUnit = new SimpleObjectProperty<>(RaceElevationUnit.M);
+    }
+
+    /**
+     * Constructs an instance of race.
+     *
+     * @param uuid the identifier (UUID) of the race
+     */
+    public Race(UUID uuid) {
+        this();
+        this.uuid.set(uuid);
+    }
+
+    /**
+     * Constructs an instance of race.
      *
      * @param name the name of the race
      * @param location the location of the race
      */
     public Race(String name, String location) {
-        this.name = new SimpleStringProperty(name);
-        this.location = new SimpleStringProperty(location);
+        this();
+        this.name.set(name);
+        this.location.set(location);
+    }
+
+    /**
+     * Gets the identifier (UUID) of the race.
+     *
+     * @return the identifier (UUID) of the race
+     */
+    public UUID getUuid() {
+        return uuid.get();
+    }
+
+    /**
+     * Sets the identifier (UUID) of the race.
+     *
+     * @param uuid the new identifier (UUID) of the race
+     */
+    public void setUuid(UUID uuid) {
+        this.uuid.set(uuid);
+    }
+
+    /**
+     * Gets the property for the identifier (UUID) of the race.
+     *
+     * @return the property for the identifier (UUID) of the race
+     */
+    public ObjectProperty<UUID> uuidProperty() {
+        return uuid;
     }
 
     /**
@@ -177,6 +236,60 @@ public class Race {
      */
     public ObjectProperty<RaceState> stateProperty() {
         return state;
+    }
+
+    /**
+     * Gets the measure unit for distance of the race.
+     *
+     * @return the measure unit for distance of the race
+     */
+    public RaceDistanceUnit getDistanceUnit() {
+        return distanceUnit.get();
+    }
+
+    /**
+     * Sets the measure unit for distance of the race.
+     *
+     * @param unit the new measure unit for distance of the race
+     */
+    public void setDistanceUnit(RaceDistanceUnit unit) {
+        distanceUnit.set(unit);
+    }
+
+    /**
+     * Gets the property for the measure unit for distance of the race.
+     *
+     * @return the property for the measure unit for distance of the rae
+     */
+    public ObjectProperty<RaceDistanceUnit> distanceUnitProperty() {
+        return distanceUnit;
+    }
+
+    /**
+     * Gets the measure unit for elevation of the race.
+     *
+     * @return the measure unit for elevation of the race
+     */
+    public RaceElevationUnit getElevationUnit() {
+        return elevationUnit.get();
+    }
+
+    /**
+     * Sets the measure unit for elevation of the race.
+     *
+     * @param unit the new measure unit for elevation of the race
+     */
+    public void setElevationUnit(RaceElevationUnit unit) {
+        elevationUnit.set(unit);
+    }
+
+    /**
+     * Gets the property for the measure unit for elevation of the race.
+     *
+     * @return the property for the measure unit for elevation of the race
+     */
+    public ObjectProperty<RaceElevationUnit> elevationUnitProperty() {
+        return elevationUnit;
     }
 
     /**

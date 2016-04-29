@@ -54,12 +54,6 @@ public class RaceStage extends Stage {
     /** The minimum height of the race stage. */
     private static final int STAGE_MIN_HEIGHT = 400;
 
-    /** The logger. */
-    private static final Logger log = LoggerFactory.getLogger(RaceStage.class);
-
-    /** The smart race JavaFX application. */
-    private final SmartRaceApplication app;
-
     /** The race to handle. */
     private Race race;
 
@@ -68,6 +62,12 @@ public class RaceStage extends Stage {
 
     /** The race view. */
     private VBox raceView;
+
+    /** The smart race JavaFX application. */
+    private final SmartRaceApplication app;
+
+    /** The logger. */
+    private static final Logger log = LoggerFactory.getLogger(RaceStage.class);
 
 
     /**
@@ -108,7 +108,7 @@ public class RaceStage extends Stage {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SmartRace.class.getResource("/fxml/raceStage.fxml"));
             loader.setResources(LanguageSupport.getResourceBundle());
-            rootLayout = (BorderPane) loader.load();
+            rootLayout = loader.load();
 
             RaceStageController controller = loader.getController();
             controller.setApp(app);

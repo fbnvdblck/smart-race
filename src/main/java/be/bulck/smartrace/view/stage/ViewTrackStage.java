@@ -21,11 +21,13 @@ package be.bulck.smartrace.view.stage;
 import be.bulck.smartrace.SmartRace;
 import be.bulck.smartrace.app.SmartRaceApplication;
 import be.bulck.smartrace.lang.LanguageSupport;
-import be.bulck.smartrace.view.controller.WelcomeStageController;
+import be.bulck.smartrace.model.RaceTrack;
+import be.bulck.smartrace.view.controller.ViewTrackStageController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,70 +35,90 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * The welcome stage to create a race or load an existing race.
+ * The view track stage to view a race track.
  *
  * @author Fabien Vanden Bulck
  */
-public class WelcomeStage extends Stage {
+public class ViewTrackStage extends Stage {
 
-    /** The title of the welcome stage. */
-    private static final String STAGE_TITLE = SmartRace.NAME + " " + SmartRace.VERSION;
-
-    /** The icon of the welcome stage. */
+    /** The icon of the view track stage. */
     private static final String STAGE_ICON = SmartRace.ICON;
 
-    /** The width of the welcome stage. */
+    /** The width of the view track stage. */
     private static final int STAGE_WIDTH = 600;
 
-    /** The height of the welcome stage. */
-    private static final int STAGE_HEIGHT = 400;
+    /** The height of the view track stage. */
+    private static final int STAGE_HEIGHT = 319;
 
     /** The root layout. */
-    private SplitPane rootLayout;
+    private VBox rootLayout;
+
+    /** The parent of the stage. */
+    private TrackManagerStage parentStage;
 
     /** The smart race JavaFX application. */
     private final SmartRaceApplication app;
 
+    /** The race track to show. */
+    private RaceTrack raceTrack;
+
     /** The logger. */
-    private static final Logger log = LoggerFactory.getLogger(WelcomeStage.class);
+    private static final Logger log = LoggerFactory.getLogger(ViewTrackStage.class);
 
 
     /**
-     * Constructs an instance of welcome stage.
+     * Constructs an instance of view track stage.
      *
      * @param app the smart race JavaFX application
+     * @param parentStage the parent of the stage
+     * @param raceTrack the race track to show
      */
-    public WelcomeStage(SmartRaceApplication app) {
+    public ViewTrackStage(SmartRaceApplication app, TrackManagerStage parentStage, RaceTrack raceTrack) {
         super();
         this.app = app;
+        this.parentStage = parentStage;
+        this.raceTrack = raceTrack;
 
-        setTitle(STAGE_TITLE + " - " + LanguageSupport.getText("stage.welcome.title"));
+        setTitle(raceTrack.getName() + " - " + SmartRace.NAME);
         getIcons().add(new Image(STAGE_ICON));
         setWidth(STAGE_WIDTH);
+        setMinWidth(STAGE_WIDTH);
         setHeight(STAGE_HEIGHT);
-        setResizable(false);
+        setMinHeight(STAGE_HEIGHT);
+        setMaxHeight(STAGE_HEIGHT);
+        setAlwaysOnTop(true);
 
         initLayout();
     }
 
     /**
-     * Initializes the layout.
+     * Initializes the root layout.
      */
     private void initLayout() {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/welcomeStage.fxml"));
-            loader.setResources(LanguageSupport.getResourceBundle());
-            rootLayout = loader.load();
-
-            WelcomeStageController controller = loader.getController();
+            ViewTrackStageController controller = new ViewTrackStageController(raceTrack);
             controller.setApp(app);
             controller.setStage(this);
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SmartRace.class.getResource("/fxml/viewTrackStage.fxml"));
+            loader.setResources(LanguageSupport.getResourceBundle());
+            loader.setController(controller);
+            rootLayout = loader.load();
 
             Scene scene = new Scene(rootLayout);
             setScene(scene);
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);
         }
+    }
+
+    /**
+     * Gets the parent of the stage.
+     *
+     * @return the parent of the stage
+     */
+    public TrackManagerStage getParentStage() {
+        return parentStage;
     }
 }

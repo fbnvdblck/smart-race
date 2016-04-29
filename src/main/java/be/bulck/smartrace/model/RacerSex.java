@@ -44,6 +44,6 @@ public enum RacerSex {
                 return sex;
         }
 
-        return RacerSex.UNDETERMINED;
+        return UNDETERMINED;
     }
 }
