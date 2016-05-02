@@ -58,9 +58,6 @@ public class SplashStage extends Stage {
     /** The timeout (ms) of the splash stage. */
     private static final int SPLASH_TIMEOUT = 5000;
 
-    /** The logger. */
-    private static final Logger log = LoggerFactory.getLogger(SplashStage.class);
-
     /** The smart race JavaFX application. */
     private SmartRaceApplication app;
 
@@ -69,6 +66,9 @@ public class SplashStage extends Stage {
 
     /** The root layout. */
     private AnchorPane rootLayout;
+
+    /** The logger. */
+    private static final Logger log = LoggerFactory.getLogger(SplashStage.class);
 
 
     /**

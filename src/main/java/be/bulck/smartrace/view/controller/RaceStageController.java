@@ -255,6 +255,14 @@ public class RaceStageController extends StageController<RaceStage> {
     }
 
     /**
+     * Opens the about stage.
+     */
+    @FXML
+    private void handleOpenAbout() {
+        app.openAboutStage();
+    }
+
+    /**
      * Opens the track manager.
      */
     @FXML
