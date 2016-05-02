@@ -56,6 +56,9 @@ public class SmartRaceApplication extends Application {
     /** The about stage. */
     private AboutStage aboutStage;
 
+    /** The license stage. */
+    private LicenseStage licenseStage;
+
     /** The track manager stage. */
     private TrackManagerStage trackManagerStage;
 
@@ -185,6 +188,30 @@ public class SmartRaceApplication extends Application {
             aboutStage.close();
             aboutStage = null;
             log.info("About stage closed");
+        }
+    }
+
+    /**
+     * Opens the license stage.
+     */
+    public void openLicenseStage() {
+        if (licenseStage == null)
+            licenseStage = new LicenseStage(this);
+
+        if (!licenseStage.isShowing()) {
+            licenseStage.show();
+            log.info("License stage shown");
+        }
+    }
+
+    /**
+     * Closes the license stage.
+     */
+    public void closeLicenseStage() {
+        if (licenseStage != null && licenseStage.isShowing()) {
+            licenseStage.close();
+            licenseStage = null;
+            log.info("License stage closed");
         }
     }
 

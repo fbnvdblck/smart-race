@@ -96,6 +96,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="%stage.race.menu.help">
             <items>
+                  <MenuItem fx:id="licenseMenuItem" mnemonicParsing="false" onAction="#handleOpenLicense" text="%stage.race.menu.help.license" />
               <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" onAction="#handleOpenAbout" text="%stage.race.menu.help.about" />
             </items>
           </Menu>

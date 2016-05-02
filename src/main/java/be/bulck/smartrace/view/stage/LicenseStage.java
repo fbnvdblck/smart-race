@@ -21,36 +21,35 @@ package be.bulck.smartrace.view.stage;
 import be.bulck.smartrace.SmartRace;
 import be.bulck.smartrace.app.SmartRaceApplication;
 import be.bulck.smartrace.lang.LanguageSupport;
-import be.bulck.smartrace.view.controller.AboutStageController;
+import be.bulck.smartrace.view.controller.LicenseStageController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 /**
- * The about stage to give information about the application.
+ * The license stage to show information about the license of the application.
  *
  * @author Fabien Vanden Bulck
  */
-public class AboutStage extends Stage {
+public class LicenseStage extends Stage {
 
-    /** The title of the about stage. */
-    private static final String STAGE_TITLE = SmartRace.NAME + " " + SmartRace.VERSION;
+    /** The title of the license stage. */
+    private static final String STAGE_TITLE = LanguageSupport.getText("stage.license.title");
 
-    /** The icon of the about stage. */
+    /** The icon of the license stage. */
     private static final String STAGE_ICON = SmartRace.ICON;
 
-    /** The width of the about stage. */
-    private static final int STAGE_WIDTH = 400;
+    /** The width of the license stage. */
+    private static final int STAGE_WIDTH = 500;
 
-    /** The height of the about stage. */
-    private static final int STAGE_HEIGHT = 335;
+    /** The height of the license stage. */
+    private static final int STAGE_HEIGHT = 380;
 
     /** The root layout. */
     private VBox rootLayout;
@@ -59,25 +58,26 @@ public class AboutStage extends Stage {
     private SmartRaceApplication app;
 
     /** The logger. */
-    private static final Logger log = LoggerFactory.getLogger(AboutStage.class);
+    private static final Logger log = LoggerFactory.getLogger(LicenseStage.class);
 
 
     /**
-     * Constructs an instance of about stage.
+     * Constructs an instance of license stage.
      *
      * @param app the smart race JavaFX application
      */
-    public AboutStage(SmartRaceApplication app) {
+    public LicenseStage(SmartRaceApplication app) {
         super();
         this.app = app;
 
         setTitle(STAGE_TITLE + " - " + SmartRace.NAME);
         getIcons().add(new Image(STAGE_ICON));
         setWidth(STAGE_WIDTH);
+        setMinWidth(STAGE_WIDTH);
         setHeight(STAGE_HEIGHT);
-        initStyle(StageStyle.UNDECORATED);
+        setMinHeight(STAGE_HEIGHT);
+        setMaxWidth(STAGE_HEIGHT);
         setAlwaysOnTop(true);
-        setResizable(false);
 
         initLayout();
     }
@@ -88,12 +88,11 @@ public class AboutStage extends Stage {
     private void initLayout() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/aboutStage.fxml"));
+            loader.setLocation(SmartRace.class.getResource("/fxml/licenseStage.fxml"));
             loader.setResources(LanguageSupport.getResourceBundle());
             rootLayout = loader.load();
-            rootLayout.setOnMouseClicked(event -> app.closeAboutStage());
 
-            AboutStageController controller = loader.getController();
+            LicenseStageController controller = loader.getController();
             controller.setApp(app);
             controller.setStage(this);
 

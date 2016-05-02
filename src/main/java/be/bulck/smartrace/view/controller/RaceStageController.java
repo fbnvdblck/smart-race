@@ -75,6 +75,10 @@ public class RaceStageController extends StageController<RaceStage> {
     @FXML
     private MenuItem preferencesMenuItem;
 
+    /** The menu item for information about the license of the application/ */
+    @FXML
+    private MenuItem licenseMenuItem;
+
     /** The menu item for information about the application. */
     @FXML
     private MenuItem aboutMenuItem;
@@ -157,6 +161,7 @@ public class RaceStageController extends StageController<RaceStage> {
         categoriesMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FLAG));
         racersMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.USERS));
         preferencesMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.COGS));
+        licenseMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.GAVEL));
         aboutMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.INFO_CIRCLE));
     }
 
@@ -260,6 +265,14 @@ public class RaceStageController extends StageController<RaceStage> {
     @FXML
     private void handleOpenAbout() {
         app.openAboutStage();
+    }
+
+    /**
+     * Opens the license stage.
+     */
+    @FXML
+    private void handleOpenLicense() {
+        app.openLicenseStage();
     }
 
     /**
