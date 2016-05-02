@@ -28,9 +28,6 @@ import java.util.ResourceBundle;
  */
 public class LanguageSupport {
 
-    /** The path of translation files. */
-    private static final String filePath = "/languages";
-
     /** The current locale. */
     private static Locale locale = Locale.getDefault();
 

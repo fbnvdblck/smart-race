@@ -29,7 +29,7 @@ public enum RaceDistanceUnit {
     MI(1);
 
     private static final float KM_RATE = 1.0F;
-    private static final float MI_RATE = 1.609344F;
+    private static final float MI_RATE = 0.621371F;
 
     private int value;
 

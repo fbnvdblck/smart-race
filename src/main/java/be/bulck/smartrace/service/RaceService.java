@@ -59,6 +59,7 @@ public interface RaceService {
      * @param race the race to update
      *
      * @throws DataHandlerException
+     * @throws DataProviderException
      */
-    public void update(Race race) throws DataHandlerException;
+    public void update(Race race) throws DataHandlerException, DataProviderException;
 }

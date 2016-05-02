@@ -50,6 +50,9 @@ public class SmartRaceApplication extends Application {
     /** The race stage. */
     private RaceStage raceStage;
 
+    /** The race preferences. */
+    private PreferencesStage preferencesStage;
+
     /** The track manager stage. */
     private TrackManagerStage trackManagerStage;
 
@@ -131,6 +134,30 @@ public class SmartRaceApplication extends Application {
             raceStage.close();
             raceStage = null;
             log.info("Race stage closed");
+        }
+    }
+
+    /**
+     * Opens the preferences stage.
+     */
+    public void openPreferencesStage() {
+        if (preferencesStage == null)
+            preferencesStage = new PreferencesStage(this);
+
+        if (!preferencesStage.isShowing()) {
+            preferencesStage.show();
+            log.info("Preferences stage shown");
+        }
+    }
+
+    /**
+     * Closes the preferences stage.
+     */
+    public void closePreferencesStage() {
+        if (preferencesStage != null && preferencesStage.isShowing()) {
+            preferencesStage.close();
+            preferencesStage = null;
+            log.info("Preferences stage closed");
         }
     }
 

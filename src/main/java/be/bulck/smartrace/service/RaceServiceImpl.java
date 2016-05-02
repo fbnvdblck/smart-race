@@ -23,6 +23,7 @@ import be.bulck.smartrace.dao.exception.DataHandlerException;
 import be.bulck.smartrace.dao.exception.DataProviderException;
 import be.bulck.smartrace.dao.handler.DataHandler;
 import be.bulck.smartrace.dao.provider.RaceProvider;
+import be.bulck.smartrace.lang.LanguageSupport;
 import be.bulck.smartrace.model.Race;
 import be.bulck.smartrace.model.RaceState;
 import org.slf4j.Logger;
@@ -71,7 +72,10 @@ public class RaceServiceImpl implements RaceService {
     }
 
     @Override
-    public void update(Race race) throws DataHandlerException {
+    public void update(Race race) throws DataHandlerException, DataProviderException {
+        log.debug("Updating race '" + race.getName() + "' (" + race.getUuid() + ")...");
+        raceProvider.update(race);
         dataHandler.save();
+        log.debug("Race '" + race.getName() + " '(" + race.getUuid() + ") updated");
     }
 }

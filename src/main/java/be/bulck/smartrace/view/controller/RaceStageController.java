@@ -71,6 +71,10 @@ public class RaceStageController extends StageController<RaceStage> {
     @FXML
     private MenuItem racersMenuItem;
 
+    /** The menu item for the preferences. */
+    @FXML
+    private MenuItem preferencesMenuItem;
+
     /** The menu item for information about the application. */
     @FXML
     private MenuItem aboutMenuItem;
@@ -86,6 +90,10 @@ public class RaceStageController extends StageController<RaceStage> {
     /** The button for racers. */
     @FXML
     private Button racersButton;
+
+    /** The button for preferences. */
+    @FXML
+    private Button preferencesButton;
 
     /** The label for the info name. */
     @FXML
@@ -148,6 +156,7 @@ public class RaceStageController extends StageController<RaceStage> {
         tracksMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.ROAD));
         categoriesMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.FLAG));
         racersMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.USERS));
+        preferencesMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.COGS));
         aboutMenuItem.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.INFO_CIRCLE));
     }
 
@@ -161,6 +170,8 @@ public class RaceStageController extends StageController<RaceStage> {
         categoriesIconView.setSize("2em");
         FontAwesomeIconView racersIconView = new FontAwesomeIconView(FontAwesomeIcon.USERS);
         racersIconView.setSize("2em");
+        FontAwesomeIconView preferencesIconView = new FontAwesomeIconView(FontAwesomeIcon.COGS);
+        preferencesIconView.setSize("2em");
 
         tracksButton.setCursor(Cursor.HAND);
         tracksButton.setStyle("-fx-background-color: transparent");
@@ -171,6 +182,9 @@ public class RaceStageController extends StageController<RaceStage> {
         racersButton.setCursor(Cursor.HAND);
         racersButton.setStyle("-fx-background-color: transparent");
         racersButton.setGraphic(racersIconView);
+        preferencesButton.setCursor(Cursor.HAND);
+        preferencesButton.setStyle("-fx-background-color: transparent");
+        preferencesButton.setGraphic(preferencesIconView);
     }
 
     /**
@@ -212,7 +226,7 @@ public class RaceStageController extends StageController<RaceStage> {
 
             try {
                 raceService.update(race);
-            } catch (DataHandlerException ex) {
+            } catch (DataHandlerException | DataProviderException ex) {
                 log.error(ex.getMessage(), ex);
             }
 
@@ -224,12 +238,20 @@ public class RaceStageController extends StageController<RaceStage> {
 
             try {
                 raceService.update(race);
-            } catch (DataHandlerException ex) {
+            } catch (DataHandlerException | DataProviderException ex) {
                 log.error(ex.getMessage(), ex);
             }
 
             app.openWelcomeStage();
         }
+    }
+
+    /**
+     * Opens the preferences.
+     */
+    @FXML
+    private void handleOpenPreferences() {
+        app.openPreferencesStage();
     }
 
     /**
