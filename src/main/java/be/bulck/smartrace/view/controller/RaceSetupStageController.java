@@ -132,10 +132,12 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
         alert.setTitle(LanguageSupport.getText("stage.race-setup.dialog.cancel.title"));
         alert.setHeaderText(LanguageSupport.getText("stage.race-setup.dialog.cancel.header"));
         alert.setContentText(LanguageSupport.getText("stage.race-setup.dialog.cancel.text"));
-        alert.getButtonTypes().setAll(ButtonType.NO, ButtonType.YES);
+        ButtonType noButton = new ButtonType(LanguageSupport.getText("stage.race-setup.dialog.cancel.button.no"));
+        ButtonType yesButton = new ButtonType(LanguageSupport.getText("stage.race-setup.dialog.cancel.button.yes"));
+        alert.getButtonTypes().setAll(noButton, yesButton);
 
         Optional<ButtonType> response = alert.showAndWait();
-        if (response.get() == ButtonType.YES) {
+        if (response.get() == yesButton) {
             app.closeRaceSetupStage();
             app.openWelcomeStage();
         }

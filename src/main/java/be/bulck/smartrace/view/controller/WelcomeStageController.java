@@ -40,6 +40,10 @@ public class WelcomeStageController extends StageController<WelcomeStage> {
     @FXML
     private Button loadButton;
 
+    /** The button to change language. */
+    @FXML
+    private Button languageButton;
+
 
     /**
      * Initializes the controller.
@@ -50,6 +54,8 @@ public class WelcomeStageController extends StageController<WelcomeStage> {
         createIconView.setSize("8em");
         FontAwesomeIconView loadIconView = new FontAwesomeIconView(FontAwesomeIcon.UPLOAD);
         loadIconView.setSize("8em");
+        FontAwesomeIconView languageIconView = new FontAwesomeIconView(FontAwesomeIcon.LANGUAGE);
+        languageIconView.setSize("2em");
 
         createButton.setCursor(Cursor.HAND);
         createButton.setStyle("-fx-background-color: transparent");
@@ -57,6 +63,9 @@ public class WelcomeStageController extends StageController<WelcomeStage> {
         loadButton.setCursor(Cursor.HAND);
         loadButton.setStyle("-fx-background-color: transparent");
         loadButton.setGraphic(loadIconView);
+        languageButton.setCursor(Cursor.HAND);
+        languageButton.setStyle("-fx-background-color: transparent");
+        languageButton.setGraphic(languageIconView);
     }
 
     /**
@@ -66,5 +75,13 @@ public class WelcomeStageController extends StageController<WelcomeStage> {
     private void handleCreateRace() {
         app.closeWelcomeStage();
         app.openRaceSetupStage();
+    }
+
+    /**
+     * Opens the change language stage.
+     */
+    @FXML
+    private void handleOpenChangeLanguage() {
+        stage.openChangeLanguageStage();
     }
 }

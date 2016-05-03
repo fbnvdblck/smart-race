@@ -51,6 +51,7 @@ public class LanguageSupport {
      */
     public static void setLocale(Locale locale) {
         LanguageSupport.locale = locale;
+        resourceBundle = null;
     }
 
     /**

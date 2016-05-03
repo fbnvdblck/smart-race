@@ -14,14 +14,19 @@
     <AnchorPane minHeight="0.0" minWidth="170.0" prefHeight="160.0" prefWidth="170.0" />
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Label text="%stage.welcome.instructions.paragraph.1">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
+            <HBox spacing="120.0">
                <VBox.margin>
                   <Insets bottom="30.0" />
                </VBox.margin>
-            </Label>
+               <children>
+                  <Label prefHeight="23.0" prefWidth="329.0" text="%stage.welcome.instructions.paragraph.1">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="languageButton" mnemonicParsing="false" onAction="#handleOpenChangeLanguage" />
+               </children>
+            </HBox>
             <Label text="%stage.welcome.instructions.paragraph.2" textOverrun="WORD_ELLIPSIS" wrapText="true" />
             <Label text="%stage.welcome.instructions.paragraph.3" textOverrun="WORD_ELLIPSIS" wrapText="true" />
             <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">

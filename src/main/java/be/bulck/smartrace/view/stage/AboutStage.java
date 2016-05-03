@@ -41,7 +41,7 @@ import java.io.IOException;
 public class AboutStage extends Stage {
 
     /** The title of the about stage. */
-    private static final String STAGE_TITLE = SmartRace.NAME + " " + SmartRace.VERSION;
+    private static final String STAGE_TITLE = SmartRace.NAME + " - " + SmartRace.VERSION;
 
     /** The icon of the about stage. */
     private static final String STAGE_ICON = SmartRace.ICON;
@@ -71,7 +71,7 @@ public class AboutStage extends Stage {
         super();
         this.app = app;
 
-        setTitle(STAGE_TITLE + " - " + SmartRace.NAME);
+        setTitle(STAGE_TITLE);
         getIcons().add(new Image(STAGE_ICON));
         setWidth(STAGE_WIDTH);
         setHeight(STAGE_HEIGHT);

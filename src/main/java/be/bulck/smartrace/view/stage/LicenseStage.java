@@ -40,7 +40,7 @@ import java.io.IOException;
 public class LicenseStage extends Stage {
 
     /** The title of the license stage. */
-    private static final String STAGE_TITLE = LanguageSupport.getText("stage.license.title");
+    private static final String STAGE_TITLE = "stage.license.title";
 
     /** The icon of the license stage. */
     private static final String STAGE_ICON = SmartRace.ICON;
@@ -55,7 +55,7 @@ public class LicenseStage extends Stage {
     private VBox rootLayout;
 
     /** The smart race JavaFX application. */
-    private SmartRaceApplication app;
+    private final SmartRaceApplication app;
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(LicenseStage.class);
@@ -70,7 +70,7 @@ public class LicenseStage extends Stage {
         super();
         this.app = app;
 
-        setTitle(STAGE_TITLE + " - " + SmartRace.NAME);
+        setTitle(LanguageSupport.getText(STAGE_TITLE) + " - " + SmartRace.NAME);
         getIcons().add(new Image(STAGE_ICON));
         setWidth(STAGE_WIDTH);
         setMinWidth(STAGE_WIDTH);

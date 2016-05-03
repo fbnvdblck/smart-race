@@ -41,7 +41,7 @@ import java.io.IOException;
 public class PreferencesStage extends Stage {
 
     /** The title of the preferences stage. */
-    private static final String STAGE_TITLE = LanguageSupport.getText("stage.preferences.title");
+    private static final String STAGE_TITLE = "stage.preferences.title";
 
     /** The icon of the preferences stage. */
     private static final String STAGE_ICON = SmartRace.ICON;
@@ -71,7 +71,7 @@ public class PreferencesStage extends Stage {
         super();
         this.app = app;
 
-        setTitle(STAGE_TITLE + " - " + SmartRace.NAME);
+        setTitle(LanguageSupport.getText(STAGE_TITLE) + " - " + SmartRace.NAME);
         getIcons().add(new Image(STAGE_ICON));
         setWidth(STAGE_WIDTH);
         setMinWidth(STAGE_WIDTH);

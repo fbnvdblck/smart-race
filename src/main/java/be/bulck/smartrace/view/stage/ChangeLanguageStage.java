@@ -21,11 +21,12 @@ package be.bulck.smartrace.view.stage;
 import be.bulck.smartrace.SmartRace;
 import be.bulck.smartrace.app.SmartRaceApplication;
 import be.bulck.smartrace.lang.LanguageSupport;
-import be.bulck.smartrace.view.controller.WelcomeStageController;
+import be.bulck.smartrace.view.controller.ChangeLanguageStageController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,51 +34,54 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * The welcome stage to create a race or load an existing race.
+ * The change language stage to change the language of the application.
  *
  * @author Fabien Vanden Bulck
  */
-public class WelcomeStage extends Stage {
+public class ChangeLanguageStage extends Stage {
 
-    /** The title of the welcome stage. */
-    private static final String STAGE_TITLE = SmartRace.NAME + " " + SmartRace.VERSION;
+    /** The title of the change language stage. */
+    private static final String STAGE_TITLE = "stage.change-language.title";
 
-    /** The icon of the welcome stage. */
+    /** The icon of the change language stage. */
     private static final String STAGE_ICON = SmartRace.ICON;
 
-    /** The width of the welcome stage. */
-    private static final int STAGE_WIDTH = 600;
+    /** The width of the change language stage. */
+    private static final int STAGE_WIDTH = 250;
 
-    /** The height of the welcome stage. */
-    private static final int STAGE_HEIGHT = 400;
+    /** The height of the change language stage. */
+    private static final int STAGE_HEIGHT = 95;
 
     /** The root layout. */
-    private SplitPane rootLayout;
+    private VBox rootLayout;
 
-    /** The change language stage. */
-    private ChangeLanguageStage changeLanguageStage;
+    /** The parent stage. */
+    private WelcomeStage parentStage;
 
     /** The smart race JavaFX application. */
-    private final SmartRaceApplication app;
+    private SmartRaceApplication app;
 
     /** The logger. */
-    private static final Logger log = LoggerFactory.getLogger(WelcomeStage.class);
+    private static final Logger log = LoggerFactory.getLogger(ChangeLanguageStage.class);
 
 
     /**
-     * Constructs an instance of welcome stage.
+     * Constructs an instance of change language stage.
      *
      * @param app the smart race JavaFX application
+     * @param parentStage the parent stage
      */
-    public WelcomeStage(SmartRaceApplication app) {
+    public ChangeLanguageStage(SmartRaceApplication app, WelcomeStage parentStage) {
         super();
         this.app = app;
+        this.parentStage = parentStage;
 
-        setTitle(LanguageSupport.getText("stage.welcome.title") + " - " + STAGE_TITLE);
+        setTitle(LanguageSupport.getText(STAGE_TITLE) + " - " + SmartRace.NAME);
         getIcons().add(new Image(STAGE_ICON));
         setWidth(STAGE_WIDTH);
         setHeight(STAGE_HEIGHT);
         setResizable(false);
+        initModality(Modality.APPLICATION_MODAL);
 
         initLayout();
     }
@@ -88,11 +92,11 @@ public class WelcomeStage extends Stage {
     private void initLayout() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/welcomeStage.fxml"));
+            loader.setLocation(SmartRace.class.getResource("/fxml/changeLanguageStage.fxml"));
             loader.setResources(LanguageSupport.getResourceBundle());
             rootLayout = loader.load();
 
-            WelcomeStageController controller = loader.getController();
+            ChangeLanguageStageController controller = loader.getController();
             controller.setApp(app);
             controller.setStage(this);
 
@@ -104,34 +108,11 @@ public class WelcomeStage extends Stage {
     }
 
     /**
-     * Opens the change language stage.
+     * Gets the parent stage.
+     *
+     * @return the parent stage
      */
-    public void openChangeLanguageStage() {
-        if (changeLanguageStage == null)
-            changeLanguageStage = new ChangeLanguageStage(app, this);
-
-        if (!changeLanguageStage.isShowing()) {
-            changeLanguageStage.show();
-            log.info("Change language stage shown");
-        }
-    }
-
-    /**
-     * Closes the change language stage.
-     */
-    public void closeChangeLanguageStage() {
-        if (changeLanguageStage != null && changeLanguageStage.isShowing()) {
-            changeLanguageStage.close();
-            changeLanguageStage = null;
-            log.info("Change language stage closed");
-        }
-    }
-
-    /**
-     * Refreshes the stage.
-     */
-    public void refresh() {
-        setTitle(STAGE_TITLE + " - " + LanguageSupport.getText("stage.welcome.title"));
-        initLayout();
+    public WelcomeStage getParentStage() {
+        return parentStage;
     }
 }

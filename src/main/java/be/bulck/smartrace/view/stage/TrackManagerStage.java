@@ -44,7 +44,7 @@ import java.io.IOException;
 public class TrackManagerStage extends Stage {
 
     /** The title of the track manager stage. */
-    private static final String STAGE_TITLE = LanguageSupport.getText("stage.track-manager.title");
+    private static final String STAGE_TITLE = "stage.track-manager.title";
 
     /** The icon of the track manager stage. */
     private static final String STAGE_ICON = SmartRace.ICON;
@@ -80,7 +80,7 @@ public class TrackManagerStage extends Stage {
         super();
         this.app = app;
 
-        setTitle(STAGE_TITLE + " - " + SmartRace.NAME);
+        setTitle(LanguageSupport.getText(STAGE_TITLE) + " - " + SmartRace.NAME);
         getIcons().add(new Image(STAGE_ICON));
         setWidth(STAGE_WIDTH);
         setMinWidth(STAGE_WIDTH);

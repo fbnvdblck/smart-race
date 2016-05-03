@@ -44,10 +44,10 @@ import java.io.IOException;
 public class SetTrackStage extends Stage {
 
     /** The creation title of the set track stage. */
-    private static final String STAGE_TITLE_CREATE = LanguageSupport.getText("stage.set-track.title.create");
+    private static final String STAGE_TITLE_CREATE = "stage.set-track.title.create";
 
     /** The edition title of the set track stage. */
-    private static final String STAGE_TITLE_EDIT = LanguageSupport.getText("stage.set-track.title.edit");
+    private static final String STAGE_TITLE_EDIT = "stage.set-track.title.edit";
 
     /** The icon of the set track stage. */
     private static final String STAGE_ICON = SmartRace.ICON;
@@ -92,7 +92,7 @@ public class SetTrackStage extends Stage {
         this.raceTracks = raceTracks;
         this.existingRaceTrack = existingRaceTrack;
 
-        setTitle((existingRaceTrack != null ? STAGE_TITLE_EDIT : STAGE_TITLE_CREATE) + " - " + SmartRace.NAME);
+        setTitle(LanguageSupport.getText((existingRaceTrack != null ? STAGE_TITLE_EDIT : STAGE_TITLE_CREATE)) + " - " + SmartRace.NAME);
         getIcons().add(new Image(STAGE_ICON));
         setWidth(STAGE_WIDTH);
         setMinWidth(STAGE_WIDTH);
