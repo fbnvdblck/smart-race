@@ -119,9 +119,8 @@ public class SetCategoryStage extends Stage {
             loader.setController(controller);
             rootLayout = loader.load();
 
-
-
             Scene scene = new Scene(rootLayout);
+            scene.getStylesheets().add(SmartRace.class.getResource("/css/forms.css").toExternalForm());
             setScene(scene);
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);
