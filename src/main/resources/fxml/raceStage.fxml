@@ -88,7 +88,7 @@
           <Menu mnemonicParsing="false" text="%stage.race.menu.race">
             <items>
               <MenuItem fx:id="tracksMenuItem" mnemonicParsing="false" onAction="#handleOpenTrackManager" text="%stage.race.menu.race.tracks" />
-                  <MenuItem fx:id="categoriesMenuItem" mnemonicParsing="false" text="%stage.race.menu.race.categories" />
+                  <MenuItem fx:id="categoriesMenuItem" mnemonicParsing="false" onAction="#handleOpenCategoryManager" text="%stage.race.menu.race.categories" />
                   <MenuItem fx:id="racersMenuItem" mnemonicParsing="false" text="%stage.race.menu.race.racers" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="preferencesMenuItem" mnemonicParsing="false" onAction="#handleOpenPreferences" text="%stage.race.menu.race.preferences" />
@@ -107,7 +107,7 @@
       <VBox prefHeight="371.0" prefWidth="52.0" spacing="30.0" style="-fx-background-color: #EBEBEB;" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="tracksButton" mnemonicParsing="false" onAction="#handleOpenTrackManager" />
-            <Button fx:id="categoriesButton" mnemonicParsing="false" />
+            <Button fx:id="categoriesButton" mnemonicParsing="false" onAction="#handleOpenCategoryManager" />
             <Button fx:id="racersButton" mnemonicParsing="false" />
             <Button fx:id="preferencesButton" mnemonicParsing="false" onAction="#handleOpenPreferences" />
          </children>

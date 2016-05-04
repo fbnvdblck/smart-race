@@ -152,7 +152,7 @@ public class SetTrackStageController extends StageController<SetTrackStage> {
         teamSizeLimitLabel.setText(teamSizeLimitLabel.getText() + "*");
 
         cancelButton.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.TIMES));
-        applyButton.setGraphic(new FontAwesomeIconView(existingRaceTrack != null ? FontAwesomeIcon.PENCIL : FontAwesomeIcon.CHECK));
+        applyButton.setGraphic(new FontAwesomeIconView(existingRaceTrack != null ? FontAwesomeIcon.PENCIL : FontAwesomeIcon.PLUS));
 
         titleLabel.setText(LanguageSupport.getText("stage.set-track.title." + (existingRaceTrack != null ? "edit" : "create")));
         distanceUnitLabel.setText(LanguageSupport.getText("model.race.distance-unit." + race.getDistanceUnit().getValue()));
@@ -212,9 +212,9 @@ public class SetTrackStageController extends StageController<SetTrackStage> {
         }
 
         else {
-            Alert alert = new ValidatorAlert(Alert.AlertType.WARNING, LanguageSupport.getText("stage.set-track.dialog.validator.title"), LanguageSupport.getText("stage.set-track.dialog.validator.header"), errors.toArray(new String[errors.size()]));
+            Alert alert = new ValidatorAlert(Alert.AlertType.ERROR, LanguageSupport.getText("stage.set-track.dialog.validator.title"), LanguageSupport.getText("stage.set-track.dialog.validator.header"), errors.toArray(new String[errors.size()]));
+            alert.show();
 
-            alert.showAndWait();
             return false;
         }
     }

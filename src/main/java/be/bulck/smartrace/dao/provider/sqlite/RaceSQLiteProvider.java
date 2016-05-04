@@ -48,28 +48,25 @@ public class RaceSQLiteProvider implements RaceProvider {
     public Race find() throws DataProviderException {
         final String findQuery = "SELECT * FROM race";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
-        Statement findStatement;
 
-        try {
-            findStatement = database.createStatement();
-            ResultSet races = findStatement.executeQuery(findQuery);
+        try (Statement findStatement = database.createStatement()) {
+            try (ResultSet races = findStatement.executeQuery(findQuery)) {
+                if (races.next()) {
+                    Race race = new Race(UUID.fromString(races.getString("race_uuid")));
+                    race.setName(races.getString("name"));
+                    race.setLocation(races.getString("location"));
+                    race.setDescription(races.getString("description"));
+                    race.setState(RaceState.parse(races.getInt("state")));
+                    race.setDistanceUnit(RaceDistanceUnit.parse(races.getInt("distance_unit")));
+                    race.setElevationUnit(RaceElevationUnit.parse(races.getInt("elevation_unit")));
+                    race.setCreationDate(new Timestamp(races.getLong("creation_date")).toLocalDateTime());
+                    race.setLastOpeningDate(new Timestamp(races.getLong("last_opening_date")).toLocalDateTime());
+                    race.setLastUpdateDate(new Timestamp(races.getLong("last_update_date")).toLocalDateTime());
+                    race.setVersion(races.getString("version"));
 
-            if (races.next()) {
-                Race race = new Race(UUID.fromString(races.getString("race_uuid")));
-                race.setName(races.getString("name"));
-                race.setLocation(races.getString("location"));
-                race.setDescription(races.getString("description"));
-                race.setState(RaceState.parse(races.getInt("state")));
-                race.setDistanceUnit(RaceDistanceUnit.parse(races.getInt("distance_unit")));
-                race.setElevationUnit(RaceElevationUnit.parse(races.getInt("elevation_unit")));
-                race.setCreationDate(new Timestamp(races.getLong("creation_date")).toLocalDateTime());
-                race.setLastOpeningDate(new Timestamp(races.getLong("last_opening_date")).toLocalDateTime());
-                race.setLastUpdateDate(new Timestamp(races.getLong("last_update_date")).toLocalDateTime());
-                race.setVersion(races.getString("version"));
-
-                return race;
+                    return race;
+                }
             }
-
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
             throw new DataProviderException(ex.getMessage());
@@ -82,12 +79,10 @@ public class RaceSQLiteProvider implements RaceProvider {
     public void create(Race race) throws DataProviderException {
         final String insertQuery = "INSERT INTO race (race_uuid, name, location, description, state, distance_unit, elevation_unit, creation_date, last_opening_date, last_update_date, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
-        PreparedStatement insertStatement;
 
         if (race != null) {
-            try {
+            try (PreparedStatement insertStatement = database.createPreparedStatement(insertQuery)) {
                 LocalDateTime now = LocalDateTime.now();
-                insertStatement = database.createPreparedStatement(insertQuery);
                 insertStatement.setString(1, race.getUuid().toString());
                 insertStatement.setString(2, race.getName());
                 insertStatement.setString(3, race.getLocation());
@@ -113,19 +108,18 @@ public class RaceSQLiteProvider implements RaceProvider {
 
     @Override
     public void update(Race race) throws DataProviderException {
-        final String updateQuery = "UPDATE race SET name = ?, location = ?, description = ?, state = ?, distance_unit = ?, elevation_unit = ?";
+        final String updateQuery = "UPDATE race SET name = ?, location = ?, description = ?, state = ?, distance_unit = ?, elevation_unit = ?, last_update_date = ?";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
-        PreparedStatement updateStatement;
 
         if (race != null) {
-            try {
-                updateStatement = database.createPreparedStatement(updateQuery);
+            try (PreparedStatement updateStatement = database.createPreparedStatement(updateQuery)) {
                 updateStatement.setString(1, race.getName());
                 updateStatement.setString(2, race.getLocation());
                 updateStatement.setString(3, race.getDescription());
                 updateStatement.setInt(4, race.getState().getValue());
                 updateStatement.setInt(5, race.getDistanceUnit().getValue());
                 updateStatement.setInt(6, race.getElevationUnit().getValue());
+                updateStatement.setLong(7, Timestamp.valueOf(race.getLastUpdateDate()).getTime());
 
                 updateStatement.executeUpdate();
             } catch (SQLException ex) {

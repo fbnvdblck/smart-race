@@ -30,6 +30,7 @@ import java.util.UUID;
  * @author Fabien Vanden Bulck
  */
 public interface RaceTrackService {
+
     /**
      * Finds the race tracks.
      *

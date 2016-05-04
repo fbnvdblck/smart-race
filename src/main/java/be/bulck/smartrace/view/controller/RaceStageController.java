@@ -283,6 +283,14 @@ public class RaceStageController extends StageController<RaceStage> {
         app.openTrackManagerStage();
     }
 
+    /**
+     * Opens the category manager.
+     */
+    @FXML
+    private void handleOpenCategoryManager() {
+        app.openCategoryManagerStage();
+    }
+
     @Override
     protected void performOnExit(WindowEvent event) {
         event.consume();

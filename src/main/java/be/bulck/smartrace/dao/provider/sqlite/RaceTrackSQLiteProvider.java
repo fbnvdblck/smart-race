@@ -46,17 +46,14 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
     @Override
     public RaceTrack[] find() throws DataProviderException {
         List<RaceTrack> tracks = new ArrayList<>();
-
         final String findQuery = "SELECT * FROM race_track";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
-        Statement findStatement;
 
-        try {
-            findStatement = database.createStatement();
-            ResultSet rows = findStatement.executeQuery(findQuery);
-
-            while (rows.next())
-                tracks.add(createObjectFromResultSet(rows));
+        try (Statement findStatement = database.createStatement()) {
+            try (ResultSet rows = findStatement.executeQuery(findQuery)) {
+                while (rows.next())
+                    tracks.add(createObjectFromResultSet(rows));
+            }
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
             throw new DataProviderException(ex.getMessage());
@@ -69,15 +66,13 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
     public RaceTrack find(UUID uuid) throws DataProviderException {
         final String findQuery = "SELECT * FROM race_track WHERE race_track_uuid = ?";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
-        PreparedStatement findStatement;
 
-        try {
-            findStatement = database.createPreparedStatement(findQuery);
+        try (PreparedStatement findStatement = database.createPreparedStatement(findQuery)) {
             findStatement.setString(1, uuid.toString());
-            ResultSet row = findStatement.executeQuery();
 
-            if (row.next()) {
-                return createObjectFromResultSet(row);
+            try (ResultSet row = findStatement.executeQuery()) {
+                if (row.next())
+                    return createObjectFromResultSet(row);
             }
 
         } catch (SQLException ex) {
@@ -92,15 +87,14 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
     public RaceTrack findByName(String name) throws DataProviderException {
         final String findQuery = "SELECT * FROM race_track WHERE name = ?";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
-        PreparedStatement findStatement;
 
-        try {
-            findStatement = database.createPreparedStatement(findQuery);
+        try (PreparedStatement findStatement = database.createPreparedStatement(findQuery)) {
             findStatement.setString(1, name);
-            ResultSet row = findStatement.executeQuery();
 
-            if (row.next())
-                return createObjectFromResultSet(row);
+            try (ResultSet row = findStatement.executeQuery()) {
+                if (row.next())
+                    return createObjectFromResultSet(row);
+            }
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
             throw new DataProviderException(ex.getMessage());
@@ -113,11 +107,9 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
     public void create(RaceTrack raceTrack) throws DataProviderException {
         final String insertQuery = "INSERT INTO race_track (race_track_uuid, name, distance, elevation, description, team_size_limit, state) VALUES (?, ?, ?, ?, ?, ?, ?)";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
-        PreparedStatement insertStatement;
 
         if (raceTrack != null) {
-            try {
-                insertStatement = database.createPreparedStatement(insertQuery);
+            try (PreparedStatement insertStatement = database.createPreparedStatement(insertQuery)) {
                 insertStatement.setString(1, raceTrack.getUuid().toString());
                 insertStatement.setString(2, raceTrack.getName());
                 insertStatement.setFloat(3, raceTrack.getDistance());
@@ -141,11 +133,9 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
     public void update(RaceTrack raceTrack) throws DataProviderException {
         final String updateQuery = "UPDATE race_track SET name = ?, distance = ?, elevation = ?, description = ?, team_size_limit = ?, state = ?, start_time = ?, end_time = ? WHERE race_track_uuid = ?";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
-        PreparedStatement updateStatement;
 
         if (raceTrack != null) {
-            try {
-                updateStatement = database.createPreparedStatement(updateQuery);
+            try (PreparedStatement updateStatement = database.createPreparedStatement(updateQuery)) {
                 updateStatement.setString(1, raceTrack.getName());
                 updateStatement.setFloat(2, raceTrack.getDistance() != 0.0F ? raceTrack.getDistance() : null);
                 updateStatement.setFloat(3, raceTrack.getElevation() != 0.0F ? raceTrack.getElevation() : null);
@@ -175,11 +165,9 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
     public void delete(RaceTrack raceTrack) throws DataProviderException {
         final String deleteQuery = "DELETE FROM race_track WHERE race_track_uuid = ?";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
-        PreparedStatement deleteStatement;
 
         if (raceTrack != null) {
-            try {
-                deleteStatement = database.createPreparedStatement(deleteQuery);
+            try (PreparedStatement deleteStatement = database.createPreparedStatement(deleteQuery)) {
                 deleteStatement.setString(1, raceTrack.getUuid().toString());
 
                 deleteStatement.executeUpdate();

@@ -19,11 +19,9 @@
 package be.bulck.smartrace.app;
 
 import be.bulck.smartrace.model.Race;
-import be.bulck.smartrace.model.RaceTrack;
 import be.bulck.smartrace.splash.SplashStage;
 import be.bulck.smartrace.view.stage.*;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +59,9 @@ public class SmartRaceApplication extends Application {
 
     /** The track manager stage. */
     private TrackManagerStage trackManagerStage;
+
+    /** THe category manager stage. */
+    private CategoryManagerStage categoryManagerStage;
 
 
     @Override
@@ -236,6 +237,30 @@ public class SmartRaceApplication extends Application {
             trackManagerStage.close();
             trackManagerStage = null;
             log.info("Track manager stage closed");
+        }
+    }
+
+    /**
+     * Opens the category manager stage.
+     */
+    public void openCategoryManagerStage() {
+        if (categoryManagerStage == null)
+            categoryManagerStage = new CategoryManagerStage(this);
+
+        if (!categoryManagerStage.isShowing()) {
+            categoryManagerStage.show();
+            log.info("Category manager stage shown");
+        }
+    }
+
+    /**
+     * Closes the category manager stage.
+     */
+    public void closeCategoryManagerStage() {
+        if (categoryManagerStage != null && categoryManagerStage.isShowing()) {
+            categoryManagerStage.close();
+            categoryManagerStage = null;
+            log.info("Category manager stage closed");
         }
     }
 }

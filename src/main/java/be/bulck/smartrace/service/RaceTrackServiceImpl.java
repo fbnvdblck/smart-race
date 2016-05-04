@@ -56,19 +56,19 @@ public class RaceTrackServiceImpl implements RaceTrackService {
 
     @Override
     public RaceTrack find(UUID uuid) throws DataProviderException {
-        log.debug("Finding race track with UUID '" + uuid + "'...");
+        log.debug("Finding the race track with the UUID '" + uuid + "'...");
         return raceTrackProvider.find(uuid);
     }
 
     @Override
     public RaceTrack findByName(String name) throws DataProviderException {
-        log.debug("Finding race track with name '" + name + "'...");
+        log.debug("Finding the race track with the name '" + name + "'...");
         return raceTrackProvider.findByName(name);
     }
 
     @Override
     public void create(RaceTrack raceTrack) throws DataHandlerException, DataProviderException {
-        log.debug("Creating race track '" + raceTrack + "' (" + raceTrack.getUuid() + ")...");
+        log.debug("Creating the race track '" + raceTrack + "' (" + raceTrack.getUuid() + ")...");
         raceTrackProvider.create(raceTrack);
         dataHandler.save();
         log.info("Race track '" + raceTrack + "' (" + raceTrack.getUuid() + ") created");
@@ -76,7 +76,7 @@ public class RaceTrackServiceImpl implements RaceTrackService {
 
     @Override
     public RaceTrack create(String name, float distance, float elevation, String description, int teamSizeLimit) throws DataHandlerException, DataProviderException {
-        log.debug("Creating race track '" + name + "'...");
+        log.debug("Creating the race track '" + name + "'...");
         RaceTrack raceTrack = new RaceTrack(name, distance);
         raceTrack.setElevation(elevation);
         raceTrack.setDescription(description);
@@ -91,7 +91,7 @@ public class RaceTrackServiceImpl implements RaceTrackService {
 
     @Override
     public void update(RaceTrack raceTrack) throws DataHandlerException, DataProviderException {
-        log.debug("Updating race track '" + raceTrack + "' (" + raceTrack.getUuid() + ")...");
+        log.debug("Updating the race track '" + raceTrack + "' (" + raceTrack.getUuid() + ")...");
         raceTrackProvider.update(raceTrack);
         dataHandler.save();
         log.info("Race track '" + raceTrack + "' (" + raceTrack.getUuid() + ") updated");
@@ -99,7 +99,7 @@ public class RaceTrackServiceImpl implements RaceTrackService {
 
     @Override
     public void delete(RaceTrack raceTrack) throws DataHandlerException, DataProviderException {
-        log.debug("Deleting race track '" + raceTrack + "' (" + raceTrack.getUuid() + ")...");
+        log.debug("Deleting the race track '" + raceTrack + "' (" + raceTrack.getUuid() + ")...");
         raceTrackProvider.delete(raceTrack);
         dataHandler.save();
         log.info("Race track '" + raceTrack + "' (" + raceTrack.getUuid() + ") deleted");

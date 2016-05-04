@@ -55,7 +55,7 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
     @FXML
     private Label titleLabel;
 
-    /** The table for the raceTracks. */
+    /** The table for the race tracks. */
     @FXML
     private TableView<RaceTrack> trackTableView;
 
@@ -97,7 +97,7 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
     /** The race track service. */
     private RaceTrackService raceTrackService;
 
-    /** The raceTracks. */
+    /** The race tracks. */
     private ObservableList<RaceTrack> raceTracks;
 
     /** The logger. */
@@ -106,6 +106,8 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
 
     /**
      * Constructs an instance of the track manager stage controller.
+     *
+     * @throws DataProviderException
      */
     public TrackManagerStageController() throws DataProviderException {
         raceService = RaceServiceFactory.getInstance().getRaceService();
@@ -191,8 +193,6 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
      */
     private void trackTableViewDataChanges() {
         raceTracks.addListener((ListChangeListener<? super RaceTrack>) listener -> {
-            boolean alreadyUpdated = false;
-
             while (listener.next()) {
                 try {
                     if (listener.wasAdded()) {
@@ -274,10 +274,12 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
             alert.setTitle(LanguageSupport.getText("stage.track-manager.dialog.delete.title"));
             alert.setHeaderText(LanguageSupport.getText("stage.track-manager.dialog.delete.header"));
             alert.setContentText(LanguageSupport.getText("stage.track-manager.dialog.delete.text"));
-            alert.getButtonTypes().setAll(ButtonType.CANCEL, ButtonType.YES);
+            ButtonType cancelButton = new ButtonType(LanguageSupport.getText("stage.track-manager.dialog.delete.button.cancel"));
+            ButtonType yesButton = new ButtonType(LanguageSupport.getText("stage.track-manager.dialog.delete.button.yes"));
+            alert.getButtonTypes().setAll(cancelButton, yesButton);
 
             Optional<ButtonType> choice = alert.showAndWait();
-            if (choice.get() == ButtonType.YES)
+            if (choice.get() == yesButton)
                 raceTracks.remove(existingRaceTrack);
         }
 
