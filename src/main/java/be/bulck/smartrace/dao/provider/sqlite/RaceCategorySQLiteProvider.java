@@ -1,6 +1,6 @@
 /*
  * Smart Race
- * Copyright (C) 2015-2016 Fabien Vanden Bulck
+ * Copyright (C) 2015-2017 Fabien Vanden Bulck
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -172,7 +172,7 @@ public class RaceCategorySQLiteProvider implements RaceCategoryProvider {
      *
      * @return the object hydrated
      *
-     * @throws SQLException
+     * @throws SQLException an exception thrown if a SQL problem occurs
      */
     private RaceCategory createObjectFromResultSet(ResultSet resultSet) throws SQLException {
         RaceCategory raceCategory = new RaceCategory(UUID.fromString(resultSet.getString("race_category_uuid")));

@@ -1,6 +1,6 @@
 /*
  * Smart Race
- * Copyright (C) 2015-2016 Fabien Vanden Bulck
+ * Copyright (C) 2015-2017 Fabien Vanden Bulck
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,9 +35,9 @@ public interface RaceTrackProvider {
      *
      * @return the race tracks
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public RaceTrack[] find() throws DataProviderException;
+    RaceTrack[] find() throws DataProviderException;
 
     /**
      * Finds a race track by his identifier.
@@ -46,9 +46,9 @@ public interface RaceTrackProvider {
      *
      * @return the race track found with the identifier provided
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public RaceTrack find(UUID uuid) throws DataProviderException;
+    RaceTrack find(UUID uuid) throws DataProviderException;
 
     /**
      * Finds a race track by his name.
@@ -57,34 +57,34 @@ public interface RaceTrackProvider {
      *
      * @return the race track found with the name provided
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public RaceTrack findByName(String name) throws DataProviderException;
+    RaceTrack findByName(String name) throws DataProviderException;
 
     /**
      * Creates a race track.
      *
      * @param raceTrack the race track to create
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception occurs if a data provider problem occurs
      */
-    public void create(RaceTrack raceTrack) throws DataProviderException;
+    void create(RaceTrack raceTrack) throws DataProviderException;
 
     /**
      * Updates a race track.
      *
      * @param raceTrack the race track to update
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public void update(RaceTrack raceTrack) throws DataProviderException;
+    void update(RaceTrack raceTrack) throws DataProviderException;
 
     /**
      * Deletes a race track.
      *
      * @param raceTrack the race track to delete
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public void delete(RaceTrack raceTrack) throws DataProviderException;
+    void delete(RaceTrack raceTrack) throws DataProviderException;
 }

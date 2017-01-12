@@ -1,6 +1,6 @@
 /*
  * Smart Race
- * Copyright (C) 2015-2016 Fabien Vanden Bulck
+ * Copyright (C) 2015-2017 Fabien Vanden Bulck
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,9 +34,9 @@ public interface RaceService {
      *
      * @return the current race
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public Race getRace() throws DataProviderException;
+    Race getRace() throws DataProviderException;
 
     /**
      * Creates the race.
@@ -48,18 +48,18 @@ public interface RaceService {
      *
      * @return the race created
      *
-     * @throws DataHandlerException
-     * @throws DataProviderException
+     * @throws DataHandlerException an exception thrown if a data handler problem occurs
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public Race create(String filePath, String name, String location, String description) throws DataHandlerException, DataProviderException;
+    Race create(String filePath, String name, String location, String description) throws DataHandlerException, DataProviderException;
 
     /**
      * Updates the current race.
      *
      * @param race the race to update
      *
-     * @throws DataHandlerException
-     * @throws DataProviderException
+     * @throws DataHandlerException an exception thrown if a data handler problem occurs
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public void update(Race race) throws DataHandlerException, DataProviderException;
+    void update(Race race) throws DataHandlerException, DataProviderException;
 }

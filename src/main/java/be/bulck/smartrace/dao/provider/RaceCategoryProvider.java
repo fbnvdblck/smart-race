@@ -1,6 +1,6 @@
 /*
  * Smart Race
- * Copyright (C) 2015-2016 Fabien Vanden Bulck
+ * Copyright (C) 2015-2017 Fabien Vanden Bulck
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,9 +35,9 @@ public interface RaceCategoryProvider {
      *
      * @return the race categories
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public RaceCategory[] find() throws DataProviderException;
+    RaceCategory[] find() throws DataProviderException;
 
     /**
      * Finds a race category by his identifier.
@@ -46,9 +46,9 @@ public interface RaceCategoryProvider {
      *
      * @return the race category found with the identifier provided
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public RaceCategory find(UUID uuid) throws DataProviderException;
+    RaceCategory find(UUID uuid) throws DataProviderException;
 
     /**
      * Finds a race category by his name.
@@ -57,34 +57,34 @@ public interface RaceCategoryProvider {
      *
      * @return the race category found with the name provided
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public RaceCategory findByName(String name) throws DataProviderException;
+    RaceCategory findByName(String name) throws DataProviderException;
 
     /**
      * Creates a race category.
      *
      * @param raceCategory the race category to create
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public void create(RaceCategory raceCategory) throws DataProviderException;
+    void create(RaceCategory raceCategory) throws DataProviderException;
 
     /**
      * Updates a race category.
      *
      * @param raceCategory the race category to update
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public void update(RaceCategory raceCategory) throws DataProviderException;
+    void update(RaceCategory raceCategory) throws DataProviderException;
 
     /**
      * Deletes a race category.
      *
      * @param raceCategory the race category to delete
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
-    public void delete(RaceCategory raceCategory) throws DataProviderException;
+    void delete(RaceCategory raceCategory) throws DataProviderException;
 }

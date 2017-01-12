@@ -1,6 +1,6 @@
 /*
  * Smart Race
- * Copyright (C) 2015-2016 Fabien Vanden Bulck
+ * Copyright (C) 2015-2017 Fabien Vanden Bulck
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -107,7 +107,7 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
     /**
      * Constructs an instance of the track manager stage controller.
      *
-     * @throws DataProviderException
+     * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
     public TrackManagerStageController() throws DataProviderException {
         raceService = RaceServiceFactory.getInstance().getRaceService();

@@ -1,6 +1,6 @@
 /*
  * Smart Race
- * Copyright (C) 2015-2016 Fabien Vanden Bulck
+ * Copyright (C) 2015-2017 Fabien Vanden Bulck
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@ public class SQLiteDatabase {
      *
      * @return a SQL statement
      *
-     * @throws SQLException
+     * @throws SQLException an exception thrown if a SQL problem occurs
      */
     public Statement createStatement() throws SQLException {
         return connection.createStatement();
@@ -97,7 +97,7 @@ public class SQLiteDatabase {
      *
      * @return a prepared SQL statement
      *
-     * @throws SQLException
+     * @throws SQLException an exception thrown if a SQL problem occurs
      */
     public PreparedStatement createPreparedStatement(String sql) throws SQLException {
         return connection.prepareStatement(sql);
@@ -106,7 +106,7 @@ public class SQLiteDatabase {
     /**
      * Commits the changes (transaction).
      *
-     * @throws SQLException
+     * @throws SQLException an exception thrown if a SQL problem occurs
      */
     public void commit() throws SQLException {
         connection.commit();
@@ -115,7 +115,7 @@ public class SQLiteDatabase {
     /**
      * Rollbacks the changes (transaction).
      *
-     * @throws SQLException
+     * @throws SQLException an exception thrown if a SQL problem occurs
      */
     public void rollback() throws SQLException {
         connection.rollback();
@@ -124,7 +124,7 @@ public class SQLiteDatabase {
     /**
      * Closes the SQLite database. Please commit or rollback before.
      *
-     * @throws SQLException
+     * @throws SQLException an exception thrown if a SQL problem occurs
      */
     public void close() throws SQLException {
         if (connection != null && !connection.isClosed())

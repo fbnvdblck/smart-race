@@ -1,6 +1,6 @@
 /*
  * Smart Race
- * Copyright (C) 2015-2016 Fabien Vanden Bulck
+ * Copyright (C) 2015-2017 Fabien Vanden Bulck
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -188,7 +188,7 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
      *
      * @return the object hydrated
      *
-     * @throws SQLException
+     * @throws SQLException an exception thrown if a SQL problem occurs
      */
     private RaceTrack createObjectFromResultSet(ResultSet resultSet) throws SQLException {
         RaceTrack raceTrack = new RaceTrack(UUID.fromString(resultSet.getString("race_track_uuid")));
