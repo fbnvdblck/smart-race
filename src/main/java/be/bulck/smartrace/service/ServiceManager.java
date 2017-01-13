@@ -30,7 +30,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class ServiceManager {
 
     /** The spring context. */
-    private static ApplicationContext context;
+    private static final ApplicationContext context;
 
     static {
         context = new ClassPathXmlApplicationContext("/spring/services-configuration.xml", "/spring/dao-configuration.xml");

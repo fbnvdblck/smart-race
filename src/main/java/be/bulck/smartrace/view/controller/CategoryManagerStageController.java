@@ -75,10 +75,10 @@ public class CategoryManagerStageController extends StageController<CategoryMana
     private Button deleteButton;
 
     /** The race categories. */
-    private ObservableList<RaceCategory> raceCategories;
+    private final ObservableList<RaceCategory> raceCategories;
 
     /** The race category service. */
-    private RaceCategoryService raceCategoryService;
+    private final RaceCategoryService raceCategoryService;
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(CategoryManagerStageController.class);
@@ -213,8 +213,9 @@ public class CategoryManagerStageController extends StageController<CategoryMana
             alert.getButtonTypes().setAll(cancelButton, yesButton);
 
             Optional<ButtonType> choice = alert.showAndWait();
-            if (choice.get() == yesButton)
+            if (choice.isPresent() && choice.get() == yesButton) {
                 raceCategories.remove(existingRaceCategory);
+            }
         }
 
         else

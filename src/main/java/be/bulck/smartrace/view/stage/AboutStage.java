@@ -56,7 +56,7 @@ public class AboutStage extends Stage {
     private VBox rootLayout;
 
     /** The smart race JavaFX application. */
-    private SmartRaceApplication app;
+    private final SmartRaceApplication app;
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(AboutStage.class);

@@ -52,7 +52,7 @@ public class ChangeLanguageStageController extends StageController<ChangeLanguag
     private Button applyButton;
 
     /** The available locales. */
-    private ObservableList<Locale> availableLanguages;
+    private final ObservableList<Locale> availableLanguages;
 
 
     /**

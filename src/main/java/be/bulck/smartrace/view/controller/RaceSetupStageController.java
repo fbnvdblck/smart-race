@@ -89,7 +89,7 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
     private Button createButton;
 
     /** The race service. */
-    private RaceService raceService;
+    private final RaceService raceService;
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(RaceSetupStageController.class);
@@ -137,7 +137,7 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
         alert.getButtonTypes().setAll(noButton, yesButton);
 
         Optional<ButtonType> response = alert.showAndWait();
-        if (response.get() == yesButton) {
+        if (response.isPresent() && response.get() == yesButton) {
             app.closeRaceSetupStage();
             app.openWelcomeStage();
         }
@@ -169,8 +169,9 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
         File file = fileChooser.showSaveDialog(stage);
 
         if (file != null) {
-            if (file.exists())
+            if (file.exists()) {
                 file.delete();
+            }
 
             fileTextField.setText(file.getAbsolutePath());
         }

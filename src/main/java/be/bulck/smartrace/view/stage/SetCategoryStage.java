@@ -63,16 +63,16 @@ public class SetCategoryStage extends Stage {
     private VBox rootLayout;
 
     /** The parent stage. */
-    private CategoryManagerStage parentStage;
+    private final CategoryManagerStage parentStage;
 
     /** The smart race JavaFX application. */
-    private SmartRaceApplication app;
+    private final SmartRaceApplication app;
 
     /** The race categories. */
-    private ObservableList<RaceCategory> raceCategories;
+    private final ObservableList<RaceCategory> raceCategories;
 
     /** The race category to edit. */
-    private RaceCategory existingRaceCategory;
+    private final RaceCategory existingRaceCategory;
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(SetCategoryStage.class);

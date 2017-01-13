@@ -106,13 +106,13 @@ public class SetTrackStageController extends StageController<SetTrackStage> {
     private Button applyButton;
 
     /** The race tracks. */
-    private ObservableList<RaceTrack> raceTracks;
+    private final ObservableList<RaceTrack> raceTracks;
 
     /** The race track to edit. */
     private RaceTrack existingRaceTrack;
 
     /** The race service. */
-    private RaceService raceService;
+    private final RaceService raceService;
 
     /** The race. */
     private Race race;

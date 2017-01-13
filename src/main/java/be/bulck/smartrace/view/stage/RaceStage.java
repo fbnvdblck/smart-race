@@ -23,12 +23,10 @@ import be.bulck.smartrace.app.SmartRaceApplication;
 import be.bulck.smartrace.lang.LanguageSupport;
 import be.bulck.smartrace.model.Race;
 import be.bulck.smartrace.view.controller.RaceStageController;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +53,7 @@ public class RaceStage extends Stage {
     private static final int STAGE_MIN_HEIGHT = 400;
 
     /** The race to handle. */
-    private Race race;
+    private final Race race;
 
     /** The root layout. */
     private BorderPane rootLayout;

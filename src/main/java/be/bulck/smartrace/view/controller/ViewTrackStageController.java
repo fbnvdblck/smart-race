@@ -74,13 +74,13 @@ public class ViewTrackStageController extends StageController<ViewTrackStage> {
     private Label endTimeLabel;
 
     /** The race service. */
-    private RaceService raceService;
+    private final RaceService raceService;
 
     /** The race. */
     private Race race;
 
     /** The race track to show. */
-    private RaceTrack raceTrack;
+    private final RaceTrack raceTrack;
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(ViewTrackStageController.class);

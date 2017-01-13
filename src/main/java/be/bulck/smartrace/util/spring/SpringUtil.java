@@ -29,7 +29,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class SpringUtil {
 
     /** The Spring context. */
-    private static ApplicationContext context;
+    private static final ApplicationContext context;
 
     static {
         context = new ClassPathXmlApplicationContext("/spring/applicationContext.xml");

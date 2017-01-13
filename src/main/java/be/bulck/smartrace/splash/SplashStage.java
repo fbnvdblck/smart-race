@@ -59,7 +59,7 @@ public class SplashStage extends Stage {
     private static final int SPLASH_TIMEOUT = 5000;
 
     /** The smart race JavaFX application. */
-    private SmartRaceApplication app;
+    private final SmartRaceApplication app;
 
     /** The timer task. */
     private TimerTask timerTask;

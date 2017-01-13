@@ -24,12 +24,10 @@ import be.bulck.smartrace.lang.LanguageSupport;
 import be.bulck.smartrace.model.RaceTrack;
 import be.bulck.smartrace.view.controller.SetTrackStageController;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,16 +63,16 @@ public class SetTrackStage extends Stage {
     private VBox rootLayout;
 
     /** The parent of the stage. */
-    private TrackManagerStage parentStage;
+    private final TrackManagerStage parentStage;
 
     /** The smart race JavaFX application. */
     private final SmartRaceApplication app;
 
     /** The race tracks. */
-    private ObservableList<RaceTrack> raceTracks;
+    private final ObservableList<RaceTrack> raceTracks;
 
     /** The race track to edit. */
-    private RaceTrack existingRaceTrack;
+    private final RaceTrack existingRaceTrack;
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(SetTrackStage.class);

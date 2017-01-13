@@ -50,7 +50,7 @@ public abstract class StageController<T> {
      */
     public void setStage(T stage) {
         this.stage = stage;
-        ((Stage) stage).setOnCloseRequest((event) -> performOnExit(event));
+        ((Stage) stage).setOnCloseRequest(this::performOnExit);
     }
 
     /**

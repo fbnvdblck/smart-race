@@ -34,7 +34,7 @@ public class BootHandler {
     private static final Logger log = LoggerFactory.getLogger(BootHandler.class);
 
     /** The configuration of boot. */
-    private BootConfiguration configuration;
+    private final BootConfiguration configuration;
 
 
     /**

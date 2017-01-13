@@ -137,8 +137,8 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
         if (raceTrack != null) {
             try (PreparedStatement updateStatement = database.createPreparedStatement(updateQuery)) {
                 updateStatement.setString(1, raceTrack.getName());
-                updateStatement.setFloat(2, raceTrack.getDistance() != 0.0F ? raceTrack.getDistance() : null);
-                updateStatement.setFloat(3, raceTrack.getElevation() != 0.0F ? raceTrack.getElevation() : null);
+                updateStatement.setFloat(2, raceTrack.getDistance());
+                updateStatement.setFloat(3, raceTrack.getElevation());
                 updateStatement.setString(4, raceTrack.getDescription());
                 updateStatement.setInt(5, raceTrack.getTeamSizeLimit());
                 updateStatement.setInt(6, raceTrack.getState().getValue());

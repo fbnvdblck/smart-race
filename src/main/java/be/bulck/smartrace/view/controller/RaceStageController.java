@@ -120,7 +120,7 @@ public class RaceStageController extends StageController<RaceStage> {
     private TitledPane timerTitledPane;
 
     /** The race service. */
-    private RaceService raceService;
+    private final RaceService raceService;
 
     /** The race to handle. */
     private Race race;
@@ -226,28 +226,28 @@ public class RaceStageController extends StageController<RaceStage> {
         alert.getButtonTypes().setAll(buttonCancel, buttonClose, buttonExit);
 
         Optional<ButtonType> choice = alert.showAndWait();
-        if (choice.get() == buttonExit) {
-            app.closeRaceStage();
+        if (choice.isPresent()) {
+            if (choice.get() == buttonExit) {
+                app.closeRaceStage();
 
-            try {
-                raceService.update(race);
-            } catch (DataHandlerException | DataProviderException ex) {
-                log.error(ex.getMessage(), ex);
+                try {
+                    raceService.update(race);
+                } catch (DataHandlerException | DataProviderException ex) {
+                    log.error(ex.getMessage(), ex);
+                }
+
+                System.exit(0);
+            } else if (choice.get() == buttonClose) {
+                app.closeRaceStage();
+
+                try {
+                    raceService.update(race);
+                } catch (DataHandlerException | DataProviderException ex) {
+                    log.error(ex.getMessage(), ex);
+                }
+
+                app.openWelcomeStage();
             }
-
-            System.exit(0);
-        }
-
-        else if (choice.get() == buttonClose) {
-            app.closeRaceStage();
-
-            try {
-                raceService.update(race);
-            } catch (DataHandlerException | DataProviderException ex) {
-                log.error(ex.getMessage(), ex);
-            }
-
-            app.openWelcomeStage();
         }
     }
 

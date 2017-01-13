@@ -18,6 +18,9 @@
 
 package be.bulck.smartrace.lang;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,38 +38,42 @@ import java.util.ResourceBundle;
  */
 public class UTF8ResourceBundleControl extends ResourceBundle.Control {
 
+    private static final Logger log = LoggerFactory.getLogger(UTF8ResourceBundleControl.class);
+
     @Override
     public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload) throws IllegalAccessException, InstantiationException, IOException {
         String bundleName = toBundleName(baseName, locale);
         ResourceBundle bundle = null;
-        if (format.equals("java.class")) {
-            try {
-                @SuppressWarnings("unchecked")
-                Class<? extends ResourceBundle> bundleClass
-                        = (Class<? extends ResourceBundle>)loader.loadClass(bundleName);
+        switch (format) {
+            case "java.class":
+                try {
+                    @SuppressWarnings("unchecked")
+                    Class<? extends ResourceBundle> bundleClass
+                            = (Class<? extends ResourceBundle>) loader.loadClass(bundleName);
 
-                // If the class isn't a ResourceBundle subclass, throw a
-                // ClassCastException.
-                if (ResourceBundle.class.isAssignableFrom(bundleClass)) {
-                    bundle = bundleClass.newInstance();
-                } else {
-                    throw new ClassCastException(bundleClass.getName()
-                            + " cannot be cast to ResourceBundle");
+                    // If the class isn't a ResourceBundle subclass, throw a
+                    // ClassCastException.
+                    if (ResourceBundle.class.isAssignableFrom(bundleClass)) {
+                        bundle = bundleClass.newInstance();
+                    } else {
+                        throw new ClassCastException(bundleClass.getName()
+                                + " cannot be cast to ResourceBundle");
+                    }
+                } catch (ClassNotFoundException ex) {
+                    // Ignored
                 }
-            } catch (ClassNotFoundException e) {
-            }
-        } else if (format.equals("java.properties")) {
-            final String resourceName = toResourceName(bundleName, "properties");
-            if (resourceName == null) {
-                return bundle;
-            }
-            final ClassLoader classLoader = loader;
-            final boolean reloadFlag = reload;
-            InputStream stream = null;
-            try {
-                stream = AccessController.doPrivileged(
-                        new PrivilegedExceptionAction<InputStream>() {
-                            public InputStream run() throws IOException {
+                break;
+            case "java.properties":
+                final String resourceName = toResourceName(bundleName, "properties");
+                if (resourceName == null) {
+                    return bundle;
+                }
+                final ClassLoader classLoader = loader;
+                final boolean reloadFlag = reload;
+                InputStream stream = null;
+                try {
+                    stream = AccessController.doPrivileged(
+                            (PrivilegedExceptionAction<InputStream>) () -> {
                                 InputStream is = null;
                                 if (reloadFlag) {
                                     URL url = classLoader.getResource(resourceName);
@@ -83,20 +90,20 @@ public class UTF8ResourceBundleControl extends ResourceBundle.Control {
                                     is = classLoader.getResourceAsStream(resourceName);
                                 }
                                 return is;
-                            }
-                        });
-            } catch (PrivilegedActionException e) {
-                throw (IOException) e.getException();
-            }
-            if (stream != null) {
-                try {
-                    bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
-                } finally {
-                    stream.close();
+                            });
+                } catch (PrivilegedActionException e) {
+                    throw (IOException) e.getException();
                 }
-            }
-        } else {
-            throw new IllegalArgumentException("unknown format: " + format);
+                if (stream != null) {
+                    try {
+                        bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
+                    } finally {
+                        stream.close();
+                    }
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("unknown format: " + format);
         }
         return bundle;
     }

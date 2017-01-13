@@ -42,7 +42,7 @@ public class SQLiteScriptLoader {
      *
      * @return an array of SQL queries
      */
-    public static String[] getSQLQueriesFromFile(String filePath) {
+    private static String[] getSQLQueriesFromFile(String filePath) {
         try {
             FileReader fileReader = new FileReader(new File(filePath));
             BufferedReader bufferedReader = new BufferedReader(fileReader);

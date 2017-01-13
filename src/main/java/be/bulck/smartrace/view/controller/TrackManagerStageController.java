@@ -92,13 +92,13 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
     private Button deleteButton;
 
     /** The race service. */
-    private RaceService raceService;
+    private final RaceService raceService;
 
     /** The race track service. */
-    private RaceTrackService raceTrackService;
+    private final RaceTrackService raceTrackService;
 
     /** The race tracks. */
-    private ObservableList<RaceTrack> raceTracks;
+    private final ObservableList<RaceTrack> raceTracks;
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(TrackManagerStageController.class);
@@ -279,7 +279,7 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
             alert.getButtonTypes().setAll(cancelButton, yesButton);
 
             Optional<ButtonType> choice = alert.showAndWait();
-            if (choice.get() == yesButton)
+            if (choice.isPresent() && choice.get() == yesButton)
                 raceTracks.remove(existingRaceTrack);
         }
 

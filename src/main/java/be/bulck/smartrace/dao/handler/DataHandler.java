@@ -71,5 +71,5 @@ public interface DataHandler {
     /**
      * Gets the race provider.
      */
-    RaceProvider getRaceProvider() throws DataProviderException;
+    RaceProvider getRaceProvider();
 }

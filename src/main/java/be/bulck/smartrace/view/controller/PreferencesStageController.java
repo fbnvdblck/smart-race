@@ -39,8 +39,6 @@ import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Locale;
-
 /**
  * The controller for the preferences stage.
  *

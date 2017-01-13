@@ -27,7 +27,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,13 +53,13 @@ public class ViewTrackStage extends Stage {
     private VBox rootLayout;
 
     /** The parent of the stage. */
-    private TrackManagerStage parentStage;
+    private final TrackManagerStage parentStage;
 
     /** The smart race JavaFX application. */
     private final SmartRaceApplication app;
 
     /** The race track to show. */
-    private RaceTrack raceTrack;
+    private final RaceTrack raceTrack;
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(ViewTrackStage.class);

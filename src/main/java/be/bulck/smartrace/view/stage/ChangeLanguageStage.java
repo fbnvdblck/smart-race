@@ -56,10 +56,10 @@ public class ChangeLanguageStage extends Stage {
     private VBox rootLayout;
 
     /** The parent stage. */
-    private WelcomeStage parentStage;
+    private final WelcomeStage parentStage;
 
     /** The smart race JavaFX application. */
-    private SmartRaceApplication app;
+    private final SmartRaceApplication app;
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(ChangeLanguageStage.class);

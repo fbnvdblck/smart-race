@@ -104,7 +104,7 @@ public class SQLiteDataHandler implements DataHandler {
     }
 
     @Override
-    public RaceProvider getRaceProvider() throws DataProviderException {
+    public RaceProvider getRaceProvider() {
         return new RaceSQLiteProvider();
     }
 

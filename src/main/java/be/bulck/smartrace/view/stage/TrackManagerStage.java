@@ -25,7 +25,6 @@ import be.bulck.smartrace.model.RaceTrack;
 import be.bulck.smartrace.view.controller.TrackManagerStageController;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;

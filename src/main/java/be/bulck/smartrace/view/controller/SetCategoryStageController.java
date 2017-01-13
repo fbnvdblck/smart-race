@@ -66,7 +66,7 @@ public class SetCategoryStageController extends StageController<SetCategoryStage
     private Button applyButton;
 
     /** The race categories. */
-    private ObservableList<RaceCategory> raceCategories;
+    private final ObservableList<RaceCategory> raceCategories;
 
     /** The race category to edit. */
     private RaceCategory existingRaceCategory;
