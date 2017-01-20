@@ -19,7 +19,6 @@
 package be.bulck.smartrace.dao.handler;
 
 import be.bulck.smartrace.dao.exception.DataHandlerException;
-import be.bulck.smartrace.dao.exception.DataProviderException;
 import be.bulck.smartrace.dao.provider.RaceProvider;
 
 /**

@@ -51,6 +51,9 @@ public class LicenseStage extends Stage {
     /** The height of the license stage. */
     private static final int STAGE_HEIGHT = 380;
 
+    /** The FXML file of the license stage. */
+    private static final String STAGE_FXML = "/fxml/licenseStage.fxml";
+
     /** The root layout. */
     private VBox rootLayout;
 
@@ -59,7 +62,6 @@ public class LicenseStage extends Stage {
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(LicenseStage.class);
-
 
     /**
      * Constructs an instance of license stage.
@@ -88,7 +90,7 @@ public class LicenseStage extends Stage {
     private void initLayout() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/licenseStage.fxml"));
+            loader.setLocation(SmartRace.class.getResource(STAGE_FXML));
             loader.setResources(LanguageSupport.getResourceBundle());
             rootLayout = loader.load();
 

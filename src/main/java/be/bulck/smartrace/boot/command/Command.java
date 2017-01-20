@@ -34,7 +34,6 @@ public abstract class Command {
     /** The description of the command. */
     private String description;
 
-
     /**
      * Gets the key of the command.
      *

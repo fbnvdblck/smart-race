@@ -52,6 +52,9 @@ public class SmartRace {
     /** The repository of the application. */
     public static final String REPOSITORY = "https://github.com/fvandenbulck/smart-race";
 
+    /** The license type of the application. */
+    public static final String LICENSE_TYPE = "GNU GPLv3 (Open Source)";
+
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(SmartRace.class);
 
@@ -82,7 +85,7 @@ public class SmartRace {
      * Shows the short license version of the application.
      */
     private static void showApplicationShortLicense() {
-        System.out.println(NAME + " Copyright (C) 2015-2016 " + AUTHOR_NAME);
+        System.out.println(NAME + " Copyright (C) 2015-2017 " + AUTHOR_NAME);
         System.out.println("This program comes with ABSOLUTELY NO WARRANTY.\n" +
                            "This is free software, and you are welcome to redistribute it\n" +
                            "under certain conditions.\n" +

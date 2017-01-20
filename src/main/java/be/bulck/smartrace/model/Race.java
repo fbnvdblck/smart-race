@@ -31,7 +31,7 @@ import java.util.UUID;
  *
  * @author Fabien Vanden Bulck
  */
-public class Race {
+public class Race implements Comparable<Race> {
 
     /** The identifier (UUID) of the race. */
     private ObjectProperty<UUID> uuid;
@@ -63,7 +63,7 @@ public class Race {
     /** The last update date of the race. */
     private ObjectProperty<LocalDateTime> lastUpdateDate;
 
-    /** The smart race version used of the race. */
+    /** The smart race version used for the race. */
     private StringProperty version;
 
 
@@ -72,10 +72,16 @@ public class Race {
      */
     public Race() {
         uuid = new SimpleObjectProperty<>(UUID.randomUUID());
-        this.name = new SimpleStringProperty();
-        this.location = new SimpleStringProperty();
-        this.distanceUnit = new SimpleObjectProperty<>(RaceDistanceUnit.KM);
-        this.elevationUnit = new SimpleObjectProperty<>(RaceElevationUnit.M);
+        name = new SimpleStringProperty();
+        location = new SimpleStringProperty();
+        description = new SimpleStringProperty();
+        state = new SimpleObjectProperty<>();
+        distanceUnit = new SimpleObjectProperty<>();
+        elevationUnit = new SimpleObjectProperty<>();
+        creationDate = new SimpleObjectProperty<>();
+        lastOpeningDate = new SimpleObjectProperty<>();
+        lastUpdateDate = new SimpleObjectProperty<>();
+        version = new SimpleStringProperty();
     }
 
     /**
@@ -142,10 +148,7 @@ public class Race {
      * @param name the new name of the race
      */
     public void setName(String name) {
-        if (this.name != null)
-            this.name.set(name);
-        else
-            this.name = new SimpleStringProperty(name);
+        this.name.set(name);
     }
 
     /**
@@ -172,10 +175,7 @@ public class Race {
      * @param location the new location of the race
      */
     public void setLocation(String location) {
-        if (this.location != null)
-            this.location.set(location);
-        else
-            this.location = new SimpleStringProperty(location);
+        this.location.set(location);
     }
 
     /**
@@ -202,10 +202,7 @@ public class Race {
      * @param description the new description of the race
      */
     public void setDescription(String description) {
-        if (this.description != null)
-            this.description.set(description);
-        else
-            this.description = new SimpleStringProperty(description);
+        this.description.set(description);
     }
 
     /**
@@ -223,10 +220,7 @@ public class Race {
      * @param state the new state of the race
      */
     public void setState(RaceState state) {
-        if (this.state != null)
-            this.state.set(state);
-        else
-            this.state = new SimpleObjectProperty<>(state);
+        this.state.set(state);
     }
 
     /**
@@ -250,10 +244,10 @@ public class Race {
     /**
      * Sets the measure unit for distance of the race.
      *
-     * @param unit the new measure unit for distance of the race
+     * @param distanceUnit the new measure unit for distance of the race
      */
-    public void setDistanceUnit(RaceDistanceUnit unit) {
-        distanceUnit.set(unit);
+    public void setDistanceUnit(RaceDistanceUnit distanceUnit) {
+        this.distanceUnit.set(distanceUnit);
     }
 
     /**
@@ -277,10 +271,10 @@ public class Race {
     /**
      * Sets the measure unit for elevation of the race.
      *
-     * @param unit the new measure unit for elevation of the race
+     * @param elevationUnit the new measure unit for elevation of the race
      */
-    public void setElevationUnit(RaceElevationUnit unit) {
-        elevationUnit.set(unit);
+    public void setElevationUnit(RaceElevationUnit elevationUnit) {
+        this.elevationUnit.set(elevationUnit);
     }
 
     /**
@@ -307,10 +301,7 @@ public class Race {
      * @param creationDate the new creation date of the race
      */
     public void setCreationDate(LocalDateTime creationDate) {
-        if (this.creationDate != null)
-            this.creationDate.set(creationDate);
-        else
-            this.creationDate = new SimpleObjectProperty<>(creationDate);
+        this.creationDate.set(creationDate);
     }
 
     /**
@@ -337,10 +328,7 @@ public class Race {
      * @param lastOpeningDate the new last opening date of the race
      */
     public void setLastOpeningDate(LocalDateTime lastOpeningDate) {
-        if (this.lastOpeningDate != null)
-            this.lastOpeningDate.set(lastOpeningDate);
-        else
-            this.lastOpeningDate = new SimpleObjectProperty<>(lastOpeningDate);
+        this.lastOpeningDate.set(lastOpeningDate);
     }
 
     /**
@@ -367,10 +355,7 @@ public class Race {
      * @param lastUpdateDate the new last update date of the race
      */
     public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
-        if (this.lastUpdateDate != null)
-            this.lastUpdateDate.set(lastUpdateDate);
-        else
-            this.lastUpdateDate = new SimpleObjectProperty<>(lastUpdateDate);
+        this.lastUpdateDate.set(lastUpdateDate);
     }
 
     /**
@@ -397,10 +382,7 @@ public class Race {
      * @param version the new smart race version used of the race
      */
     public void setVersion(String version) {
-        if (this.version != null)
-            this.version.set(version);
-        else
-            this.version = new SimpleStringProperty(version);
+        this.version.set(version);
     }
 
     /**
@@ -418,7 +400,31 @@ public class Race {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return other instanceof Race && getVersion().equals(((Race) other).getVersion());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Race race = (Race) o;
+
+        if (!uuid.equals(race.uuid)) return false;
+        if (name != null ? !name.equals(race.name) : race.name != null) return false;
+        if (location != null ? !location.equals(race.location) : race.location != null) return false;
+        if (creationDate != null ? !creationDate.equals(race.creationDate) : race.creationDate != null) return false;
+        return version != null ? version.equals(race.version) : race.version == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
+        result = 31 * result + (version != null ? version.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public int compareTo(Race o) {
+        return getName().compareTo(o.getName());
     }
 }

@@ -69,7 +69,6 @@ public class CategoryManagerStage extends Stage {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(CategoryManagerStage.class);
 
-
     /**
      * Constructs an instance of category manager stage.
      *
@@ -118,8 +117,9 @@ public class CategoryManagerStage extends Stage {
      * @param existingRaceCategory the race category to edit (or null to create one)
      */
     public void openSetCategoryStage(ObservableList<RaceCategory> raceCategories, RaceCategory existingRaceCategory) {
-        if (setCategoryStage == null)
+        if (setCategoryStage == null) {
             setCategoryStage = new SetCategoryStage(app, this, raceCategories, existingRaceCategory);
+        }
 
         if (!setCategoryStage.isShowing()) {
             setCategoryStage.show();

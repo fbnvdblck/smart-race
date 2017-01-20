@@ -85,7 +85,6 @@ public class ViewTrackStageController extends StageController<ViewTrackStage> {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(ViewTrackStageController.class);
 
-
     /**
      * Constructs an instance of view track stage controller.
      *
@@ -109,20 +108,25 @@ public class ViewTrackStageController extends StageController<ViewTrackStage> {
     private void initialize() {
         titleLabel.setText(raceTrack.getName());
         nameLabel.setText(raceTrack.getName());
-        distanceLabel.setText(RaceDistanceUnit.compute(race.getDistanceUnit(), raceTrack.getDistance()) + " " + LanguageSupport.getText("model.race.distance-unit." + race.getDistanceUnit().getValue()));
+        distanceLabel.setText(RaceDistanceUnit.convert(race.getDistanceUnit(), raceTrack.getDistance()) + " " + LanguageSupport.getText("model.race.distance-unit." + race.getDistanceUnit().value()));
         teamSizeLimitLabel.setText(String.valueOf(raceTrack.getTeamSizeLimit()));
-        stateLabel.setText(LanguageSupport.getText("model.race.state." + raceTrack.getState().getValue()));
+        stateLabel.setText(LanguageSupport.getText("model.race.state." + raceTrack.getState().value()));
 
-        if (raceTrack.getElevation() != 0.0F)
-            elevationLabel.setText(RaceElevationUnit.compute(race.getElevationUnit(), raceTrack.getElevation()) + " " + LanguageSupport.getText("model.race.elevation-unit." + race.getElevationUnit().getValue()));
+        if (raceTrack.getElevation() != 0.0F) {
+            elevationLabel.setText(RaceElevationUnit.convert(race.getElevationUnit(), raceTrack.getElevation()) + " " + LanguageSupport.getText("model.race.elevation-unit." + race.getElevationUnit().value()));
+        }
 
-        if (raceTrack.getDescription() != null)
+        if (raceTrack.getDescription() != null) {
             descriptionLabel.setText(raceTrack.getDescription());
+        }
 
-        if (raceTrack.getState() == RaceTrackState.RUNNING || raceTrack.getState() == RaceTrackState.FINISHED)
+        if (raceTrack.getState() == RaceTrackState.RUNNING || raceTrack.getState() == RaceTrackState.FINISHED) {
             startTimeLabel.setText(raceTrack.getStartTime().toString());
-        if (raceTrack.getState() == RaceTrackState.FINISHED)
+        }
+
+        if (raceTrack.getState() == RaceTrackState.FINISHED) {
             endTimeLabel.setText(raceTrack.getEndTime().toString());
+        }
     }
 
     /**

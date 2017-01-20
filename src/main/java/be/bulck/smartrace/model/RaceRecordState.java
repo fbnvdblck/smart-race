@@ -36,14 +36,15 @@ public enum RaceRecordState {
         this.value = value;
     }
 
-    public int getValue() {
+    public int value() {
         return value;
     }
 
     public RaceRecordState parse(int value) {
         for (RaceRecordState state : RaceRecordState.values()) {
-            if (state.getValue() == value)
+            if (state.value() == value) {
                 return state;
+            }
         }
 
         return UNDETERMINED;

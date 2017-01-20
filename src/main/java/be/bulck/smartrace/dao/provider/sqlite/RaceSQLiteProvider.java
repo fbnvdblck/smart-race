@@ -43,7 +43,6 @@ public class RaceSQLiteProvider implements RaceProvider {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(RaceSQLiteProvider.class);
 
-
     @Override
     public Race find() throws DataProviderException {
         final String findQuery = "SELECT * FROM race";
@@ -52,24 +51,36 @@ public class RaceSQLiteProvider implements RaceProvider {
         try (Statement findStatement = database.createStatement()) {
             try (ResultSet races = findStatement.executeQuery(findQuery)) {
                 if (races.next()) {
-                    Race race = new Race(UUID.fromString(races.getString("race_uuid")));
-                    race.setName(races.getString("name"));
-                    race.setLocation(races.getString("location"));
-                    race.setDescription(races.getString("description"));
-                    race.setState(RaceState.parse(races.getInt("state")));
-                    race.setDistanceUnit(RaceDistanceUnit.parse(races.getInt("distance_unit")));
-                    race.setElevationUnit(RaceElevationUnit.parse(races.getInt("elevation_unit")));
-                    race.setCreationDate(new Timestamp(races.getLong("creation_date")).toLocalDateTime());
-                    race.setLastOpeningDate(new Timestamp(races.getLong("last_opening_date")).toLocalDateTime());
-                    race.setLastUpdateDate(new Timestamp(races.getLong("last_update_date")).toLocalDateTime());
-                    race.setVersion(races.getString("version"));
+                    UUID raceId = UUID.fromString(races.getString("race_uuid"));
+                    String raceName = races.getString("name");
+                    String raceLocation = races.getString("location");
+                    String raceDescription = races.getString("description");
+                    RaceState raceState = RaceState.parse(races.getInt("state"));
+                    RaceDistanceUnit raceDistanceUnit = RaceDistanceUnit.parse(races.getInt("distance_unit"));
+                    RaceElevationUnit raceElevationUnit = RaceElevationUnit.parse(races.getInt("elevation_unit"));
+                    LocalDateTime raceCreationDate = new Timestamp(races.getLong("creation_date")).toLocalDateTime();
+                    LocalDateTime raceLastOpeningDate = new Timestamp(races.getLong("last_opening_date")).toLocalDateTime();
+                    LocalDateTime raceLastUpdateDate = new Timestamp(races.getLong("last_update_date")).toLocalDateTime();
+                    String raceVersion = races.getString("version");
+
+                    Race race = new Race(raceId);
+                    race.setName(raceName);
+                    race.setLocation(raceLocation);
+                    race.setDescription(raceDescription);
+                    race.setState(raceState);
+                    race.setDistanceUnit(raceDistanceUnit);
+                    race.setElevationUnit(raceElevationUnit);
+                    race.setCreationDate(raceCreationDate);
+                    race.setLastOpeningDate(raceLastOpeningDate);
+                    race.setLastUpdateDate(raceLastUpdateDate);
+                    race.setVersion(raceVersion);
 
                     return race;
                 }
             }
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataProviderException(ex.getMessage());
+            throw new DataProviderException(ex.getMessage(), ex);
         }
 
         return null;
@@ -87,9 +98,9 @@ public class RaceSQLiteProvider implements RaceProvider {
                 insertStatement.setString(2, race.getName());
                 insertStatement.setString(3, race.getLocation());
                 insertStatement.setString(4, race.getDescription());
-                insertStatement.setInt(5, race.getState().getValue());
-                insertStatement.setInt(6, race.getDistanceUnit().getValue());
-                insertStatement.setInt(7, race.getElevationUnit().getValue());
+                insertStatement.setInt(5, race.getState().value());
+                insertStatement.setInt(6, race.getDistanceUnit().value());
+                insertStatement.setInt(7, race.getElevationUnit().value());
                 insertStatement.setLong(8, Timestamp.valueOf(now).getTime());
                 insertStatement.setLong(9, Timestamp.valueOf(now).getTime());
                 insertStatement.setLong(10, Timestamp.valueOf(now).getTime());
@@ -98,12 +109,12 @@ public class RaceSQLiteProvider implements RaceProvider {
                 insertStatement.executeUpdate();
             } catch (SQLException ex) {
                 log.error(ex.getMessage(), ex);
-                throw new DataProviderException(ex.getMessage());
+                throw new DataProviderException(ex.getMessage(), ex);
             }
         }
 
         else
-            throw new IllegalArgumentException("The race instance is null");
+            throw new DataProviderException("Race creation: the race instance is null");
     }
 
     @Override
@@ -116,19 +127,19 @@ public class RaceSQLiteProvider implements RaceProvider {
                 updateStatement.setString(1, race.getName());
                 updateStatement.setString(2, race.getLocation());
                 updateStatement.setString(3, race.getDescription());
-                updateStatement.setInt(4, race.getState().getValue());
-                updateStatement.setInt(5, race.getDistanceUnit().getValue());
-                updateStatement.setInt(6, race.getElevationUnit().getValue());
+                updateStatement.setInt(4, race.getState().value());
+                updateStatement.setInt(5, race.getDistanceUnit().value());
+                updateStatement.setInt(6, race.getElevationUnit().value());
                 updateStatement.setLong(7, Timestamp.valueOf(race.getLastUpdateDate()).getTime());
 
                 updateStatement.executeUpdate();
             } catch (SQLException ex) {
                 log.error(ex.getMessage(), ex);
-                throw new DataProviderException(ex.getMessage());
+                throw new DataProviderException(ex.getMessage(), ex);
             }
         }
 
         else
-            throw new DataProviderException("The race instance is null");
+            throw new DataProviderException("Race creation: the race instance is null");
     }
 }

@@ -21,6 +21,7 @@ package be.bulck.smartrace.model;
 import javafx.beans.property.*;
 
 import java.time.LocalDate;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 /**
@@ -264,8 +265,27 @@ public class Racer implements Comparable<Racer> {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return other instanceof Racer && getUuid().equals(((Racer) other).getUuid());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Racer racer = (Racer) o;
+
+        if (!uuid.equals(racer.uuid)) return false;
+        if (lastName != null ? !lastName.equals(racer.lastName) : racer.lastName != null) return false;
+        if (firstName != null ? !firstName.equals(racer.firstName) : racer.firstName != null) return false;
+        if (sex != null ? !sex.equals(racer.sex) : racer.sex != null) return false;
+        return birthdayDate != null ? birthdayDate.equals(racer.birthdayDate) : racer.birthdayDate == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid.hashCode();
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (birthdayDate != null ? birthdayDate.hashCode() : 0);
+        return result;
     }
 
     @Override

@@ -33,7 +33,7 @@ public class RaceCategoryServiceFactoryImpl extends RaceCategoryServiceFactory {
     private RaceCategoryService raceCategoryService;
 
     @Override
-    public RaceCategoryService raceCategoryService() {
+    public RaceCategoryService getRaceCategoryService() {
         return raceCategoryService;
     }
 }

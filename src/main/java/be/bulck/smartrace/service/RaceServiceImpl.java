@@ -23,7 +23,10 @@ import be.bulck.smartrace.dao.exception.DataHandlerException;
 import be.bulck.smartrace.dao.exception.DataProviderException;
 import be.bulck.smartrace.dao.handler.DataHandler;
 import be.bulck.smartrace.dao.provider.RaceProvider;
+import be.bulck.smartrace.lang.LanguageSupport;
 import be.bulck.smartrace.model.Race;
+import be.bulck.smartrace.model.RaceDistanceUnit;
+import be.bulck.smartrace.model.RaceElevationUnit;
 import be.bulck.smartrace.model.RaceState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +50,6 @@ public class RaceServiceImpl implements RaceService {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(RaceServiceImpl.class);
 
-
     @Override
     public Race getRace() throws DataProviderException {
         log.debug("Finding current race...");
@@ -61,6 +63,14 @@ public class RaceServiceImpl implements RaceService {
         race.setState(RaceState.SETTING_UP);
         race.setDescription(description);
         race.setVersion(SmartRace.VERSION);
+
+        if(LanguageSupport.getLocale().getLanguage().equals("fr")) {
+            race.setDistanceUnit(RaceDistanceUnit.KM);
+            race.setElevationUnit(RaceElevationUnit.M);
+        } else {
+            race.setDistanceUnit(RaceDistanceUnit.MI);
+            race.setElevationUnit(RaceElevationUnit.FT);
+        }
 
         dataHandler.create(filePath);
         raceProvider.create(race);

@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -42,21 +43,21 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(RaceTrackSQLiteProvider.class);
 
-
     @Override
     public RaceTrack[] find() throws DataProviderException {
-        List<RaceTrack> tracks = new ArrayList<>();
         final String findQuery = "SELECT * FROM race_track";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
+        List<RaceTrack> tracks = new ArrayList<>();
 
         try (Statement findStatement = database.createStatement()) {
             try (ResultSet rows = findStatement.executeQuery(findQuery)) {
-                while (rows.next())
+                while (rows.next()) {
                     tracks.add(createObjectFromResultSet(rows));
+                }
             }
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataProviderException(ex.getMessage());
+            throw new DataProviderException(ex.getMessage(), ex);
         }
 
         return tracks.toArray(new RaceTrack[tracks.size()]);
@@ -71,13 +72,14 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
             findStatement.setString(1, uuid.toString());
 
             try (ResultSet row = findStatement.executeQuery()) {
-                if (row.next())
+                if (row.next()) {
                     return createObjectFromResultSet(row);
+                }
             }
 
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataProviderException(ex.getMessage());
+            throw new DataProviderException(ex.getMessage(), ex);
         }
 
         return null;
@@ -92,12 +94,13 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
             findStatement.setString(1, name);
 
             try (ResultSet row = findStatement.executeQuery()) {
-                if (row.next())
+                if (row.next()) {
                     return createObjectFromResultSet(row);
+                }
             }
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataProviderException(ex.getMessage());
+            throw new DataProviderException(ex.getMessage(), ex);
         }
 
         return null;
@@ -116,17 +119,17 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
                 insertStatement.setFloat(4, raceTrack.getElevation());
                 insertStatement.setString(5, raceTrack.getDescription());
                 insertStatement.setInt(6, raceTrack.getTeamSizeLimit());
-                insertStatement.setInt(7, raceTrack.getState().getValue());
+                insertStatement.setInt(7, raceTrack.getState().value());
 
                 insertStatement.executeUpdate();
             } catch (SQLException ex) {
                 log.error(ex.getMessage(), ex);
-                throw new DataProviderException(ex.getMessage());
+                throw new DataProviderException(ex.getMessage(), ex);
             }
         }
 
         else
-            throw new IllegalArgumentException("The race track instance is null");
+            throw new DataProviderException("Race track creation: the race track instance is null");
     }
 
     @Override
@@ -141,24 +144,27 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
                 updateStatement.setFloat(3, raceTrack.getElevation());
                 updateStatement.setString(4, raceTrack.getDescription());
                 updateStatement.setInt(5, raceTrack.getTeamSizeLimit());
-                updateStatement.setInt(6, raceTrack.getState().getValue());
+                updateStatement.setInt(6, raceTrack.getState().value());
 
-                if (raceTrack.getStartTime() != null)
+                if (raceTrack.getStartTime() != null) {
                     updateStatement.setLong(7, Timestamp.from(raceTrack.getStartTime()).getTime());
-                if (raceTrack.getEndTime() != null)
+                }
+
+                if (raceTrack.getEndTime() != null) {
                     updateStatement.setLong(8, Timestamp.from(raceTrack.getEndTime()).getTime());
+                }
 
                 updateStatement.setString(9, raceTrack.getUuid().toString());
 
                 updateStatement.executeUpdate();
             } catch (SQLException ex) {
                 log.error(ex.getMessage(), ex);
-                throw new DataProviderException(ex.getMessage());
+                throw new DataProviderException(ex.getMessage(), ex);
             }
         }
 
         else
-            throw new IllegalArgumentException("The race track instance is null");
+            throw new DataProviderException("Race track update: the race track instance is null");
     }
 
     @Override
@@ -173,12 +179,12 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
                 deleteStatement.executeUpdate();
             } catch (SQLException ex) {
                 log.error(ex.getMessage(), ex);
-                throw new DataProviderException(ex.getMessage());
+                throw new DataProviderException(ex.getMessage(), ex);
             }
         }
 
         else
-            throw new IllegalArgumentException("The race track instance is null");
+            throw new DataProviderException("Race track deletion: the race track instance is null");
     }
 
     /**
@@ -191,15 +197,25 @@ public class RaceTrackSQLiteProvider implements RaceTrackProvider {
      * @throws SQLException an exception thrown if a SQL problem occurs
      */
     private RaceTrack createObjectFromResultSet(ResultSet resultSet) throws SQLException {
-        RaceTrack raceTrack = new RaceTrack(UUID.fromString(resultSet.getString("race_track_uuid")));
-        raceTrack.setName(resultSet.getString("name"));
-        raceTrack.setDistance(resultSet.getFloat("distance"));
-        raceTrack.setElevation(resultSet.getFloat("elevation"));
-        raceTrack.setDescription(resultSet.getString("description"));
-        raceTrack.setTeamSizeLimit(resultSet.getInt("team_size_limit"));
-        raceTrack.setState(RaceTrackState.parse(resultSet.getInt("state")));
-        raceTrack.setStartTime(new Timestamp(resultSet.getLong("start_time")).toInstant());
-        raceTrack.setEndTime(new Timestamp(resultSet.getLong("end_time")).toInstant());
+        UUID raceTrackId = UUID.fromString(resultSet.getString("race_track_uuid"));
+        String raceTrackName = resultSet.getString("name");
+        float raceTrackDistance = resultSet.getFloat("distance");
+        float raceTrackElevation = resultSet.getFloat("elevation");
+        String raceTrackDescription = resultSet.getString("description");
+        int raceTrackTeamSizeLimit = resultSet.getInt("team_size_limit");
+        RaceTrackState raceTrackState = RaceTrackState.parse(resultSet.getInt("state"));
+        Instant raceTrackStartTime = new Timestamp(resultSet.getLong("start_time")).toInstant();
+        Instant raceTrackEndTime = new Timestamp(resultSet.getLong("end_time")).toInstant();
+
+        RaceTrack raceTrack = new RaceTrack(raceTrackId);
+        raceTrack.setName(raceTrackName);
+        raceTrack.setDistance(raceTrackDistance);
+        raceTrack.setElevation(raceTrackElevation);
+        raceTrack.setDescription(raceTrackDescription);
+        raceTrack.setTeamSizeLimit(raceTrackTeamSizeLimit);
+        raceTrack.setState(raceTrackState);
+        raceTrack.setStartTime(raceTrackStartTime);
+        raceTrack.setEndTime(raceTrackEndTime);
 
         return raceTrack;
     }

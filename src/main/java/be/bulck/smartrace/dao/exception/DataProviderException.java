@@ -33,4 +33,14 @@ public class DataProviderException extends Exception {
     public DataProviderException(String message) {
         super(message);
     }
+
+    /**
+     * Constructs an instance of data provider exception.
+     *
+     * @param message the message describing the error
+     * @param cause the cause
+     */
+    public DataProviderException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

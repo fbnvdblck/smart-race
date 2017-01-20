@@ -83,14 +83,13 @@ public class CategoryManagerStageController extends StageController<CategoryMana
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(CategoryManagerStageController.class);
 
-
     /**
      * Constructs an instance of the category manager stage controller.
      *
      * @throws DataProviderException an exception thrown if a data provider problem occurs
      */
     public CategoryManagerStageController() throws DataProviderException {
-        raceCategoryService = RaceCategoryServiceFactory.getInstance().raceCategoryService();
+        raceCategoryService = RaceCategoryServiceFactory.getInstance().getRaceCategoryService();
 
         raceCategories = FXCollections.observableArrayList(raceCategory -> new Observable[] {
             raceCategory.nameProperty(),
@@ -143,18 +142,21 @@ public class CategoryManagerStageController extends StageController<CategoryMana
             while (listener.next()) {
                 try {
                     if (listener.wasAdded()) {
-                        for (RaceCategory categoryToAdd : listener.getAddedSubList())
+                        for (RaceCategory categoryToAdd : listener.getAddedSubList()) {
                             raceCategoryService.create(categoryToAdd);
+                        }
                     }
 
                     else if (listener.wasUpdated()) {
-                        for (RaceCategory categoryToUpdate : listener.getList())
+                        for (RaceCategory categoryToUpdate : listener.getList()) {
                             raceCategoryService.update(categoryToUpdate);
+                        }
                     }
 
                     else if (listener.wasRemoved()) {
-                        for (RaceCategory categoryToRemove : listener.getRemoved())
+                        for (RaceCategory categoryToRemove : listener.getRemoved()) {
                             raceCategoryService.delete(categoryToRemove);
+                        }
                     }
                 } catch (DataHandlerException | DataProviderException ex) {
                     log.error(ex.getMessage(), ex);
@@ -190,10 +192,11 @@ public class CategoryManagerStageController extends StageController<CategoryMana
     private void handleEdit() {
         RaceCategory existingRaceCategory = categoryTableView.getSelectionModel().getSelectedItem();
 
-        if (existingRaceCategory != null)
+        if (existingRaceCategory != null) {
             stage.openSetCategoryStage(raceCategories, existingRaceCategory);
-        else
+        } else {
             showNoSelectionDialog();
+        }
     }
 
     /**
@@ -208,18 +211,17 @@ public class CategoryManagerStageController extends StageController<CategoryMana
             alert.setTitle(LanguageSupport.getText("stage.category-manager.dialog.delete.title"));
             alert.setHeaderText(LanguageSupport.getText("stage.category-manager.dialog.delete.header"));
             alert.setContentText(LanguageSupport.getText("stage.category-manager.dialog.delete.text"));
-            ButtonType cancelButton = new ButtonType(LanguageSupport.getText("stage.category-manager.dialog.delete.button.cancel"));
-            ButtonType yesButton = new ButtonType(LanguageSupport.getText("stage.category-manager.dialog.delete.button.yes"));
+            ButtonType cancelButton = new ButtonType(LanguageSupport.getText("stage.category-manager.dialog.delete.button.cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
+            ButtonType yesButton = new ButtonType(LanguageSupport.getText("stage.category-manager.dialog.delete.button.yes"), ButtonBar.ButtonData.APPLY);
             alert.getButtonTypes().setAll(cancelButton, yesButton);
 
             Optional<ButtonType> choice = alert.showAndWait();
             if (choice.isPresent() && choice.get() == yesButton) {
                 raceCategories.remove(existingRaceCategory);
             }
-        }
-
-        else
+        } else {
             showNoSelectionDialog();
+        }
     }
 
     @Override

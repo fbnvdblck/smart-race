@@ -22,6 +22,7 @@ import be.bulck.smartrace.model.Race;
 import be.bulck.smartrace.splash.SplashStage;
 import be.bulck.smartrace.view.stage.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +64,6 @@ public class SmartRaceApplication extends Application {
     /** THe category manager stage. */
     private CategoryManagerStage categoryManagerStage;
 
-
     @Override
     public void start(Stage stage) throws Exception {
         splashStage = new SplashStage(this);
@@ -71,11 +71,20 @@ public class SmartRaceApplication extends Application {
     }
 
     /**
+     * Closes the JavaFX application.
+     */
+    public void close() {
+        Platform.exit();
+        System.exit(0);
+    }
+
+    /**
      * Opens the welcome stage.
      */
     public void openWelcomeStage() {
-        if (welcomeStage == null)
+        if (welcomeStage == null) {
             welcomeStage = new WelcomeStage(this);
+        }
 
         if (!welcomeStage.isShowing()) {
             welcomeStage.show();
@@ -98,8 +107,9 @@ public class SmartRaceApplication extends Application {
      * Opens the race setup stage.
      */
     public void openRaceSetupStage() {
-        if (raceSetupStage == null)
+        if (raceSetupStage == null) {
             raceSetupStage = new RaceSetupStage(this);
+        }
 
         if (!raceSetupStage.isShowing()) {
             raceSetupStage.show();
@@ -124,8 +134,9 @@ public class SmartRaceApplication extends Application {
      * @param race the race to handle
      */
     public void openRaceStage(Race race) {
-        if (raceStage == null)
+        if (raceStage == null) {
             raceStage = new RaceStage(this, race);
+        }
 
         if (!raceStage.isShowing()) {
             raceStage.show();
@@ -148,8 +159,9 @@ public class SmartRaceApplication extends Application {
      * Opens the preferences stage.
      */
     public void openPreferencesStage() {
-        if (preferencesStage == null)
+        if (preferencesStage == null) {
             preferencesStage = new PreferencesStage(this);
+        }
 
         if (!preferencesStage.isShowing()) {
             preferencesStage.show();
@@ -172,8 +184,9 @@ public class SmartRaceApplication extends Application {
      * Opens the about stage.
      */
     public void openAboutStage() {
-        if (aboutStage == null)
+        if (aboutStage == null) {
             aboutStage = new AboutStage(this);
+        }
 
         if (!aboutStage.isShowing()) {
             aboutStage.show();
@@ -196,8 +209,9 @@ public class SmartRaceApplication extends Application {
      * Opens the license stage.
      */
     public void openLicenseStage() {
-        if (licenseStage == null)
+        if (licenseStage == null) {
             licenseStage = new LicenseStage(this);
+        }
 
         if (!licenseStage.isShowing()) {
             licenseStage.show();
@@ -220,8 +234,9 @@ public class SmartRaceApplication extends Application {
      * Opens the track manager stage.
      */
     public void openTrackManagerStage() {
-        if (trackManagerStage == null)
+        if (trackManagerStage == null) {
             trackManagerStage = new TrackManagerStage(this);
+        }
 
         if (!trackManagerStage.isShowing()) {
             trackManagerStage.show();
@@ -244,8 +259,9 @@ public class SmartRaceApplication extends Application {
      * Opens the category manager stage.
      */
     public void openCategoryManagerStage() {
-        if (categoryManagerStage == null)
+        if (categoryManagerStage == null) {
             categoryManagerStage = new CategoryManagerStage(this);
+        }
 
         if (!categoryManagerStage.isShowing()) {
             categoryManagerStage.show();

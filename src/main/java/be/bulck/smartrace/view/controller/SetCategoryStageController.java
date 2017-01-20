@@ -74,7 +74,6 @@ public class SetCategoryStageController extends StageController<SetCategoryStage
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(SetCategoryStageController.class);
 
-
     /**
      * Constructs an instance of set category stage controller.
      *
@@ -121,9 +120,7 @@ public class SetCategoryStageController extends StageController<SetCategoryStage
 
         if (errors.isEmpty()) {
             return true;
-        }
-
-        else {
+        } else {
             Alert alert = new ValidatorAlert(Alert.AlertType.ERROR, LanguageSupport.getText("stage.set-category.dialog.validator.title"), LanguageSupport.getText("stage.set-category.dialog.validator.header"), errors.toArray(new String[errors.size()]));
             alert.show();
 
@@ -138,20 +135,20 @@ public class SetCategoryStageController extends StageController<SetCategoryStage
     private void handleApply() {
         if (formIsValid()) {
             boolean newCategory = false;
+            String raceCategoryName = nameTextField.getText();
+            String raceCategoryDescription = descriptionTextArea.getText();
 
             if (existingRaceCategory == null) {
                 newCategory = true;
-                existingRaceCategory = new RaceCategory(nameTextField.getText());
+                existingRaceCategory = new RaceCategory();
             }
 
-            else
-                existingRaceCategory.setName(nameTextField.getText());
+            existingRaceCategory.setName(raceCategoryName);
+            existingRaceCategory.setDescription(raceCategoryDescription);
 
-            if (descriptionTextArea.getText() != null && !descriptionTextArea.getText().isEmpty())
-                existingRaceCategory.setDescription(descriptionTextArea.getText());
-
-            if (newCategory)
+            if (newCategory) {
                 raceCategories.add(existingRaceCategory);
+            }
 
             stage.getParentStage().closeSetCategoryStage();
         }

@@ -54,6 +54,9 @@ public class TrackManagerStage extends Stage {
     /** The height of the track manager stage. */
     private static final int STAGE_HEIGHT = 500;
 
+    /** The FXML file of the track manager stage. */
+    private static final String STAGE_FXML = "/fxml/trackManagerStage.fxml";
+
     /** The smart race JavaFX application. */
     private final SmartRaceApplication app;
 
@@ -96,7 +99,7 @@ public class TrackManagerStage extends Stage {
     private void initLayout() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/trackManagerStage.fxml"));
+            loader.setLocation(SmartRace.class.getResource(STAGE_FXML));
             loader.setResources(LanguageSupport.getResourceBundle());
             rootLayout = loader.load();
 
@@ -118,8 +121,9 @@ public class TrackManagerStage extends Stage {
      * @param existingRaceTrack the race track to edit (or null to create one)
      */
     public void openSetTrackStage(ObservableList<RaceTrack> raceTracks, RaceTrack existingRaceTrack) {
-        if (setTrackStage == null)
+        if (setTrackStage == null) {
             setTrackStage = new SetTrackStage(app, this, raceTracks, existingRaceTrack);
+        }
 
         if (!setTrackStage.isShowing()) {
             setTrackStage.show();
@@ -144,8 +148,9 @@ public class TrackManagerStage extends Stage {
      * @param raceTrack the race track to view
      */
     public void openViewTrackStage(RaceTrack raceTrack) {
-        if (viewTrackStage == null)
+        if (viewTrackStage == null) {
             viewTrackStage = new ViewTrackStage(app, this, raceTrack);
+        }
 
         if (!viewTrackStage.isShowing()) {
             viewTrackStage.show();

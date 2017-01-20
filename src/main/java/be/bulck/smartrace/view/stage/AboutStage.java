@@ -52,6 +52,9 @@ public class AboutStage extends Stage {
     /** The height of the about stage. */
     private static final int STAGE_HEIGHT = 335;
 
+    /** The FXML file of the about stage. */
+    private static final String STAGE_FXML = "/fxml/aboutStage.fxml";
+
     /** The root layout. */
     private VBox rootLayout;
 
@@ -60,7 +63,6 @@ public class AboutStage extends Stage {
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(AboutStage.class);
-
 
     /**
      * Constructs an instance of about stage.
@@ -88,7 +90,7 @@ public class AboutStage extends Stage {
     private void initLayout() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/aboutStage.fxml"));
+            loader.setLocation(SmartRace.class.getResource(STAGE_FXML));
             loader.setResources(LanguageSupport.getResourceBundle());
             rootLayout = loader.load();
             rootLayout.setOnMouseClicked(event -> app.closeAboutStage());

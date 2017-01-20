@@ -44,7 +44,6 @@ public class WelcomeStageController extends StageController<WelcomeStage> {
     @FXML
     private Button languageButton;
 
-
     /**
      * Initializes the controller.
      */

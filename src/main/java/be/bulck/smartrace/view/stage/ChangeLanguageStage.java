@@ -52,6 +52,9 @@ public class ChangeLanguageStage extends Stage {
     /** The height of the change language stage. */
     private static final int STAGE_HEIGHT = 95;
 
+    /** The FXML file of the change language stage. */
+    private static final String STAGE_FXML = "/fxml/changeLanguageStage.fxml";
+
     /** The root layout. */
     private VBox rootLayout;
 
@@ -63,7 +66,6 @@ public class ChangeLanguageStage extends Stage {
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(ChangeLanguageStage.class);
-
 
     /**
      * Constructs an instance of change language stage.
@@ -92,7 +94,7 @@ public class ChangeLanguageStage extends Stage {
     private void initLayout() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/changeLanguageStage.fxml"));
+            loader.setLocation(SmartRace.class.getResource(STAGE_FXML));
             loader.setResources(LanguageSupport.getResourceBundle());
             rootLayout = loader.load();
 

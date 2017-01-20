@@ -47,7 +47,6 @@ public class RaceCategoryServiceImpl implements RaceCategoryService {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(RaceCategoryServiceImpl.class);
 
-
     @Override
     public RaceCategory[] find() throws DataProviderException {
         log.debug("Finding all race categories...");
@@ -78,10 +77,8 @@ public class RaceCategoryServiceImpl implements RaceCategoryService {
     public RaceCategory create(String name) throws DataHandlerException, DataProviderException {
         log.debug("Creating the race category '" + name + "'...");
         RaceCategory raceCategory = new RaceCategory(name);
-
         raceCategoryProvider.create(raceCategory);
         dataHandler.save();
-
         log.info("Race category '" + raceCategory + "' (" + raceCategory.getUuid() + ") created");
         return raceCategory;
     }

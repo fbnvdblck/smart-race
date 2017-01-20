@@ -42,7 +42,6 @@ public class SQLiteDatabase {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(SQLiteDatabase.class);
 
-
     /**
      * Constructs an instance of SQLite database.
      *
@@ -127,8 +126,9 @@ public class SQLiteDatabase {
      * @throws SQLException an exception thrown if a SQL problem occurs
      */
     public void close() throws SQLException {
-        if (connection != null && !connection.isClosed())
+        if (connection != null && !connection.isClosed()) {
             connection.close();
+        }
     }
 
     @Override
@@ -137,7 +137,17 @@ public class SQLiteDatabase {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return other instanceof SQLiteDatabase && getFilePath().equals(((SQLiteDatabase) other).getFilePath());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SQLiteDatabase that = (SQLiteDatabase) o;
+
+        return filePath != null ? filePath.equals(that.filePath) : that.filePath == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return filePath != null ? filePath.hashCode() : 0;
     }
 }

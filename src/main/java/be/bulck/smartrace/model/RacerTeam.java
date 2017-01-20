@@ -157,8 +157,9 @@ public class RacerTeam implements Comparable<RacerTeam> {
      * @param racer the racer to add
      */
     public void addRacer(Racer racer) {
-        if (!racers.get().contains(racer))
+        if (!racers.get().contains(racer)) {
             racers.get().add(racer);
+        }
     }
 
     /**
@@ -167,8 +168,9 @@ public class RacerTeam implements Comparable<RacerTeam> {
      * @param racer the racer to remove
      */
     public void removeRacer(Racer racer) {
-        if (racers.get().contains(racer))
+        if (racers.get().contains(racer)) {
             racers.get().remove(racer);
+        }
     }
 
     @Override
@@ -177,8 +179,21 @@ public class RacerTeam implements Comparable<RacerTeam> {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return other instanceof RacerTeam && getUuid().equals(((RacerTeam) other).getUuid());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RacerTeam racerTeam = (RacerTeam) o;
+
+        if (!uuid.equals(racerTeam.uuid)) return false;
+        return name != null ? name.equals(racerTeam.name) : racerTeam.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 
     @Override

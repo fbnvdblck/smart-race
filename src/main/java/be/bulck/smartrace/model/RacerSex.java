@@ -34,14 +34,15 @@ public enum RacerSex {
         this.value = value;
     }
 
-    public int getValue() {
+    public int value() {
         return value;
     }
 
     public static RacerSex parse(int value) {
         for (RacerSex sex : RacerSex.values()) {
-            if (sex.getValue() == value)
+            if (sex.value() == value) {
                 return sex;
+            }
         }
 
         return UNDETERMINED;

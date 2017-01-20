@@ -38,8 +38,6 @@ import java.util.ResourceBundle;
  */
 public class UTF8ResourceBundleControl extends ResourceBundle.Control {
 
-    private static final Logger log = LoggerFactory.getLogger(UTF8ResourceBundleControl.class);
-
     @Override
     public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload) throws IllegalAccessException, InstantiationException, IOException {
         String bundleName = toBundleName(baseName, locale);

@@ -59,6 +59,9 @@ public class SetTrackStage extends Stage {
     /** The FXML file of the set track stage. */
     private static final String STAGE_FXML = "/fxml/setTrackStage.fxml";
 
+    /** The form CSS used by the set track stage. */
+    private static final String STAGE_FORM_CSS = "/css/forms.css";
+
     /** The root layout. */
     private VBox rootLayout;
 
@@ -76,7 +79,6 @@ public class SetTrackStage extends Stage {
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(SetTrackStage.class);
-
 
     /**
      * Constructs an instance of set track stage.
@@ -120,7 +122,7 @@ public class SetTrackStage extends Stage {
             rootLayout = loader.load();
 
             Scene scene = new Scene(rootLayout);
-            scene.getStylesheets().add(SmartRace.class.getResource("/css/forms.css").toExternalForm());
+            scene.getStylesheets().add(SmartRace.class.getResource(STAGE_FORM_CSS).toExternalForm());
             setScene(scene);
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);

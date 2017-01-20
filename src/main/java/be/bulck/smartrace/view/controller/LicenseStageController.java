@@ -51,7 +51,6 @@ public class LicenseStageController extends StageController<LicenseStage> {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(LicenseStageController.class);
 
-
     /**
      * Initializes the controller.
      */
@@ -60,7 +59,8 @@ public class LicenseStageController extends StageController<LicenseStage> {
         closeButton.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.TIMES));
 
         try {
-            licenseTextArea.setText(new String(Files.readAllBytes(Paths.get(SmartRace.class.getResource("/licenses/gnu_gpl_v3.txt").getPath()))));
+            String licenseText = new String(Files.readAllBytes(Paths.get(SmartRace.class.getResource("/licenses/gnu_gpl_v3.txt").getPath())));
+            licenseTextArea.setText(licenseText);
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);
         }

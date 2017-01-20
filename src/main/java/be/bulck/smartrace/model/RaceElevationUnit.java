@@ -20,6 +20,7 @@ package be.bulck.smartrace.model;
 
 /**
  * A model enum for representing the measure unit used for elevation.
+ * The system saves elevations in meters.
  *
  * @author Fabien Vanden Bulck
  */
@@ -34,18 +35,28 @@ public enum RaceElevationUnit {
     private int value;
 
     RaceElevationUnit(int value) { this.value = value; }
-    public int getValue() { return value; }
+
+    public int value() { return value; }
 
     public static RaceElevationUnit parse(int value) {
         for (RaceElevationUnit unit : RaceElevationUnit.values()) {
-            if (unit.getValue() == value)
+            if (unit.value() == value) {
                 return unit;
+            }
         }
 
         return UNDERTERMINED;
     }
 
-    public static float compute(RaceElevationUnit unit, float elevation) {
+    /**
+     * Converts an elevation to chosen measure unit.
+     *
+     * @param unit the chosen measure unit
+     * @param elevation the elevation retrieved by the system (meters) which will be converted
+     *
+     * @return the elevation converted depending of chosen measure unit
+     */
+    public static float convert(RaceElevationUnit unit, float elevation) {
         switch (unit) {
             case M: return elevation * M_RATE;
             case FT: return elevation * FT_RATE;
@@ -53,6 +64,14 @@ public enum RaceElevationUnit {
         }
     }
 
+    /**
+     * Ingests an distance which is in specific measure unit.
+     *
+     * @param unit the current measure unit of the distance
+     * @param elevation the elevation in specific measure which will be ingested
+     *
+     * @return the elevation in system measure unit (meters), ready to be directly ingested
+     */
     public static float ingest(RaceElevationUnit unit, float elevation) {
         switch (unit) {
             case M: return elevation / M_RATE;

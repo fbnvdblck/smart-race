@@ -54,12 +54,11 @@ public class ChangeLanguageStageController extends StageController<ChangeLanguag
     /** The available locales. */
     private final ObservableList<Locale> availableLanguages;
 
-
     /**
      * Constructs an instance of change language stage controller.
      */
     public ChangeLanguageStageController() {
-        availableLanguages = FXCollections.observableArrayList(Locale.getDefault(), Locale.ENGLISH, Locale.FRENCH);
+        availableLanguages = FXCollections.observableArrayList(Locale.ENGLISH, Locale.FRENCH);
     }
 
     /**
@@ -73,7 +72,7 @@ public class ChangeLanguageStageController extends StageController<ChangeLanguag
         languageComboBox.setConverter(new StringConverter<Locale>() {
             @Override
             public String toString(Locale locale) {
-                return locale.getDisplayName();
+                return LanguageSupport.getText("language." + locale.getLanguage());
             }
 
             @Override
@@ -82,7 +81,13 @@ public class ChangeLanguageStageController extends StageController<ChangeLanguag
             }
         });
         languageComboBox.setItems(availableLanguages);
-        languageComboBox.getSelectionModel().select(LanguageSupport.getLocale());
+
+        for (Locale availableLanguage : availableLanguages) {
+            if (availableLanguage.getLanguage().equals(LanguageSupport.getLocale().getLanguage())) {
+                languageComboBox.getSelectionModel().select(availableLanguage);
+                break;
+            }
+        }
     }
 
     /**
@@ -98,7 +103,8 @@ public class ChangeLanguageStageController extends StageController<ChangeLanguag
      */
     @FXML
     private void handleApply() {
-        LanguageSupport.setLocale(languageComboBox.getSelectionModel().getSelectedItem());
+        Locale selectedLocale = languageComboBox.getSelectionModel().getSelectedItem();
+        LanguageSupport.setLocale(selectedLocale);
         stage.getParentStage().closeChangeLanguageStage();
         stage.getParentStage().refresh();
     }

@@ -29,13 +29,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ServiceManager {
 
-    /** The spring context. */
-    private static final ApplicationContext context;
-
-    static {
-        context = new ClassPathXmlApplicationContext("/spring/services-configuration.xml", "/spring/dao-configuration.xml");
-    }
-
     /**
      * Gets a service by name.
      *
@@ -46,5 +39,4 @@ public class ServiceManager {
     public static Object getServiceByName(String serviceName) {
         return SpringUtil.getBean(serviceName);
     }
-
 }

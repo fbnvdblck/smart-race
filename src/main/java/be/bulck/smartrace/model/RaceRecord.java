@@ -235,8 +235,9 @@ public class RaceRecord implements Comparable<RaceRecord> {
      * @param category the category to add
      */
     public void addCategory(RaceCategory category) {
-        if (!categories.get().contains(category))
+        if (!categories.get().contains(category)) {
             categories.get().add(category);
+        }
     }
 
     /**
@@ -245,8 +246,9 @@ public class RaceRecord implements Comparable<RaceRecord> {
      * @param category the category to remove
      */
     public void removeCategory(RaceCategory category) {
-        if (categories.get().contains(category))
+        if (categories.get().contains(category)) {
             categories.get().remove(category);
+        }
     }
 
     /**
@@ -309,12 +311,29 @@ public class RaceRecord implements Comparable<RaceRecord> {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return other instanceof RaceRecord && getUuid().equals(((RaceRecord) other).getUuid());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RaceRecord that = (RaceRecord) o;
+
+        if (!uuid.equals(that.uuid)) return false;
+        if (number != null ? !number.equals(that.number) : that.number != null) return false;
+        if (team != null ? !team.equals(that.team) : that.team != null) return false;
+        return track != null ? track.equals(that.track) : that.track == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid.hashCode();
+        result = 31 * result + (number != null ? number.hashCode() : 0);
+        result = 31 * result + (team != null ? team.hashCode() : 0);
+        result = 31 * result + (track != null ? track.hashCode() : 0);
+        return result;
     }
 
     @Override
     public int compareTo(RaceRecord o) {
-        return getTeam().getName().compareTo(o.getTeam().getName());
+        return getNumber() - o.getNumber();
     }
 }

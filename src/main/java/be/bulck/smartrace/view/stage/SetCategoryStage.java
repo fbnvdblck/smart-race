@@ -59,6 +59,9 @@ public class SetCategoryStage extends Stage {
     /** The FXML file of the set category stage. */
     private static final String STAGE_FXML = "/fxml/setCategoryStage.fxml";
 
+    /** The form CSS file used by the set category state. */
+    private static final String STAGE_FORM_CSS = "/css/forms.css";
+
     /** The root layout. */
     private VBox rootLayout;
 
@@ -76,7 +79,6 @@ public class SetCategoryStage extends Stage {
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(SetCategoryStage.class);
-
 
     /**
      * Constructs an instance of set category stage.
@@ -120,7 +122,7 @@ public class SetCategoryStage extends Stage {
             rootLayout = loader.load();
 
             Scene scene = new Scene(rootLayout);
-            scene.getStylesheets().add(SmartRace.class.getResource("/css/forms.css").toExternalForm());
+            scene.getStylesheets().add(SmartRace.class.getResource(STAGE_FORM_CSS).toExternalForm());
             setScene(scene);
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);

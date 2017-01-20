@@ -47,10 +47,13 @@ public class RaceStage extends Stage {
     private static final String STAGE_ICON = SmartRace.ICON;
 
     /** The minimum width of the race stage. */
-    private static final int STAGE_MIN_WIDTH = 800;
+    private static final int STAGE_WIDTH = 800;
 
     /** The minimum height of the race stage. */
-    private static final int STAGE_MIN_HEIGHT = 400;
+    private static final int STAGE_HEIGHT = 400;
+
+    /** The FXML file of the race stage. */
+    private static final String STAGE_FXML = "/fxml/raceStage.fxml";
 
     /** The race to handle. */
     private final Race race;
@@ -58,15 +61,11 @@ public class RaceStage extends Stage {
     /** The root layout. */
     private BorderPane rootLayout;
 
-    /** The race view. */
-    private VBox raceView;
-
     /** The smart race JavaFX application. */
     private final SmartRaceApplication app;
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(RaceStage.class);
-
 
     /**
      * Constructs an instance of race stage.
@@ -81,10 +80,10 @@ public class RaceStage extends Stage {
 
         setTitle(race.getName() + " @ " + race.getLocation() + " - " + STAGE_TITLE);
         getIcons().add(new Image(STAGE_ICON));
-        setWidth(STAGE_MIN_WIDTH);
-        setMinWidth(STAGE_MIN_WIDTH);
-        setHeight(STAGE_MIN_HEIGHT);
-        setMinHeight(STAGE_MIN_HEIGHT);
+        setWidth(STAGE_WIDTH);
+        setMinWidth(STAGE_WIDTH);
+        setHeight(STAGE_HEIGHT);
+        setMinHeight(STAGE_HEIGHT);
 
         initLayout();
     }
@@ -104,7 +103,7 @@ public class RaceStage extends Stage {
     private void initLayout() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/raceStage.fxml"));
+            loader.setLocation(SmartRace.class.getResource(STAGE_FXML));
             loader.setResources(LanguageSupport.getResourceBundle());
             rootLayout = loader.load();
 

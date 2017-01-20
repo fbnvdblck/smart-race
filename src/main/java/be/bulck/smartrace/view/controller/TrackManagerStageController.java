@@ -103,7 +103,6 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(TrackManagerStageController.class);
 
-
     /**
      * Constructs an instance of the track manager stage controller.
      *
@@ -163,8 +162,9 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
             public void updateItem(Number item, boolean empty) {
                 super.updateItem(item, empty);
 
-                if (!empty)
-                    setText(RaceDistanceUnit.compute(race.getDistanceUnit(), item.floatValue()) + " " + LanguageSupport.getText("model.race.distance-unit." + race.getDistanceUnit().getValue()));
+                if (!empty) {
+                    setText(RaceDistanceUnit.convert(race.getDistanceUnit(), item.floatValue()) + " " + LanguageSupport.getText("model.race.distance-unit." + race.getDistanceUnit().value()));
+                }
             }
         });
         elevationTableColumn.setCellValueFactory(cellData -> cellData.getValue().elevationProperty());
@@ -173,8 +173,9 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
             public void updateItem(Number item, boolean empty) {
                 super.updateItem(item, empty);
 
-                if (!empty)
-                    setText(RaceElevationUnit.compute(race.getElevationUnit(), item.floatValue()) + " " + LanguageSupport.getText("model.race.elevation-unit." + race.getElevationUnit().getValue()));
+                if (!empty) {
+                    setText(RaceElevationUnit.convert(race.getElevationUnit(), item.floatValue()) + " " + LanguageSupport.getText("model.race.elevation-unit." + race.getElevationUnit().value()));
+                }
             }
         });
         teamSizeTableColumn.setCellValueFactory(cellData -> cellData.getValue().teamSizeLimitProperty());
@@ -196,18 +197,21 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
             while (listener.next()) {
                 try {
                     if (listener.wasAdded()) {
-                        for (RaceTrack raceTrackToAdd : listener.getAddedSubList())
+                        for (RaceTrack raceTrackToAdd : listener.getAddedSubList()) {
                             raceTrackService.create(raceTrackToAdd);
+                        }
                     }
 
                     else if (listener.wasUpdated()) {
-                        for (RaceTrack raceTrackToEdit : listener.getList())
+                        for (RaceTrack raceTrackToEdit : listener.getList()) {
                             raceTrackService.update(raceTrackToEdit);
+                        }
                     }
 
                     else if (listener.wasRemoved()) {
-                        for (RaceTrack raceTrackToRemove : listener.getRemoved())
+                        for (RaceTrack raceTrackToRemove : listener.getRemoved()) {
                             raceTrackService.delete(raceTrackToRemove);
+                        }
                     }
                 } catch (DataHandlerException | DataProviderException ex) {
                     log.error(ex.getMessage(), ex);
@@ -235,10 +239,11 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
     private void handleView() {
         RaceTrack existingRaceTrack = trackTableView.getSelectionModel().getSelectedItem();
 
-        if (existingRaceTrack != null)
+        if (existingRaceTrack != null) {
             stage.openViewTrackStage(existingRaceTrack);
-        else
+        } else {
             showNoSelectionDialog();
+        }
     }
 
     /**
@@ -256,10 +261,11 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
     private void handleEdit() {
         RaceTrack existingRaceTrack = trackTableView.getSelectionModel().getSelectedItem();
 
-        if (existingRaceTrack != null)
+        if (existingRaceTrack != null) {
             stage.openSetTrackStage(raceTracks, existingRaceTrack);
-        else
+        } else {
             showNoSelectionDialog();
+        }
     }
 
     /**
@@ -274,16 +280,16 @@ public class TrackManagerStageController extends StageController<TrackManagerSta
             alert.setTitle(LanguageSupport.getText("stage.track-manager.dialog.delete.title"));
             alert.setHeaderText(LanguageSupport.getText("stage.track-manager.dialog.delete.header"));
             alert.setContentText(LanguageSupport.getText("stage.track-manager.dialog.delete.text"));
-            ButtonType cancelButton = new ButtonType(LanguageSupport.getText("stage.track-manager.dialog.delete.button.cancel"));
-            ButtonType yesButton = new ButtonType(LanguageSupport.getText("stage.track-manager.dialog.delete.button.yes"));
+            ButtonType cancelButton = new ButtonType(LanguageSupport.getText("stage.track-manager.dialog.delete.button.cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
+            ButtonType yesButton = new ButtonType(LanguageSupport.getText("stage.track-manager.dialog.delete.button.yes"), ButtonBar.ButtonData.APPLY);
             alert.getButtonTypes().setAll(cancelButton, yesButton);
 
             Optional<ButtonType> choice = alert.showAndWait();
-            if (choice.isPresent() && choice.get() == yesButton)
+            if (choice.isPresent() && choice.get() == yesButton) {
                 raceTracks.remove(existingRaceTrack);
-        }
-
-        else
+            }
+        } else {
             showNoSelectionDialog();
+        }
     }
 }

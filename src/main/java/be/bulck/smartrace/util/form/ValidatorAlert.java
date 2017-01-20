@@ -50,8 +50,9 @@ public class ValidatorAlert extends Alert {
         setHeaderText(headerText);
 
         StringBuilder stringBuilder = new StringBuilder();
-        for (String error : errors)
+        for (String error : errors) {
             stringBuilder.append("- ").append(error).append(".\n");
+        }
         setContentText(stringBuilder.toString());
     }
 }

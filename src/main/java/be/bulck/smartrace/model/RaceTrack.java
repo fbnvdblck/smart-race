@@ -68,7 +68,7 @@ public class RaceTrack implements Comparable<RaceTrack> {
         elevation = new SimpleFloatProperty();
         description = new SimpleStringProperty();
         teamSizeLimit = new SimpleIntegerProperty(1);
-        state = new SimpleObjectProperty<>(RaceTrackState.UNDETERMINED);
+        state = new SimpleObjectProperty<>(RaceTrackState.READY);
         startTime = new SimpleObjectProperty<>();
         endTime = new SimpleObjectProperty<>();
     }
@@ -344,8 +344,25 @@ public class RaceTrack implements Comparable<RaceTrack> {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return other instanceof RaceTrack && getUuid().equals(((RaceTrack) other).getUuid());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RaceTrack raceTrack = (RaceTrack) o;
+
+        if (!uuid.equals(raceTrack.uuid)) return false;
+        if (name != null ? !name.equals(raceTrack.name) : raceTrack.name != null) return false;
+        if (distance != null ? !distance.equals(raceTrack.distance) : raceTrack.distance != null) return false;
+        return teamSizeLimit.equals(raceTrack.teamSizeLimit);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (distance != null ? distance.hashCode() : 0);
+        result = 31 * result + teamSizeLimit.hashCode();
+        return result;
     }
 
     @Override

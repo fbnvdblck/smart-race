@@ -47,7 +47,6 @@ public class RaceTrackServiceImpl implements RaceTrackService {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(RaceTrackServiceImpl.class);
 
-
     @Override
     public RaceTrack[] find() throws DataProviderException {
         log.debug("Finding all race tracks...");

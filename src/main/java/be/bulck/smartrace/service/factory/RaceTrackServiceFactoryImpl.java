@@ -32,7 +32,6 @@ public class RaceTrackServiceFactoryImpl extends RaceTrackServiceFactory {
     @Autowired
     private RaceTrackService raceTrackService;
 
-
     @Override
     public RaceTrackService getRaceTrackService() {
         return raceTrackService;

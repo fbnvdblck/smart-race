@@ -50,8 +50,9 @@ public class SQLiteScriptLoader {
             String buffer;
 
             while ((buffer = bufferedReader.readLine()) != null) {
-                if (buffer.length() == 0 || buffer.startsWith("--"))
+                if (buffer.length() == 0 || buffer.startsWith("--")) {
                     continue;
+                }
 
                 stringBuilder.append(buffer);
             }
@@ -79,8 +80,9 @@ public class SQLiteScriptLoader {
         try {
             Statement statement = database.createStatement();
 
-            for (String query : queries)
+            for (String query : queries) {
                 statement.execute(query);
+            }
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
         }

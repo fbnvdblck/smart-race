@@ -44,21 +44,21 @@ public class RaceCategorySQLiteProvider implements RaceCategoryProvider {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(RaceCategorySQLiteProvider.class);
 
-
     @Override
     public RaceCategory[] find() throws DataProviderException {
-        List<RaceCategory> categories = new ArrayList<>();
         final String findQuery = "SELECT * FROM race_category";
         SQLiteDatabase database = SQLiteDatabaseFactory.getDatabase();
+        List<RaceCategory> categories = new ArrayList<>();
 
         try (Statement findStatement = database.createStatement()) {
             try (ResultSet rows = findStatement.executeQuery(findQuery)) {
-                while (rows.next())
+                while (rows.next()) {
                     categories.add(createObjectFromResultSet(rows));
+                }
             }
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataProviderException(ex.getMessage());
+            throw new DataProviderException(ex.getMessage(), ex);
         }
 
         return categories.toArray(new RaceCategory[categories.size()]);
@@ -73,12 +73,13 @@ public class RaceCategorySQLiteProvider implements RaceCategoryProvider {
             findStatement.setString(1, uuid.toString());
 
             try (ResultSet row = findStatement.executeQuery()) {
-                if (row.next())
+                if (row.next()) {
                     return createObjectFromResultSet(row);
+                }
             }
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataProviderException(ex.getMessage());
+            throw new DataProviderException(ex.getMessage(), ex);
         }
 
         return null;
@@ -93,12 +94,13 @@ public class RaceCategorySQLiteProvider implements RaceCategoryProvider {
             findStatement.setString(1, name);
 
             try (ResultSet row = findStatement.executeQuery()) {
-                if (row.next())
+                if (row.next()) {
                     return createObjectFromResultSet(row);
+                }
             }
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataProviderException(ex.getMessage());
+            throw new DataProviderException(ex.getMessage(), ex);
         }
 
         return null;
@@ -118,12 +120,13 @@ public class RaceCategorySQLiteProvider implements RaceCategoryProvider {
                 insertStatement.executeUpdate();
             } catch (SQLException ex) {
                 log.error(ex.getMessage(), ex);
-                throw new DataProviderException(ex.getMessage());
+                throw new DataProviderException(ex.getMessage(), ex);
             }
         }
 
-        else
-            throw new IllegalArgumentException("The race category instance is null");
+        else {
+            throw new DataProviderException("Race category creation: the race category instance is null");
+        }
     }
 
     @Override
@@ -140,12 +143,13 @@ public class RaceCategorySQLiteProvider implements RaceCategoryProvider {
                 updateStatement.executeUpdate();
             } catch (SQLException ex) {
                 log.error(ex.getMessage(), ex);
-                throw new DataProviderException(ex.getMessage());
+                throw new DataProviderException(ex.getMessage(), ex);
             }
         }
 
-        else
-            throw new IllegalArgumentException("The race category instance is null");
+        else {
+            throw new DataProviderException("Race category update: The race category instance is null");
+        }
     }
 
     @Override
@@ -160,7 +164,7 @@ public class RaceCategorySQLiteProvider implements RaceCategoryProvider {
                 deleteStatement.executeUpdate();
             } catch (SQLException ex) {
                 log.error(ex.getMessage(), ex);
-                throw new DataProviderException(ex.getMessage());
+                throw new DataProviderException(ex.getMessage(), ex);
             }
         }
     }
@@ -175,9 +179,13 @@ public class RaceCategorySQLiteProvider implements RaceCategoryProvider {
      * @throws SQLException an exception thrown if a SQL problem occurs
      */
     private RaceCategory createObjectFromResultSet(ResultSet resultSet) throws SQLException {
-        RaceCategory raceCategory = new RaceCategory(UUID.fromString(resultSet.getString("race_category_uuid")));
-        raceCategory.setName(resultSet.getString("name"));
-        raceCategory.setDescription(resultSet.getString("description"));
+        UUID raceCategoryId = UUID.fromString(resultSet.getString("race_category_uuid"));
+        String raceCategoryName = resultSet.getString("name");
+        String raceCategoryDescription = resultSet.getString("description");
+
+        RaceCategory raceCategory = new RaceCategory(raceCategoryId);
+        raceCategory.setName(raceCategoryName);
+        raceCategory.setDescription(raceCategoryDescription);
 
         return raceCategory;
     }

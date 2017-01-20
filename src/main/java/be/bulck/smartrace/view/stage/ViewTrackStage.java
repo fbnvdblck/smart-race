@@ -49,6 +49,9 @@ public class ViewTrackStage extends Stage {
     /** The height of the view track stage. */
     private static final int STAGE_HEIGHT = 319;
 
+    /** The FXML file of the view track stage. */
+    private static final String STAGE_FXML = "/fxml/viewTrackStage.fxml";
+
     /** The root layout. */
     private VBox rootLayout;
 
@@ -63,7 +66,6 @@ public class ViewTrackStage extends Stage {
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(ViewTrackStage.class);
-
 
     /**
      * Constructs an instance of view track stage.
@@ -100,7 +102,7 @@ public class ViewTrackStage extends Stage {
             controller.setStage(this);
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/viewTrackStage.fxml"));
+            loader.setLocation(SmartRace.class.getResource(STAGE_FXML));
             loader.setResources(LanguageSupport.getResourceBundle());
             loader.setController(controller);
             rootLayout = loader.load();

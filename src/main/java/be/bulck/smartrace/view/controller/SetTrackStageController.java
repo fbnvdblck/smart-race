@@ -120,7 +120,6 @@ public class SetTrackStageController extends StageController<SetTrackStage> {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(SetTrackStage.class);
 
-
     /**
      * Constructs an instance of set track stage controller.
      *
@@ -152,16 +151,19 @@ public class SetTrackStageController extends StageController<SetTrackStage> {
         applyButton.setGraphic(new FontAwesomeIconView(existingRaceTrack != null ? FontAwesomeIcon.PENCIL : FontAwesomeIcon.PLUS));
 
         titleLabel.setText(LanguageSupport.getText("stage.set-track.title." + (existingRaceTrack != null ? "edit" : "create")));
-        distanceUnitLabel.setText(LanguageSupport.getText("model.race.distance-unit." + race.getDistanceUnit().getValue()));
-        elevationUnitLabel.setText(LanguageSupport.getText("model.race.elevation-unit." + race.getElevationUnit().getValue()));
+        distanceUnitLabel.setText(LanguageSupport.getText("model.race.distance-unit." + race.getDistanceUnit().value()));
+        elevationUnitLabel.setText(LanguageSupport.getText("model.race.elevation-unit." + race.getElevationUnit().value()));
         applyButton.setText(LanguageSupport.getText("stage.set-track.button." + (existingRaceTrack != null ? "edit" : "create")));
 
         if (existingRaceTrack != null) {
             nameTextField.setText(existingRaceTrack.getName());
-            distanceTextField.setText(String.valueOf(RaceDistanceUnit.compute(race.getDistanceUnit(), existingRaceTrack.getDistance())));
-            elevationTextField.setText(String.valueOf(RaceElevationUnit.compute(race.getElevationUnit(), existingRaceTrack.getElevation())));
+            distanceTextField.setText(String.valueOf(RaceDistanceUnit.convert(race.getDistanceUnit(), existingRaceTrack.getDistance())));
+            elevationTextField.setText(String.valueOf(RaceElevationUnit.convert(race.getElevationUnit(), existingRaceTrack.getElevation())));
             teamSizeLimitSlider.setValue(existingRaceTrack.getTeamSizeLimit());
             descriptionTextArea.setText(existingRaceTrack.getDescription());
+        } else {
+            distanceTextField.setText(String.valueOf(0.0f));
+            elevationTextField.setText(String.valueOf(0.0f));
         }
     }
 
@@ -187,28 +189,20 @@ public class SetTrackStageController extends StageController<SetTrackStage> {
         if (distanceTextField.getText() == null || distanceTextField.getText().isEmpty()) {
             errors.add(LanguageSupport.getText("stage.set-track.field.distance.validator.empty"));
             distanceTextField.getStyleClass().add(errorClass);
-        }
-
-        else {
-            if (!TypeMatcher.isNumber(distanceTextField.getText())) {
-                errors.add(LanguageSupport.getText("stage.set-track.field.distance.validator.number"));
-                distanceTextField.getStyleClass().add(errorClass);
-            }
+        } else if (!TypeMatcher.isNumber(distanceTextField.getText())) {
+            errors.add(LanguageSupport.getText("stage.set-track.field.distance.validator.number"));
+            distanceTextField.getStyleClass().add(errorClass);
         }
 
         // Elevation : number (integer, decimal)
-        if (elevationTextField.getText() != null && !elevationTextField.getText().isEmpty()) {
-            if (!TypeMatcher.isNumber(elevationTextField.getText())) {
-                errors.add(LanguageSupport.getText("stage.set-track.field.elevation.validator.number"));
-                elevationTextField.getStyleClass().add(errorClass);
-            }
+        if (elevationTextField.getText() != null && !elevationTextField.getText().isEmpty() && !TypeMatcher.isNumber(elevationTextField.getText())) {
+            errors.add(LanguageSupport.getText("stage.set-track.field.elevation.validator.number"));
+            elevationTextField.getStyleClass().add(errorClass);
         }
 
         if (errors.isEmpty()) {
             return true;
-        }
-
-        else {
+        } else {
             Alert alert = new ValidatorAlert(Alert.AlertType.ERROR, LanguageSupport.getText("stage.set-track.dialog.validator.title"), LanguageSupport.getText("stage.set-track.dialog.validator.header"), errors.toArray(new String[errors.size()]));
             alert.show();
 
@@ -223,28 +217,26 @@ public class SetTrackStageController extends StageController<SetTrackStage> {
     public void handleApply() {
         if (formIsValid()) {
             boolean newTrack = false;
+            String raceTrackName = nameTextField.getText();
+            float raceTrackDistance = RaceDistanceUnit.ingest(race.getDistanceUnit(), !distanceTextField.getText().isEmpty() ? Float.parseFloat(distanceTextField.getText().replace(",", ".")) : 0.0f);
+            float raceTrackElevation = RaceElevationUnit.ingest(race.getElevationUnit(), !elevationTextField.getText().isEmpty() ? Float.parseFloat(elevationTextField.getText().replace(",", ".")) : 0.0f);
+            int raceTrackTeamSizeLimit = (int) teamSizeLimitSlider.getValue();
+            String raceTrackDescription = descriptionTextArea.getText();
 
             if (existingRaceTrack == null) {
                 newTrack = true;
-                existingRaceTrack = new RaceTrack(nameTextField.getText(), RaceDistanceUnit.ingest(race.getDistanceUnit(), Float.parseFloat(distanceTextField.getText().replace(',', '.'))));
-                existingRaceTrack.setState(RaceTrackState.READY);
+                existingRaceTrack = new RaceTrack();
             }
 
-            else {
-                existingRaceTrack.setName(nameTextField.getText());
-                existingRaceTrack.setDistance(RaceDistanceUnit.ingest(race.getDistanceUnit(), Float.parseFloat(distanceTextField.getText().replace(',', '.'))));
-            }
+            existingRaceTrack.setName(raceTrackName);
+            existingRaceTrack.setDistance(raceTrackDistance);
+            existingRaceTrack.setElevation(raceTrackElevation);
+            existingRaceTrack.setTeamSizeLimit(raceTrackTeamSizeLimit);
+            existingRaceTrack.setDescription(raceTrackDescription);
 
-            if (elevationTextField.getText() != null && !elevationTextField.getText().isEmpty())
-                existingRaceTrack.setElevation(RaceElevationUnit.ingest(race.getElevationUnit(), Float.parseFloat(elevationTextField.getText().replace(',', '.'))));
-
-            existingRaceTrack.setTeamSizeLimit((int) teamSizeLimitSlider.getValue());
-
-            if (descriptionTextArea.getText() != null && !descriptionTextArea.getText().isEmpty())
-                existingRaceTrack.setDescription(descriptionTextArea.getText());
-
-            if (newTrack)
+            if (newTrack) {
                 raceTracks.add(existingRaceTrack);
+            }
 
             stage.getParentStage().closeSetTrackStage();
         }

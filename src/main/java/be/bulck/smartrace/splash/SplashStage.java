@@ -34,7 +34,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * the splash stage of the application.
+ * The splash stage of the application.
  *
  * @author Fabien Vanden Bulck
  */
@@ -70,7 +70,6 @@ public class SplashStage extends Stage {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(SplashStage.class);
 
-
     /**
      * Constructs an instance of splash stage.
      *
@@ -97,8 +96,9 @@ public class SplashStage extends Stage {
     private void initLayout() {
         ImageView splash = new ImageView(new Image(SPLASH_IMAGE));
         splash.setOnMouseClicked((event) -> {
-            if (timerTask != null)
+            if (timerTask != null) {
                 timerTask.cancel();
+            }
 
             performOnExit();
         });
@@ -123,7 +123,6 @@ public class SplashStage extends Stage {
                 Platform.runLater(() -> performOnExit());
             }
         };
-
         new Timer().schedule(timerTask, SPLASH_TIMEOUT);
     }
 

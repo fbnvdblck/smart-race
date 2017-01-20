@@ -33,4 +33,14 @@ public class DataHandlerException extends Exception {
     public DataHandlerException(String message) {
         super(message);
     }
+
+    /**
+     * Constructs an instance of data handler exception.
+     *
+     * @param message the message describing the error
+     * @param cause the cause
+     */
+    public DataHandlerException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

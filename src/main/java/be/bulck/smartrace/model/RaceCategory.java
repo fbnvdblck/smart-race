@@ -155,8 +155,21 @@ public class RaceCategory implements Comparable<RaceCategory> {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return other instanceof RaceCategory && getUuid().equals(((RaceCategory) other).getUuid());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RaceCategory that = (RaceCategory) o;
+
+        if (!uuid.equals(that.uuid)) return false;
+        return name != null ? name.equals(that.name) : that.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 
     @Override

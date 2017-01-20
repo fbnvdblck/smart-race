@@ -34,7 +34,6 @@ public class LanguageSupport {
     /** The resource bundle instance. */
     private static ResourceBundle resourceBundle;
 
-
     /**
      * Gets the current locale.
      *
@@ -60,8 +59,9 @@ public class LanguageSupport {
      * @return the resource bundle
      */
     public static ResourceBundle getResourceBundle() {
-        if (resourceBundle == null)
+        if (resourceBundle == null) {
             resourceBundle = ResourceBundle.getBundle("languages.Messages", locale, new UTF8ResourceBundleControl());
+        }
 
         return resourceBundle;
     }

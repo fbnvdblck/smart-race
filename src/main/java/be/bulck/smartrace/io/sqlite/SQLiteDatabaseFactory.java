@@ -43,8 +43,9 @@ public class SQLiteDatabaseFactory {
      */
     public static void loadNewDatabase(String filePath) {
         try {
-            if (database != null && database.getConnection() != null && !database.getConnection().isClosed())
+            if (database != null && database.getConnection() != null && !database.getConnection().isClosed()) {
                 database.close();
+            }
 
             database = new SQLiteDatabase(filePath);
         } catch (SQLException ex) {

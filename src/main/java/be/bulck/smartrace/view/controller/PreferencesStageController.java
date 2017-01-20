@@ -71,7 +71,6 @@ public class PreferencesStageController extends StageController<PreferencesStage
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(PreferencesStageController.class);
 
-
     /**
      * Constructs an instance of preferences stage controller.
      */
@@ -103,7 +102,7 @@ public class PreferencesStageController extends StageController<PreferencesStage
         distanceUnitComboBox.setConverter(new StringConverter<RaceDistanceUnit>() {
             @Override
             public String toString(RaceDistanceUnit distanceUnit) {
-                return LanguageSupport.getText("model.race.distance-unit." + distanceUnit.getValue());
+                return LanguageSupport.getText("model.race.distance-unit." + distanceUnit.value());
             }
 
             @Override
@@ -120,7 +119,7 @@ public class PreferencesStageController extends StageController<PreferencesStage
         elevationUnitComboBox.setConverter(new StringConverter<RaceElevationUnit>() {
             @Override
             public String toString(RaceElevationUnit elevationUnit) {
-                return LanguageSupport.getText("model.race.elevation-unit." + elevationUnit.getValue());
+                return LanguageSupport.getText("model.race.elevation-unit." + elevationUnit.value());
             }
 
             @Override
@@ -147,8 +146,10 @@ public class PreferencesStageController extends StageController<PreferencesStage
      */
     @FXML
     private void handleSave() {
-        race.setDistanceUnit(distanceUnitComboBox.getSelectionModel().getSelectedItem());
-        race.setElevationUnit(elevationUnitComboBox.getSelectionModel().getSelectedItem());
+        RaceDistanceUnit selectedRaceDistanceUnit = distanceUnitComboBox.getSelectionModel().getSelectedItem();
+        RaceElevationUnit selectedRaceEvelationUnit = elevationUnitComboBox.getSelectionModel().getSelectedItem();
+        race.setDistanceUnit(selectedRaceDistanceUnit);
+        race.setElevationUnit(selectedRaceEvelationUnit);
 
         try {
             raceService.update(race);
@@ -162,6 +163,6 @@ public class PreferencesStageController extends StageController<PreferencesStage
     @Override
     protected void performOnExit(WindowEvent event) {
         event.consume();
-        app.closePreferencesStage();
+        handleClose();
     }
 }

@@ -51,6 +51,12 @@ public class RaceSetupStage extends Stage {
     /** The height of the race setup stage. */
     private static final int STAGE_HEIGHT = 300;
 
+    /** The FXML file of the race setup stage. */
+    private static final String STAGE_FXML = "/fxml/raceSetupStage.fxml";
+
+    /** The form CSS file used by the race setup stage. */
+    private static final String STAGE_FORM_CSS = "/css/forms.css";
+
     /** The root layout. */
     private VBox rootLayout;
 
@@ -59,7 +65,6 @@ public class RaceSetupStage extends Stage {
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(RaceSetupStage.class);
-
 
     /**
      * Constructs an instance of race setup stage.
@@ -87,7 +92,7 @@ public class RaceSetupStage extends Stage {
     private void initLayout() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/raceSetupStage.fxml"));
+            loader.setLocation(SmartRace.class.getResource(STAGE_FXML));
             loader.setResources(LanguageSupport.getResourceBundle());
             rootLayout = loader.load();
 
@@ -96,7 +101,7 @@ public class RaceSetupStage extends Stage {
             controller.setStage(this);
 
             Scene scene = new Scene(rootLayout);
-            scene.getStylesheets().add(SmartRace.class.getResource("/css/forms.css").toExternalForm());
+            scene.getStylesheets().add(SmartRace.class.getResource(STAGE_FORM_CSS).toExternalForm());
             setScene(scene);
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);

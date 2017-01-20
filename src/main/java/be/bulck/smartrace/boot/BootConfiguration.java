@@ -32,7 +32,6 @@ public class BootConfiguration {
     /** The commands of boot. */
     private List<Command> commands;
 
-
     /**
      * Gets the commands of boot.
      *

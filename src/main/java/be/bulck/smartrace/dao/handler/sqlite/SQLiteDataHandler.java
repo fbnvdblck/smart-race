@@ -61,7 +61,7 @@ public class SQLiteDataHandler implements DataHandler {
             database.commit();
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataHandlerException("The SQLite database can't be initialized");
+            throw new DataHandlerException("The SQLite database can't be initialized", ex);
         }
 
         log.info("SQLite database initialized");
@@ -71,8 +71,9 @@ public class SQLiteDataHandler implements DataHandler {
     public void load(String filePath) throws DataHandlerException {
         SQLiteDatabaseFactory.loadNewDatabase(filePath);
 
-        if (SQLiteDatabaseFactory.getDatabase() == null)
+        if (SQLiteDatabaseFactory.getDatabase() == null) {
             throw new DataHandlerException("Loading file failed");
+        }
 
         notifyOpening();
         save();
@@ -87,8 +88,10 @@ public class SQLiteDataHandler implements DataHandler {
             database.commit();
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataHandlerException("Saving file failed");
+            throw new DataHandlerException("Saving file failed", ex);
         }
+
+        log.info("SQLite database updated");
     }
 
     @Override
@@ -99,7 +102,7 @@ public class SQLiteDataHandler implements DataHandler {
             database.close();
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataHandlerException("Closing file failed");
+            throw new DataHandlerException("Closing file failed", ex);
         }
     }
 

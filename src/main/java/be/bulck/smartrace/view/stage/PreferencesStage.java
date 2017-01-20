@@ -52,6 +52,9 @@ public class PreferencesStage extends Stage {
     /** The height of the preferences stage. */
     private static final int STAGE_HEIGHT = 180;
 
+    /** The FXML file of the preferences stage. */
+    private static final String STAGE_FXML = "/fxml/preferencesStage.fxml";
+
     /** The root layout. */
     private VBox rootLayout;
 
@@ -60,7 +63,6 @@ public class PreferencesStage extends Stage {
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(PreferencesStage.class);
-
 
     /**
      * Constructs an instance of preferences stage.
@@ -90,7 +92,7 @@ public class PreferencesStage extends Stage {
     private void initLayout() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/preferencesStage.fxml"));
+            loader.setLocation(SmartRace.class.getResource(STAGE_FXML));
             loader.setResources(LanguageSupport.getResourceBundle());
             rootLayout = loader.load();
 

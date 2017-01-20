@@ -33,7 +33,7 @@ public abstract class RaceCategoryServiceFactory {
      *
      * @return the race category service
      */
-    public abstract RaceCategoryService raceCategoryService();
+    public abstract RaceCategoryService getRaceCategoryService();
 
     /**
      * Gets the instance of this factory to retrieve the race category service.

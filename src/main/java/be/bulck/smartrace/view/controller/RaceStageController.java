@@ -128,7 +128,6 @@ public class RaceStageController extends StageController<RaceStage> {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(RaceStageController.class);
 
-
     /**
      * Constructs an instance of the race stage controller.
      *
@@ -198,12 +197,13 @@ public class RaceStageController extends StageController<RaceStage> {
     private void initInformationPane() {
         infoNameLabel.setText(race.getName());
         infoLocationLabel.setText(race.getLocation());
-        infoStateLabel.setText(LanguageSupport.getText("model.race.state." + race.getState().getValue()));
+        infoStateLabel.setText(LanguageSupport.getText("model.race.state." + race.getState().value()));
 
-        if (!race.getDescription().isEmpty())
+        if (!race.getDescription().isEmpty()) {
             infoDescriptionLabel.setText(race.getDescription());
-        else
+        } else {
             infoDescriptionLabel.setText(LanguageSupport.getText("stage.race.view.info.value.none"));
+        }
 
         // Disable the timer titled pane as default
         timerTitledPane.setExpanded(false);
@@ -220,9 +220,9 @@ public class RaceStageController extends StageController<RaceStage> {
         alert.setHeaderText(LanguageSupport.getText("stage.race.dialog.quit.header"));
         alert.setContentText(LanguageSupport.getText("stage.race.dialog.quit.text"));
 
-        ButtonType buttonCancel = new ButtonType(LanguageSupport.getText("stage.race.dialog.quit.button.cancel"));
-        ButtonType buttonClose = new ButtonType(LanguageSupport.getText("stage.race.dialog.quit.button.close"));
-        ButtonType buttonExit = new ButtonType(LanguageSupport.getText("stage.race.dialog.quit.button.exit"));
+        ButtonType buttonCancel = new ButtonType(LanguageSupport.getText("stage.race.dialog.quit.button.cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType buttonClose = new ButtonType(LanguageSupport.getText("stage.race.dialog.quit.button.close"), ButtonBar.ButtonData.APPLY);
+        ButtonType buttonExit = new ButtonType(LanguageSupport.getText("stage.race.dialog.quit.button.exit"), ButtonBar.ButtonData.APPLY);
         alert.getButtonTypes().setAll(buttonCancel, buttonClose, buttonExit);
 
         Optional<ButtonType> choice = alert.showAndWait();
@@ -236,7 +236,7 @@ public class RaceStageController extends StageController<RaceStage> {
                     log.error(ex.getMessage(), ex);
                 }
 
-                System.exit(0);
+                app.close();
             } else if (choice.get() == buttonClose) {
                 app.closeRaceStage();
 

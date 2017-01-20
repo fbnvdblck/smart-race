@@ -33,6 +33,9 @@ import javafx.scene.layout.AnchorPane;
  */
 public class AboutStageController extends StageController<AboutStage> {
 
+    /** The image of the about stage. */
+    private static final String ABOUT_IMAGE = "/images/splash/smart-race.png";
+
     /** The anchor pane for the image. */
     @FXML
     private AnchorPane appImageAnchorPane;
@@ -53,10 +56,6 @@ public class AboutStageController extends StageController<AboutStage> {
     @FXML
     private Label licenseLabel;
 
-    /** The image of the about stage. */
-    private static final String ABOUT_IMAGE = "/images/splash/smart-race.png";
-
-
     /**
      * Initializes the controller.
      */
@@ -68,6 +67,6 @@ public class AboutStageController extends StageController<AboutStage> {
         versionLabel.setText(SmartRace.NAME + " " + SmartRace.VERSION + " (" + SmartRace.CODE_NAME + ")");
         authorLabel.setText(SmartRace.AUTHOR_NAME + " <" + SmartRace.AUTHOR_EMAIL + ">");
         repositoryLabel.setText(SmartRace.REPOSITORY);
-        licenseLabel.setText("GNU GPLv3 (Open Source)");
+        licenseLabel.setText(SmartRace.LICENSE_TYPE);
     }
 }

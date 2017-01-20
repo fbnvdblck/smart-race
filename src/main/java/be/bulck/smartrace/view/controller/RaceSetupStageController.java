@@ -94,7 +94,6 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(RaceSetupStageController.class);
 
-
     /**
      * Constructs an instance of a race setup stage controller.
      */
@@ -132,8 +131,8 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
         alert.setTitle(LanguageSupport.getText("stage.race-setup.dialog.cancel.title"));
         alert.setHeaderText(LanguageSupport.getText("stage.race-setup.dialog.cancel.header"));
         alert.setContentText(LanguageSupport.getText("stage.race-setup.dialog.cancel.text"));
-        ButtonType noButton = new ButtonType(LanguageSupport.getText("stage.race-setup.dialog.cancel.button.no"));
-        ButtonType yesButton = new ButtonType(LanguageSupport.getText("stage.race-setup.dialog.cancel.button.yes"));
+        ButtonType noButton = new ButtonType(LanguageSupport.getText("stage.race-setup.dialog.cancel.button.no"), ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType yesButton = new ButtonType(LanguageSupport.getText("stage.race-setup.dialog.cancel.button.yes"), ButtonBar.ButtonData.APPLY);
         alert.getButtonTypes().setAll(noButton, yesButton);
 
         Optional<ButtonType> response = alert.showAndWait();
@@ -159,9 +158,7 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
 
             fileChooser.setInitialDirectory(new File(directory));
             fileChooser.setInitialFileName(fileName);
-        }
-
-        else {
+        } else {
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
             fileChooser.setInitialFileName("MyRace");
         }
@@ -186,7 +183,12 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
     private void handleCreateRace() {
         if (formIsValid()) {
             try {
-                Race race = raceService.create(fileTextField.getText(), nameTextField.getText(), locationTextField.getText(), descriptionTextArea.getText());
+                String raceFilePath = fileTextField.getText();
+                String raceName = nameTextField.getText();
+                String raceLocation = locationTextField.getText();
+                String raceDescription = descriptionTextArea.getText();
+                Race race = raceService.create(raceFilePath, raceName, raceLocation, raceDescription);
+
                 app.closeRaceSetupStage();
                 app.openRaceStage(race);
             } catch (DataHandlerException | DataProviderException ex) {
@@ -224,9 +226,7 @@ public class RaceSetupStageController extends StageController<RaceSetupStage> {
 
         if (errors.isEmpty()) {
             return true;
-        }
-
-        else {
+        } else {
             Alert alert = new ValidatorAlert(Alert.AlertType.ERROR, LanguageSupport.getText("stage.race-setup.dialog.validator.title"), LanguageSupport.getText("stage.race-setup.dialog.validator.header"), errors.toArray(new String[errors.size()]));
 
             alert.showAndWait();

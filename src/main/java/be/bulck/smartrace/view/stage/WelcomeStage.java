@@ -51,6 +51,9 @@ public class WelcomeStage extends Stage {
     /** The height of the welcome stage. */
     private static final int STAGE_HEIGHT = 400;
 
+    /** The FXML file of the welcome stage. */
+    private static final String STAGE_FXML = "/fxml/welcomeStage.fxml";
+
     /** The root layout. */
     private SplitPane rootLayout;
 
@@ -62,7 +65,6 @@ public class WelcomeStage extends Stage {
 
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(WelcomeStage.class);
-
 
     /**
      * Constructs an instance of welcome stage.
@@ -88,7 +90,7 @@ public class WelcomeStage extends Stage {
     private void initLayout() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SmartRace.class.getResource("/fxml/welcomeStage.fxml"));
+            loader.setLocation(SmartRace.class.getResource(STAGE_FXML));
             loader.setResources(LanguageSupport.getResourceBundle());
             rootLayout = loader.load();
 
@@ -107,8 +109,9 @@ public class WelcomeStage extends Stage {
      * Opens the change language stage.
      */
     public void openChangeLanguageStage() {
-        if (changeLanguageStage == null)
+        if (changeLanguageStage == null) {
             changeLanguageStage = new ChangeLanguageStage(app, this);
+        }
 
         if (!changeLanguageStage.isShowing()) {
             changeLanguageStage.show();

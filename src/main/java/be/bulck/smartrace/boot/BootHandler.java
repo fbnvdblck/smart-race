@@ -36,7 +36,6 @@ public class BootHandler {
     /** The configuration of boot. */
     private final BootConfiguration configuration;
 
-
     /**
      * Constructs an instance of boot handler.
      */
@@ -87,10 +86,10 @@ public class BootHandler {
     private void printAvailableBootCommands() {
         System.out.println("\n*** Available boot commands ***");
 
-        for (Command command : configuration.getCommands())
+        for (Command command : configuration.getCommands()) {
             System.out.println("\t" + command.getKey() + " | " + command.getName() + " - " + command.getDescription());
+        }
 
         System.out.println("\n");
     }
-
 }
